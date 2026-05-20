@@ -46,11 +46,10 @@
       justify-content: space-between;
       height: 64px;
     }
-    .nav-brand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--gold);
+    .nav-brand img {
+      height: 48px;
+      width: auto;
+      display: block;
     }
     .nav-links {
       display: flex;
@@ -480,11 +479,11 @@
       align-items: flex-start;
       margin-bottom: 2.5rem;
     }
-    .footer-brand .logo-name {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--gold);
-      letter-spacing: 0.04em;
+    .footer-brand img {
+      height: 52px;
+      width: auto;
+      display: block;
+      margin-bottom: 0.5rem;
     }
     .footer-brand .tagline {
       font-size: 0.82rem;
@@ -541,7 +540,9 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-brand">HIGA</div>
+  <div class="nav-brand">
+    <a href="#hero"><img src="assets/higa-logo.png" alt="Home Inspector Growth Academy" /></a>
+  </div>
   <ul class="nav-links">
     <li><a href="#courses">Courses</a></li>
     <li><a href="#features">Why HIGA</a></li>
@@ -848,7 +849,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="logo-name">HIGA</div>
+      <img src="assets/higa-logo.png" alt="Home Inspector Growth Academy" />
       <div class="tagline">Rebuild Smarter. Grow Faster. Inspect Less.</div>
     </div>
     <nav class="footer-links">
