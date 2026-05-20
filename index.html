@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIGA — Home Inspector Growth Academy</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080F1C;
+      --surface:   #0D1628;
+      --surface2:  #132034;
+      --border:    #1C2A40;
+      --text:      #F0E8D0;
+      --muted:     #7A8499;
+      --gold:      #C9A84C;
+      --teal:      #2DD4BF;
+      --green:     #4ADE80;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--teal); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 15, 28, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #080F1C;
+    }
+    .btn-gold:hover {
+      background: #dbbe6a;
+      color: #080F1C;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+    }
+    .btn-outline:hover {
+      background: rgba(201,168,76,0.1);
+    }
+
+    /* ── SECTION LAYOUT ── */
+    section {
+      padding: 96px 5%;
+    }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .section-headline {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+    .section-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+    }
+    .centered {
+      text-align: center;
+    }
+    .centered .section-sub {
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 96px 5%;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        var(--bg);
+    }
+    .hero-inner {
+      max-width: 780px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 100px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-headline {
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .hero-headline span { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .stat-item {}
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── PAIN ── */
+    #pain {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .pain-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+    .pain-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(201,168,76,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
+    }
+    .pain-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ── COURSES ── */
+    #courses {
+      background: var(--bg);
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .course-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .course-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .course-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+    }
+    .badge-foundational { background: rgba(45,212,191,0.15); color: var(--teal); }
+    .badge-lead         { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .badge-systems      { background: rgba(74,222,128,0.15); color: var(--green); }
+    .badge-advanced     { background: rgba(201,168,76,0.2);  color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+    .badge-coaching     { background: rgba(45,212,191,0.12); color: var(--teal); }
+
+    .course-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .course-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.35;
+    }
+    .course-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      flex: 1;
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+    }
+    .course-card .btn {
+      align-self: flex-start;
+      padding: 0.6rem 1.3rem;
+      font-size: 0.85rem;
+    }
+
+    /* ── FEATURES ── */
+    #features {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .feature-item {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .feature-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .feature-text h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .feature-text p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials {
+      background: var(--bg);
+    }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .testi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 10px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .testi-stars {
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+    .testi-quote {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.65;
+      font-style: italic;
+    }
+    .testi-author {
+      margin-top: auto;
+    }
+    .testi-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .testi-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .testi-course {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      background: rgba(201,168,76,0.1);
+      color: var(--gold);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    /* ── FAQ ── */
+    #faq {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-list {
+      max-width: 760px;
+      margin: 3rem auto 0;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.4rem 0;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .faq-question:hover { color: var(--gold); }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: transform 0.3s, border-color 0.2s;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 0 1.4rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* ── BOTTOM CTA ── */
+    #cta {
+      background: linear-gradient(135deg, #0D1628 0%, #0a1420 100%);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    #cta .section-headline {
+      margin-bottom: 1rem;
+    }
+    #cta .section-sub {
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050A13;
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+    }
+    .footer-brand .logo-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .footer-brand .tagline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-contact {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer-contact a { color: var(--muted); }
+    .footer-contact a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .footer-sister {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      section { padding: 64px 4%; }
+      .hero-stats { gap: 2rem; }
+      footer { padding: 2.5rem 4%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">HIGA</div>
+  <ul class="nav-links">
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#features">Why HIGA</a></li>
+    <li><a href="#testimonials">Results</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#courses" class="btn btn-gold" style="font-size:0.85rem;padding:0.55rem 1.3rem;">Browse Courses</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Home Inspector Growth Academy</div>
+    <h1 class="hero-headline">Stop Grinding.<br><span>Start Growing.</span></h1>
+    <p class="hero-sub">HIGA gives home inspectors the exact courses, systems, and coaching to go from survival mode to a business that runs without you.</p>
+    <div class="hero-ctas">
+      <a href="#courses" class="btn btn-gold">Browse Courses</a>
+      <a href="#testimonials" class="btn btn-outline">Join the Community</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">300+</div>
+        <div class="stat-label">Inspectors in the Community</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Specialized Courses</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">30-Day</div>
+        <div class="stat-label">Money-Back Guarantee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section id="pain">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-headline">You've built a career.<br>Now build a business.</h2>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">⏱</div>
+      <h3>You're doing 200+ inspections but still trading time for money</h3>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">⚙️</div>
+      <h3>You have no systems — if you stop, the money stops</h3>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📞</div>
+      <h3>Marketing is a mystery and your phone only rings from referrals</h3>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="centered">
+    <div class="section-label">Course Catalog</div>
+    <h2 class="section-headline">Everything you need. Nothing you don't.</h2>
+    <p class="section-sub">Eight courses built for where you are in your inspection business — and where you're going.</p>
+  </div>
+  <div class="courses-grid">
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-foundational">Foundational</span>
+        <span class="course-price">$297</span>
+      </div>
+      <div class="course-title">Inspection Business Bootcamp</div>
+      <p class="course-desc">The complete foundation — branding, pricing, your first 50 clients, and a 90-day launch plan.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-lead">Lead Generation</span>
+        <span class="course-price">$397</span>
+      </div>
+      <div class="course-title">Lead Machine: Google &amp; GBP Mastery</div>
+      <p class="course-desc">Rank in Google's local 3-Pack, generate inbound calls, and turn online visibility into booked inspections.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-systems">Systems &amp; SOPs</span>
+        <span class="course-price">$247</span>
+      </div>
+      <div class="course-title">SOP Builder: Systems for Solo to Team</div>
+      <p class="course-desc">Build the internal systems that let you step off the truck. Includes 14 ready-to-use SOP templates.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-systems">Systems &amp; SOPs</span>
+        <span class="course-price">$197</span>
+      </div>
+      <div class="course-title">Hire Right: Recruiting &amp; Onboarding Inspectors</div>
+      <p class="course-desc">The complete hiring playbook — find, vet, and onboard inspectors who represent your brand.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-advanced">Advanced</span>
+        <span class="course-price">$597</span>
+      </div>
+      <div class="course-title">The Scale System</div>
+      <p class="course-desc">For inspectors at 200+/year ready to multiply revenue through team expansion and automation.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-lead">Lead Generation</span>
+        <span class="course-price">$197</span>
+      </div>
+      <div class="course-title">Video Marketing for Inspectors</div>
+      <p class="course-desc">Short-form video that builds trust and generates leads — without being on camera all day.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-coaching">Coaching</span>
+        <span class="course-price">$97/mo</span>
+      </div>
+      <div class="course-title">Group Mastermind: Live Coaching</div>
+      <p class="course-desc">Monthly live group calls with Ken. Hot seats, accountability, and answers to your real challenges.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+    <div class="course-card">
+      <div class="course-top">
+        <span class="badge badge-lead">Lead Generation</span>
+        <span class="course-price">$147</span>
+      </div>
+      <div class="course-title">Reputation Domination</div>
+      <p class="course-desc">Automate your review collection and turn happy clients into a reputation machine.</p>
+      <a href="#" class="btn btn-outline">Learn More</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="centered">
+    <div class="section-label">Why HIGA</div>
+    <h2 class="section-headline">Built for home inspectors.<br>Not generic business school.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">📊</div>
+      <div class="feature-text">
+        <h3>Stage-Based Training</h3>
+        <p>Courses organized by where you are in your business — starter, growth, or scale.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📋</div>
+      <div class="feature-text">
+        <h3>Downloadable Templates &amp; SOPs</h3>
+        <p>Not just theory — real tools you can deploy in your business this week.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-text">
+        <h3>Home Inspector Wizard AI</h3>
+        <p>24/7 AI chatbot that answers your business questions between coaching calls.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎙</div>
+      <div class="feature-text">
+        <h3>Live Coaching &amp; Hot Seats</h3>
+        <p>Monthly group calls with Ken and the HIGA team — real answers to real problems.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤝</div>
+      <div class="feature-text">
+        <h3>Nationwide Peer Community</h3>
+        <p>Connect with 300+ inspectors across the US and Canada who get it.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🏠</div>
+      <div class="feature-text">
+        <h3>One Industry Only</h3>
+        <p>Every example, template, and strategy is built specifically for home inspectors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="centered">
+    <div class="section-label">Results</div>
+    <h2 class="section-headline">Inspectors who rebuilt smarter.</h2>
+  </div>
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Before HIGA I was doing 80 inspections a year and grinding every day just to stay afloat. After the Bootcamp I restructured my pricing, built a referral system, and hit 200 inspections in under 12 months. The content is built for real inspectors, not generic business school theory."</p>
+      <div class="testi-author">
+        <div class="testi-name">Chris T.</div>
+        <div class="testi-meta">Tampa, FL</div>
+        <span class="testi-course">Inspection Business Bootcamp</span>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"I was invisible on Google. Within 60 days of applying what I learned in the Lead Machine course, I was ranking in the 3-Pack for my city. I've been getting 3–4 inbound calls a week that I wasn't getting before. Worth every penny."</p>
+      <div class="testi-author">
+        <div class="testi-name">Danielle P.</div>
+        <div class="testi-meta">Austin, TX</div>
+        <span class="testi-course">Lead Machine</span>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"The Mastermind calls are where the magic happens. I've gotten more actionable advice in two sessions with Ken and the group than I did in two years of trial and error alone."</p>
+      <div class="testi-author">
+        <div class="testi-name">Marcus B.</div>
+        <div class="testi-meta">Atlanta, GA</div>
+        <span class="testi-course">Group Mastermind</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="centered">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-headline">Common questions.</h2>
+  </div>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do I need to be tech-savvy to take these courses?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">No. Every course is built assuming you're a home inspector, not a marketer. Step-by-step walkthroughs included.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What platform are courses delivered on?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">All courses are hosted on GoHighLevel. You'll get login details after purchase.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a bundle or membership option?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Yes — the Community Membership ($47/mo) includes access to the Wizard AI, peer community, and a growing resource library. Course bundles coming soon.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I get a refund?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Yes. 30-day money-back guarantee on all courses, no questions asked.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How is HIGA different from other inspector training?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">HIGA focuses on the business side — marketing, systems, hiring, and scaling. We don't teach you how to inspect. We teach you how to build a business around it.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="section-label">Get Started</div>
+    <h2 class="section-headline">You've worked too hard to stay stuck in survival mode.</h2>
+    <p class="section-sub">Let us show you how to rebuild smarter, generate consistent leads, and turn your inspection hustle into a business that lasts.</p>
+    <a href="#courses" class="btn btn-gold">Browse All Courses</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-name">HIGA</div>
+      <div class="tagline">Rebuild Smarter. Grow Faster. Inspect Less.</div>
+    </div>
+    <nav class="footer-links">
+      <a href="#courses">Courses</a>
+      <a href="#testimonials">Community</a>
+      <a href="#features">Coaching</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="footer-contact">
+      <a href="mailto:info@homeinspectorhelp.com">info@homeinspectorhelp.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Home Inspector Growth Academy</div>
+    <div class="footer-sister">HIGA is a sister company of Home Inspector Help (HIH).</div>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(el) {
+      el.classList.remove('open');
+    });
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

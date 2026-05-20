@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIGA Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080F1C;
+      --surface:  #0D1628;
+      --surface2: #132034;
+      --border:   #1C2A40;
+      --text:     #F0E8D0;
+      --muted:    #7A8499;
+      --gold:     #C9A84C;
+      --teal:     #2DD4BF;
+      --green:    #4ADE80;
+      --red:      #F87171;
+      --sidebar-w: 220px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      padding: 1.5rem 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-brand .name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .sidebar-brand .sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    nav.sidebar-nav {
+      padding: 1rem 0.75rem;
+      flex: 1;
+    }
+    .nav-section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.75rem 0.5rem 0.4rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 7px;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .nav-item:hover { background: var(--surface2); color: var(--text); }
+    .nav-item.active { background: rgba(201,168,76,0.12); color: var(--gold); font-weight: 600; }
+    .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    /* ── MAIN ── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    #topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(8,15,28,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: #080F1C;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    #content {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    /* ── PAGE VIEWS ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── STAT CARDS ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-delta {
+      font-size: 0.75rem;
+      margin-top: 0.4rem;
+    }
+    .delta-up { color: var(--green); }
+    .delta-down { color: var(--red); }
+    .delta-flat { color: var(--muted); }
+
+    /* ── TABLES ── */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.75rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    td {
+      padding: 0.85rem 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(28,42,64,0.5);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .badge-green  { background: rgba(74,222,128,0.15); color: var(--green); }
+    .badge-gold   { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .badge-teal   { background: rgba(45,212,191,0.15); color: var(--teal); }
+    .badge-muted  { background: rgba(122,132,153,0.15); color: var(--muted); }
+    .badge-red    { background: rgba(248,113,113,0.15); color: var(--red); }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap { background: var(--surface2); border-radius: 100px; height: 6px; overflow: hidden; }
+    .progress-bar  { height: 100%; border-radius: 100px; background: var(--gold); }
+    .progress-teal { background: var(--teal); }
+    .progress-green{ background: var(--green); }
+
+    /* ── SECTION HEADER ── */
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+    .page-header h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .page-header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ── TWO-COL ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media(max-width:900px){ .two-col{ grid-template-columns:1fr; } }
+
+    /* ── SIMPLE CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .card h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    /* ── TEAM CARDS ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .team-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.15);
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin: 0 auto 0.75rem;
+    }
+    .team-name { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .team-role { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .team-reports { font-size: 0.75rem; color: var(--muted); margin-top: 0.6rem; }
+    .team-reports span { color: var(--gold); }
+
+    /* ── STORY CARDS ── */
+    .story-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .story-quote {
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    .story-meta { font-size: 0.8rem; color: var(--muted); }
+    .story-meta strong { color: var(--text); }
+
+    /* ── SETTINGS ── */
+    .settings-section { margin-bottom: 2rem; }
+    .settings-section h2 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(28,42,64,0.4);
+    }
+    .setting-label { font-size: 0.875rem; color: var(--text); }
+    .setting-desc  { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+    .toggle {
+      width: 40px; height: 22px;
+      border-radius: 100px;
+      background: var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle.on { background: var(--gold); }
+    .toggle::after {
+      content: '';
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      top: 3px; left: 3px;
+      transition: left 0.2s;
+    }
+    .toggle.on::after { left: 21px; }
+
+    /* ── PIPELINE ── */
+    .pipeline-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .pipeline-col { background: var(--surface2); border-radius: 10px; padding: 1rem; }
+    .pipeline-col-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .pipeline-count {
+      background: var(--border);
+      color: var(--text);
+      border-radius: 100px;
+      padding: 0.1rem 0.5rem;
+      font-size: 0.7rem;
+    }
+    .pipeline-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+    }
+    .pipeline-item-name { font-weight: 600; color: var(--text); }
+    .pipeline-item-course { color: var(--muted); margin-top: 0.2rem; font-size: 0.75rem; }
+    .pipeline-item-value { color: var(--gold); font-weight: 700; font-size: 0.78rem; margin-top: 0.3rem; }
+
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="sidebar-brand">
+    <div class="name">HIGA</div>
+    <div class="sub">Internal Dashboard</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" onclick="showPage('overview', this)">
+      <span class="nav-icon">📊</span> Overview
+    </div>
+    <div class="nav-item" onclick="showPage('courses', this)">
+      <span class="nav-icon">🎓</span> Courses
+    </div>
+    <div class="nav-item" onclick="showPage('students', this)">
+      <span class="nav-icon">👤</span> Students
+    </div>
+    <div class="nav-item" onclick="showPage('pipeline', this)">
+      <span class="nav-icon">🔄</span> Enrollment Pipeline
+    </div>
+    <div class="nav-section-label">Business</div>
+    <div class="nav-item" onclick="showPage('financial', this)">
+      <span class="nav-icon">💰</span> Financial
+    </div>
+    <div class="nav-item" onclick="showPage('team', this)">
+      <span class="nav-icon">🤝</span> Team
+    </div>
+    <div class="nav-item" onclick="showPage('stories', this)">
+      <span class="nav-icon">⭐</span> Success Stories
+    </div>
+    <div class="nav-section-label">System</div>
+    <div class="nav-item" onclick="showPage('settings', this)">
+      <span class="nav-icon">⚙️</span> Settings
+    </div>
+  </nav>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div class="topbar-title" id="topbar-title">Overview</div>
+    <div class="topbar-right">
+      <span id="current-date"></span>
+      <div class="avatar">K</div>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- ── OVERVIEW ── -->
+    <div class="page active" id="page-overview">
+      <div class="page-header">
+        <h1>Business Overview</h1>
+        <p>HIGA — Home Inspector Growth Academy &nbsp;·&nbsp; Ken Compton, Owner</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Enrollments</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">MRR</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">All-Time Revenue</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Courses Live</div>
+          <div class="stat-value">8</div>
+          <div class="stat-delta delta-flat">On GHL</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2>Active Courses</h2>
+          <table>
+            <thead><tr><th>Course</th><th>Price</th><th>Category</th></tr></thead>
+            <tbody>
+              <tr><td>Inspection Business Bootcamp</td><td>$297</td><td><span class="badge badge-teal">Foundational</span></td></tr>
+              <tr><td>Lead Machine: Google &amp; GBP</td><td>$397</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
+              <tr><td>SOP Builder</td><td>$247</td><td><span class="badge badge-green">Systems</span></td></tr>
+              <tr><td>Hire Right</td><td>$197</td><td><span class="badge badge-green">Systems</span></td></tr>
+              <tr><td>The Scale System</td><td>$597</td><td><span class="badge badge-gold">Advanced</span></td></tr>
+              <tr><td>Video Marketing</td><td>$197</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
+              <tr><td>Group Mastermind</td><td>$97/mo</td><td><span class="badge badge-teal">Coaching</span></td></tr>
+              <tr><td>Reputation Domination</td><td>$147</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Quick Links</h2>
+          <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem;">External tools and platforms used by HIGA.</p>
+          <table>
+            <thead><tr><th>Platform</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td>GoHighLevel</td><td>Course delivery, email, website</td></tr>
+              <tr><td>GitHub</td><td>This repo — agent team &amp; docs</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">SISTER COMPANY</div>
+            <div style="font-size:0.875rem;color:var(--text);">Home Inspector Help (HIH) — separate business, shared audience.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Agent Team Status</h2>
+        <table>
+          <thead><tr><th>Agent</th><th>Role</th><th>Reports To</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Larry</strong></td><td>AI Orchestrator</td><td>Ken</td><td><span class="badge badge-green">Active</span></td></tr>
+            <tr><td><strong>Pax</strong></td><td>Research Specialist</td><td>Larry</td><td><span class="badge badge-green">Active</span></td></tr>
+            <tr><td><strong>Nolan</strong></td><td>HR Director</td><td>Larry</td><td><span class="badge badge-green">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── COURSES ── -->
+    <div class="page" id="page-courses">
+      <div class="page-header">
+        <h1>Courses</h1>
+        <p>All HIGA courses hosted on GoHighLevel</p>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h2>Course Catalog (8 courses)</h2>
+          <span class="badge badge-teal">All on GHL</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Course Title</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Students</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Inspection Business Bootcamp</strong></td>
+              <td>$297</td>
+              <td><span class="badge badge-teal">Foundational</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Lead Machine: Google &amp; GBP Mastery</strong></td>
+              <td>$397</td>
+              <td><span class="badge badge-gold">Lead Generation</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>SOP Builder: Systems for Solo to Team</strong></td>
+              <td>$247</td>
+              <td><span class="badge badge-green">Systems &amp; SOPs</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Hire Right: Recruiting &amp; Onboarding</strong></td>
+              <td>$197</td>
+              <td><span class="badge badge-green">Systems &amp; SOPs</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>The Scale System</strong></td>
+              <td>$597</td>
+              <td><span class="badge badge-gold">Advanced</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Video Marketing for Inspectors</strong></td>
+              <td>$197</td>
+              <td><span class="badge badge-gold">Lead Generation</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Group Mastermind: Live Coaching</strong></td>
+              <td>$97/mo</td>
+              <td><span class="badge badge-teal">Coaching</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+            <tr>
+              <td><strong>Reputation Domination</strong></td>
+              <td>$147</td>
+              <td><span class="badge badge-gold">Lead Generation</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">Live</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Notes</h2>
+        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">
+          All courses are hosted and delivered through GoHighLevel. Enrollment data syncs from GHL.
+          Student counts are not yet populated — connect GHL data source to populate.
+          Community Membership ($47/mo) available separately — includes Wizard AI, peer community, and resource library.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── STUDENTS ── -->
+    <div class="page" id="page-students">
+      <div class="page-header">
+        <h1>Students</h1>
+        <p>Enrolled inspectors and their course progress</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">Connect GHL</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active This Month</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg. Completion Rate</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Community Members</div>
+          <div class="stat-value">300+</div>
+          <div class="stat-delta delta-flat">Peer community</div>
+        </div>
+      </div>
+      <div class="card" style="text-align:center;padding:3rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;">👤</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;">No student data connected</div>
+        <div style="font-size:0.875rem;color:var(--muted);">Connect the GoHighLevel data source to populate student records, enrollment dates, and course progress.</div>
+      </div>
+    </div>
+
+    <!-- ── PIPELINE ── -->
+    <div class="page" id="page-pipeline">
+      <div class="page-header">
+        <h1>Enrollment Pipeline</h1>
+        <p>Prospect-to-student conversion funnel</p>
+      </div>
+      <div class="pipeline-cols">
+        <div class="pipeline-col">
+          <div class="pipeline-col-header">Lead <span class="pipeline-count">—</span></div>
+          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+        </div>
+        <div class="pipeline-col">
+          <div class="pipeline-col-header">Interested <span class="pipeline-count">—</span></div>
+          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+        </div>
+        <div class="pipeline-col">
+          <div class="pipeline-col-header">Checkout <span class="pipeline-count">—</span></div>
+          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+        </div>
+        <div class="pipeline-col">
+          <div class="pipeline-col-header">Enrolled <span class="pipeline-count">—</span></div>
+          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+        </div>
+        <div class="pipeline-col">
+          <div class="pipeline-col-header">Complete <span class="pipeline-count">—</span></div>
+          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Pipeline Notes</h2>
+        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">
+          The enrollment pipeline tracks prospects from first touch to course completion.
+          Pipeline data will populate when connected to GoHighLevel CRM.
+          30-day money-back guarantee applies to all enrollments — refunds are tracked here.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── FINANCIAL ── -->
+    <div class="page" id="page-financial">
+      <div class="page-header">
+        <h1>Financial</h1>
+        <p>Revenue, course sales, and recurring income</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">MRR (Mastermind)</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">$97/mo per member</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">MRR (Community)</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">$47/mo per member</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Course Revenue (MTD)</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">No data yet</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Refunds (MTD)</div>
+          <div class="stat-value">—</div>
+          <div class="stat-delta delta-flat">30-day guarantee</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Course Price Reference</h2>
+        <table>
+          <thead><tr><th>Course</th><th>Price</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>Inspection Business Bootcamp</td><td>$297</td><td>One-time</td></tr>
+            <tr><td>Lead Machine: Google &amp; GBP Mastery</td><td>$397</td><td>One-time</td></tr>
+            <tr><td>SOP Builder</td><td>$247</td><td>One-time</td></tr>
+            <tr><td>Hire Right</td><td>$197</td><td>One-time</td></tr>
+            <tr><td>The Scale System</td><td>$597</td><td>One-time</td></tr>
+            <tr><td>Video Marketing for Inspectors</td><td>$197</td><td>One-time</td></tr>
+            <tr><td>Reputation Domination</td><td>$147</td><td>One-time</td></tr>
+            <tr><td>Group Mastermind: Live Coaching</td><td>$97</td><td>Monthly recurring</td></tr>
+            <tr><td>Community Membership</td><td>$47</td><td>Monthly recurring</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── TEAM ── -->
+    <div class="page" id="page-team">
+      <div class="page-header">
+        <h1>Agent Team</h1>
+        <p>HIGA AI agent roster — managed by Nolan, coordinated by Larry, owned by Ken</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">🎯</div>
+          <div class="team-name">Larry</div>
+          <div class="team-role">AI Orchestrator</div>
+          <div class="team-reports">Reports to <span>Ken</span></div>
+          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">🔍</div>
+          <div class="team-name">Pax</div>
+          <div class="team-role">Research Specialist</div>
+          <div class="team-reports">Reports to <span>Larry</span></div>
+          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👥</div>
+          <div class="team-name">Nolan</div>
+          <div class="team-role">HR Director</div>
+          <div class="team-reports">Reports to <span>Larry</span></div>
+          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h2>Larry — Delegation Rules</h2>
+          <table>
+            <thead><tr><th>Task Type</th><th>Delegate To</th></tr></thead>
+            <tbody>
+              <tr><td>Market research</td><td>Pax</td></tr>
+              <tr><td>Competitor analysis</td><td>Pax</td></tr>
+              <tr><td>Pricing benchmarks</td><td>Pax</td></tr>
+              <tr><td>Lead-source intel</td><td>Pax</td></tr>
+              <tr><td>Agent roster mgmt</td><td>Nolan</td></tr>
+              <tr><td>Capability gap analysis</td><td>Nolan</td></tr>
+              <tr><td>New agent role spec</td><td>Nolan</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Nolan — Hiring Framework</h2>
+          <p style="color:var(--muted);font-size:0.82rem;margin-bottom:0.75rem;">All 5 questions required before any hire proposal:</p>
+          <ol style="color:var(--text);font-size:0.82rem;line-height:1.8;padding-left:1.2rem;">
+            <li>What specific task can the team not do well right now?</li>
+            <li>Could an existing agent be retrained instead?</li>
+            <li>What is the KPI — how will we know the hire is working?</li>
+            <li>Who does the new agent report to?</li>
+            <li>How does the agent coordinate without creating overlap?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SUCCESS STORIES ── -->
+    <div class="page" id="page-stories">
+      <div class="page-header">
+        <h1>Success Stories</h1>
+        <p>Inspector results from HIGA courses and coaching</p>
+      </div>
+      <div class="story-card">
+        <div class="story-quote">"Before HIGA I was doing 80 inspections a year and grinding every day just to stay afloat. After the Bootcamp I restructured my pricing, built a referral system, and hit 200 inspections in under 12 months. The content is built for real inspectors, not generic business school theory."</div>
+        <div class="story-meta"><strong>Chris T.</strong> — Tampa, FL &nbsp;·&nbsp; <span class="badge badge-teal" style="font-size:0.7rem;">Inspection Business Bootcamp</span></div>
+      </div>
+      <div class="story-card">
+        <div class="story-quote">"I was invisible on Google. Within 60 days of applying what I learned in the Lead Machine course, I was ranking in the 3-Pack for my city. I've been getting 3–4 inbound calls a week that I wasn't getting before. Worth every penny."</div>
+        <div class="story-meta"><strong>Danielle P.</strong> — Austin, TX &nbsp;·&nbsp; <span class="badge badge-gold" style="font-size:0.7rem;">Lead Machine</span></div>
+      </div>
+      <div class="story-card">
+        <div class="story-quote">"The Mastermind calls are where the magic happens. I've gotten more actionable advice in two sessions with Ken and the group than I did in two years of trial and error alone."</div>
+        <div class="story-meta"><strong>Marcus B.</strong> — Atlanta, GA &nbsp;·&nbsp; <span class="badge badge-teal" style="font-size:0.7rem;">Group Mastermind</span></div>
+      </div>
+      <div class="card" style="margin-top:1.5rem;">
+        <h2>Add a Story</h2>
+        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">New success stories are added manually by Ken or the HIGA team. File a brief in <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;">/team-inbox</code> with the student's name, location, course, and quote.</p>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p>HIGA dashboard configuration</p>
+      </div>
+
+      <div class="settings-section">
+        <h2>Business Info</h2>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Business Name</div>
+            <div class="setting-desc">Home Inspector Growth Academy (HIGA)</div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Owner</div>
+            <div class="setting-desc">Ken Compton</div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Platform</div>
+            <div class="setting-desc">GoHighLevel — courses, email, website</div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Contact Email</div>
+            <div class="setting-desc">info@homeinspectorhelp.com</div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Sister Company</div>
+            <div class="setting-desc">Home Inspector Help (HIH) — separate business</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Repository Rules</h2>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Never delete .md files</div>
+            <div class="setting-desc">Requires Ken's explicit written approval</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Always refer to owner as Ken</div>
+            <div class="setting-desc">Not "owner", "client", or other designation</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">HIGA ≠ HIH</div>
+            <div class="setting-desc">Never conflate the two businesses</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Never invent facts</div>
+            <div class="setting-desc">Flag unverifiable claims as [NEEDS SOURCE]</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Integrations</h2>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">GoHighLevel</div>
+            <div class="setting-desc">Course delivery, CRM, email — connect to populate dashboard data</div>
+          </div>
+          <span class="badge badge-muted">Not connected</span>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">GitHub</div>
+            <div class="setting-desc">homeinspectorhelp/higa — agent team and documentation</div>
+          </div>
+          <span class="badge badge-green">Connected</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+
+  var pageTitles = {
+    overview: 'Overview',
+    courses: 'Courses',
+    students: 'Students',
+    pipeline: 'Enrollment Pipeline',
+    financial: 'Financial',
+    team: 'Team',
+    stories: 'Success Stories',
+    settings: 'Settings'
+  };
+
+  function showPage(id, navEl) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    navEl.classList.add('active');
+    document.getElementById('topbar-title').textContent = pageTitles[id] || id;
+  }
+
+  document.querySelectorAll('.toggle').forEach(function(t){
+    t.addEventListener('click', function(){ t.classList.toggle('on'); });
+  });
+</script>
+</body>
+</html>
