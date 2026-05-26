@@ -24,11 +24,11 @@ HIGA is a sister company of **Home Inspector Help (HIH)**. They share an audienc
 
 ## Agent Team
 
-HIGA runs with a small AI agent team coordinated by Larry.
+HIGA runs with a small AI agent team coordinated by Max.
 
 | Agent | Role |
 |-------|------|
-| Larry | AI Orchestrator |
+| Max | AI Orchestrator |
 | Pax   | Research Specialist |
 | Nolan | HR Director |
 
@@ -51,7 +51,7 @@ See `/Team/` for individual role definitions.
 ## Working Conventions
 
 - Completed work is filed in `/owners-inbox` so Ken has a single place to review.
-- Tasks arrive via `/team-inbox` and are picked up by Larry for delegation.
+- Tasks arrive via `/team-inbox` and are picked up by Max for delegation.
 - Any unverifiable claim in a research deliverable is flagged `[NEEDS SOURCE]`.
 - No new agent profile is created or retired without Ken's explicit approval.
 
