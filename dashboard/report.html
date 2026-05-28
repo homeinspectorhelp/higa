@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIGA Dashboard — Session Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #0f172a;
+      --navy2: #1e293b;
+      --gold:  #d4a843;
+      --gold2: #f0c860;
+      --teal:  #0ea5e9;
+      --green: #22c55e;
+      --purple:#8b5cf6;
+      --amber: #f59e0b;
+      --red:   #ef4444;
+      --bg:    #f1f5f9;
+      --text:  #0f172a;
+      --text2: #475569;
+      --text3: #94a3b8;
+      --border:#e2e8f0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { width: 0; }
+      to   { width: var(--target-w); }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.4); }
+      50%      { box-shadow: 0 0 0 12px rgba(212,168,67,0); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,67,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 80% 80%, rgba(14,165,233,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 20% 70%, rgba(139,92,246,0.08) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .hero-logo {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s ease both, pulse 3s ease-in-out 1s infinite;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s 0.2s ease both;
+      background: linear-gradient(135deg, #fff 30%, var(--gold2) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 560px;
+      line-height: 1.65;
+      margin: 1.25rem auto 2.5rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .hero-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .hero-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: #475569;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: fadeIn 1s 1s both;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid #475569;
+      border-bottom: 2px solid #475569;
+      transform: rotate(45deg);
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(5px); }
+    }
+
+    /* ── STAT ROW ── */
+    .stats-section {
+      background: var(--navy2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 2rem;
+    }
+    .stats-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+    }
+    .stat-box {
+      text-align: center;
+      opacity: 0;
+      animation: countUp 0.5s ease both;
+    }
+    .stat-box:nth-child(1) { animation-delay: 0.1s; }
+    .stat-box:nth-child(2) { animation-delay: 0.2s; }
+    .stat-box:nth-child(3) { animation-delay: 0.3s; }
+    .stat-box:nth-child(4) { animation-delay: 0.4s; }
+    .stat-box:nth-child(5) { animation-delay: 0.5s; }
+    .stat-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-lbl {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-top: 0.35rem;
+    }
+
+    /* ── TIMELINE SECTION ── */
+    .section {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .section-sub {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 3rem;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--gold) 0%, var(--teal) 50%, var(--purple) 100%);
+      border-radius: 2px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .tl-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .tl-dot {
+      position: absolute;
+      left: -2.45rem;
+      top: 0.2rem;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--navy);
+      box-shadow: 0 0 0 3px rgba(212,168,67,0.3);
+    }
+    .tl-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: background 0.2s, border 0.2s;
+    }
+    .tl-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(212,168,67,0.3);
+    }
+    .tl-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .tl-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .tl-number {
+      position: absolute;
+      left: -2.5rem;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+    }
+    .tl-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .tl-sub {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+    .tl-body {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+    .tl-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.85rem;
+    }
+    .tag {
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .tag-gold   { background: rgba(212,168,67,0.15); color: var(--gold2); }
+    .tag-teal   { background: rgba(14,165,233,0.15);  color: #38bdf8; }
+    .tag-green  { background: rgba(34,197,94,0.15);   color: #4ade80; }
+    .tag-purple { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+    .tag-amber  { background: rgba(245,158,11,0.15);  color: #fcd34d; }
+    .tag-red    { background: rgba(239,68,68,0.15);   color: #fca5a5; }
+
+    /* ── COLOR VARIANTS FOR DOTS & ICONS ── */
+    .c-gold   { background: linear-gradient(135deg, var(--gold), var(--gold2)); }
+    .c-teal   { background: linear-gradient(135deg, var(--teal), #38bdf8); }
+    .c-green  { background: linear-gradient(135deg, var(--green), #4ade80); }
+    .c-purple { background: linear-gradient(135deg, var(--purple), #a78bfa); }
+    .c-amber  { background: linear-gradient(135deg, var(--amber), #fcd34d); }
+    .c-red    { background: linear-gradient(135deg, var(--red), #fca5a5); }
+
+    /* ── HIGHLIGHT CARDS ── */
+    .highlights {
+      background: var(--navy2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 5rem 2rem;
+    }
+    .highlights-inner { max-width: 920px; margin: 0 auto; }
+    .hl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .hl-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s, border 0.2s;
+    }
+    .hl-card.visible { opacity: 1; transform: translateY(0); }
+    .hl-card:hover { border-color: rgba(212,168,67,0.3); }
+    .hl-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .hl-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .hl-body {
+      font-size: 0.82rem;
+      color: #64748b;
+      line-height: 1.65;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(212,168,67,0.08) 0%, transparent 70%);
+    }
+    .cta-section h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section p {
+      font-size: 0.9rem;
+      color: #64748b;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.02em;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,168,67,0.35);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem;
+      text-align: center;
+      color: #334155;
+      font-size: 0.78rem;
+    }
+    footer strong { color: #475569; }
+
+    /* ── PROGRESS BARS ── */
+    .progress-section {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .prog-item {
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateX(-15px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .prog-item.visible { opacity: 1; transform: translateX(0); }
+    .prog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .prog-label { font-size: 0.875rem; font-weight: 600; color: #cbd5e1; }
+    .prog-pct { font-size: 0.8rem; font-weight: 700; color: var(--gold); }
+    .prog-track {
+      height: 8px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 100px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-logo">H</div>
+  <div class="hero-eyebrow">Session Report · May 28, 2026</div>
+  <h1>HIGA Dashboard<br>Built From Scratch</h1>
+  <p class="hero-sub">Everything we designed, built, and deployed for Ken Compton's Home Inspector Growth Academy internal command center — in a single session.</p>
+  <div class="hero-meta">
+    <div class="hero-chip"><span class="dot"></span> Live on dashboard.homeinspectorgrowthacademy.net</div>
+    <div class="hero-chip">8 PRs merged</div>
+    <div class="hero-chip">1 session</div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-num">8</div>
+      <div class="stat-lbl">PRs Merged</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">12</div>
+      <div class="stat-lbl">Deployments</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">7</div>
+      <div class="stat-lbl">Pages Built</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">1</div>
+      <div class="stat-lbl">Session</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-lbl">Clicks to Deploy</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section>
+  <div class="section">
+    <div class="section-eyebrow">What We Built</div>
+    <div class="section-title">Full Session Timeline</div>
+    <div class="section-sub">Every major step — from first look to live command center.</div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot c-gold"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon c-gold" style="background:rgba(212,168,67,0.15);">🔍</div>
+            <div>
+              <div class="tl-title">Reviewed the existing dashboard</div>
+              <div class="tl-sub">Starting point</div>
+            </div>
+          </div>
+          <div class="tl-body">Read the existing <code>dashboard/index.html</code> and the live screenshot at dashboard.homeinspectorgrowthacademy.net. Identified that the live site runs on a Node.js/Express server (server.js) behind nginx, served from <code>/var/www/higa-dashboard/dashboard/</code>. Flagged that the agent team showed "Larry" — which contradicted CLAUDE.md naming Max as orchestrator.</div>
+          <div class="tl-tags">
+            <span class="tag tag-gold">Audit</span>
+            <span class="tag tag-teal">Node.js</span>
+            <span class="tag tag-amber">Nginx</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-teal"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(14,165,233,0.15);">🎨</div>
+            <div>
+              <div class="tl-title">Full dashboard redesign — PR #5</div>
+              <div class="tl-sub">Dark sidebar → top navigation · light/white theme</div>
+            </div>
+          </div>
+          <div class="tl-body">Completely rewrote the dashboard HTML. Moved the sidebar navigation to a fixed top navbar. Replaced the dark theme with a clean navy header + light white content area. Added color-coded stat cards with accent top bars (gold, teal, green, purple, amber). Added Inter font, card drop shadows, hover lift effects. Fixed all agent references from Larry → Max throughout.</div>
+          <div class="tl-tags">
+            <span class="tag tag-gold">Redesign</span>
+            <span class="tag tag-teal">Top Nav</span>
+            <span class="tag tag-green">Light Theme</span>
+            <span class="tag tag-purple">Typography</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-purple"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(139,92,246,0.15);">🤖</div>
+            <div>
+              <div class="tl-title">Baked in Max Pro AI chat tab — PR #6</div>
+              <div class="tl-sub">Replaced the add-maxpro-tab.sh patch script permanently</div>
+            </div>
+          </div>
+          <div class="tl-body">Discovered the server had a local <code>add-maxpro-tab.sh</code> script that patched the HTML via sed after each deploy. Read the script and baked the entire Max Pro chat UI directly into the redesigned dashboard — eliminating the need for the patch. Includes streaming SSE chat client, specialist agent status cards for Pax & Nolan delegations, and localStorage conversation history.</div>
+          <div class="tl-tags">
+            <span class="tag tag-purple">Max Pro</span>
+            <span class="tag tag-teal">SSE Streaming</span>
+            <span class="tag tag-green">localStorage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-amber"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(245,158,11,0.15);">✍️</div>
+            <div>
+              <div class="tl-title">Max Pro subtitle copy update — PR #7</div>
+              <div class="tl-sub">Ken's exact words, not boilerplate</div>
+            </div>
+          </div>
+          <div class="tl-body">Changed "HIGA AI Orchestrator · Chat with Max and the specialist team" to Ken's preferred text: "Your AI orchestrator, what do you need?" — small change, big difference in tone.</div>
+          <div class="tl-tags">
+            <span class="tag tag-gold">Copy</span>
+            <span class="tag tag-amber">Max Pro</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-red"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(239,68,68,0.15);">🔧</div>
+            <div>
+              <div class="tl-title">Diagnosed &amp; fixed the live deployment</div>
+              <div class="tl-sub">Server investigation → deploy pipeline established</div>
+            </div>
+          </div>
+          <div class="tl-body">Walked through the server to find: nginx proxies to Node on port 3002 → Express serves <code>/var/www/higa-dashboard/dashboard/</code>. Resolved git pull blocking errors (untracked logo.png, local modifications from the old patch script). Set up the <strong>higa-deploy</strong> one-command script at <code>/usr/local/bin/higa-deploy</code> — pulls from GitHub main and restarts the PM2 "max" process.</div>
+          <div class="tl-tags">
+            <span class="tag tag-red">DevOps</span>
+            <span class="tag tag-teal">PM2</span>
+            <span class="tag tag-amber">Nginx</span>
+            <span class="tag tag-green">higa-deploy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-green"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(34,197,94,0.15);">👑</div>
+            <div>
+              <div class="tl-title">Refocused as Ken's Boss Command Center</div>
+              <div class="tl-sub">Purpose-built for one user: Ken</div>
+            </div>
+          </div>
+          <div class="tl-body">Redesigned the entire purpose of the dashboard. Ken confirmed: this is only for him, AI agents are staff, humans are on the BuddyBoss community (not here). Rebuilt the Overview as a Command Center with: KPI strip, Awaiting Review queue (Max/Pax/Nolan deliverables with approve/revise buttons), Agents In Progress panel, 4 Quick Action tiles that prefill Max Pro with ready-made task templates, and a Platform Snapshot. Added a new Inbox page with filter chips. Trimmed the nav to: Overview · Inbox · Courses · Financial · Max Pro · Settings.</div>
+          <div class="tl-tags">
+            <span class="tag tag-gold">Command Center</span>
+            <span class="tag tag-purple">Delegation Hub</span>
+            <span class="tag tag-green">Inbox</span>
+            <span class="tag tag-teal">Quick Actions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot c-teal"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-icon" style="background:rgba(14,165,233,0.15);">⚡</div>
+            <div>
+              <div class="tl-title">Zero-click deploy workflow established</div>
+              <div class="tl-sub">Push to main → run higa-deploy. Done.</div>
+            </div>
+          </div>
+          <div class="tl-body">Eliminated the GitHub PR merge step. Switched to pushing directly to <code>main</code>. Ken SSHs in and runs <code>higa-deploy</code>. Total time from code change to live: under 30 seconds.</div>
+          <div class="tl-tags">
+            <span class="tag tag-green">Workflow</span>
+            <span class="tag tag-teal">Direct to main</span>
+            <span class="tag tag-amber">higa-deploy</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS BARS -->
+<section class="highlights" style="padding-bottom:0;">
+  <div class="highlights-inner">
+    <div class="section-eyebrow">Completeness</div>
+    <div class="section-title" style="margin-bottom:2rem;">What's Live vs What's Next</div>
+    <div class="progress-section" style="padding: 0 0 4rem;">
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Dashboard Redesign</span><span class="prog-pct">100%</span></div>
+        <div class="prog-track"><div class="prog-fill c-green" data-w="100%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Max Pro AI Chat</span><span class="prog-pct">100%</span></div>
+        <div class="prog-track"><div class="prog-fill c-green" data-w="100%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Deploy Pipeline (higa-deploy)</span><span class="prog-pct">100%</span></div>
+        <div class="prog-track"><div class="prog-fill c-green" data-w="100%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Boss Command Center (Overview + Inbox)</span><span class="prog-pct">100%</span></div>
+        <div class="prog-track"><div class="prog-fill c-green" data-w="100%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Live Data from GHL</span><span class="prog-pct">0%</span></div>
+        <div class="prog-track"><div class="prog-fill c-amber" data-w="0%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Real Inbox (wired to /owners-inbox files)</span><span class="prog-pct">20%</span></div>
+        <div class="prog-track"><div class="prog-fill c-teal" data-w="20%"></div></div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-header"><span class="prog-label">Agent Task Tracking (real-time status)</span><span class="prog-pct">15%</span></div>
+        <div class="prog-track"><div class="prog-fill c-purple" data-w="15%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHT CARDS -->
+<section class="highlights">
+  <div class="highlights-inner">
+    <div class="section-eyebrow">What's Next</div>
+    <div class="section-title" style="margin-bottom:2rem;">Recommended Next Steps</div>
+    <div class="hl-grid">
+      <div class="hl-card">
+        <div class="hl-icon" style="background:rgba(212,168,67,0.15);">📊</div>
+        <div class="hl-title">Connect GHL data</div>
+        <div class="hl-body">Wire GoHighLevel's API to populate real student counts, MRR, and enrollment data instead of placeholder numbers.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon" style="background:rgba(14,165,233,0.15);">📥</div>
+        <div class="hl-title">Live Inbox from /owners-inbox</div>
+        <div class="hl-body">Read .md files from the /owners-inbox folder and render them as real deliverable cards with approve/reject actions that move files.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon" style="background:rgba(139,92,246,0.15);">🤖</div>
+        <div class="hl-title">Agent task tracking</div>
+        <div class="hl-body">Show real-time task status for Max/Pax/Nolan — what they're working on, when it's due, and where the output lands.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-icon" style="background:rgba(34,197,94,0.15);">📅</div>
+        <div class="hl-title">Content calendar</div>
+        <div class="hl-body">Schedule and track community posts, email blasts, and coaching calls — so Ken sees what's going out and when.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <h2>Dashboard is Live 🚀</h2>
+  <p>Everything above is deployed and running at dashboard.homeinspectorgrowthacademy.net</p>
+  <a href="/" class="cta-btn">→ Open Dashboard</a>
+</section>
+
+<footer>
+  Built for <strong>Ken Compton</strong> · <strong>HIGA — Home Inspector Growth Academy</strong> · May 28, 2026
+</footer>
+
+<script>
+  /* Intersection observer for timeline and highlight animations */
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.tl-item, .hl-card, .prog-item').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  /* Progress bar animation */
+  var progObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var fill = e.target.querySelector('.prog-fill');
+        if (fill) {
+          setTimeout(function() {
+            fill.style.width = fill.getAttribute('data-w');
+          }, 200);
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.prog-item').forEach(function(el) {
+    progObserver.observe(el);
+  });
+
+  /* Stagger hl-card delays */
+  document.querySelectorAll('.hl-card').forEach(function(card, i) {
+    card.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  /* Stagger tl-item delays */
+  document.querySelectorAll('.tl-item').forEach(function(item, i) {
+    item.style.transitionDelay = (i * 0.08) + 's';
+  });
+</script>
+</body>
+</html>
