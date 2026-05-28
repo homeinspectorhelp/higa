@@ -132,6 +132,164 @@
     .nav-maxpro:hover { color: #fff; background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(14,165,233,0.3)); }
     .nav-maxpro.active { background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; border-color: transparent; }
     .nav-icon { font-size: 0.9rem; }
+    .nav-badge {
+      background: var(--red);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.1rem 0.4rem;
+      border-radius: 100px;
+      margin-left: 0.2rem;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* ── BOSS DASHBOARD WIDGETS ── */
+    .review-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .review-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .review-item:first-child { padding-top: 0; }
+    .review-agent {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      color: #fff;
+    }
+    .ra-max { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: var(--navy); }
+    .ra-pax { background: linear-gradient(135deg, var(--teal), #38bdf8); }
+    .ra-nolan { background: linear-gradient(135deg, var(--green), #4ade80); }
+    .review-body { flex: 1; min-width: 0; }
+    .review-title { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    .review-meta { font-size: 0.75rem; color: var(--text3); margin-top: 0.15rem; }
+    .review-actions { display: flex; gap: 0.35rem; flex-shrink: 0; }
+    .btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: 7px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+    .btn-approve { background: var(--green); color: #fff; }
+    .btn-approve:hover { background: #16a34a; }
+    .btn-view { background: #f1f5f9; color: var(--text2); }
+    .btn-view:hover { background: var(--border); }
+    .btn-reject { background: #fee2e2; color: #dc2626; }
+    .btn-reject:hover { background: #fecaca; }
+
+    .agent-status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .agent-status-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .agent-status-row:first-child { padding-top: 0; }
+    .agent-status-body { flex: 1; }
+    .agent-status-name { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .agent-status-task { font-size: 0.78rem; color: var(--text2); margin-top: 0.15rem; }
+    .agent-status-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .asp-working { background: rgba(245,158,11,0.15); color: #d97706; }
+    .asp-idle    { background: #f1f5f9; color: var(--text3); }
+    .asp-done    { background: rgba(34,197,94,0.15); color: #16a34a; }
+
+    .quick-action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.85rem;
+    }
+    .quick-action {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .quick-action:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    .qa-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      background: var(--gold-bg);
+    }
+    .qa-title { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .qa-desc { font-size: 0.72rem; color: var(--text3); }
+
+    .h2-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .h2-action h2 { margin-bottom: 0; }
+    .link-arrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gold);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .link-arrow:hover { text-decoration: underline; }
+
+    .inbox-filters {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-chip:hover { border-color: var(--gold); color: var(--text); }
+    .filter-chip.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    .task-template {
+      padding: 0.55rem 0.85rem;
+      background: rgba(139,92,246,0.08);
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      color: var(--purple);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .task-template:hover { background: rgba(139,92,246,0.15); }
+    .template-row { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0.75rem 0 0; }
 
     /* ── MAX PRO CHAT ── */
     .maxpro-wrap {
@@ -702,15 +860,12 @@
   <div class="nav-links">
     <div class="nav-section">
       <div class="nav-item active" onclick="showPage('overview',this)"><span class="nav-icon">📊</span> Overview</div>
-      <div class="nav-item" onclick="showPage('courses',this)"><span class="nav-icon">🎓</span> Courses</div>
-      <div class="nav-item" onclick="showPage('students',this)"><span class="nav-icon">👤</span> Students</div>
-      <div class="nav-item" onclick="showPage('pipeline',this)"><span class="nav-icon">🔄</span> Pipeline</div>
+      <div class="nav-item" onclick="showPage('inbox',this)"><span class="nav-icon">📥</span> Inbox <span class="nav-badge" id="inbox-count">3</span></div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-section">
+      <div class="nav-item" onclick="showPage('courses',this)"><span class="nav-icon">🎓</span> Courses</div>
       <div class="nav-item" onclick="showPage('financial',this)"><span class="nav-icon">💰</span> Financial</div>
-      <div class="nav-item" onclick="showPage('team',this)"><span class="nav-icon">🤝</span> Team</div>
-      <div class="nav-item" onclick="showPage('stories',this)"><span class="nav-icon">⭐</span> Stories</div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-section">
@@ -731,145 +886,267 @@
   <!-- ── OVERVIEW ── -->
   <div class="page active" id="page-overview">
     <div class="page-strip">
-      <h1>Business Overview</h1>
-      <p>HIGA — Home Inspector Growth Academy &nbsp;·&nbsp; Ken Compton, Owner</p>
+      <h1>Command Center</h1>
+      <p>Good day, Ken — here's where HIGA stands and what needs your attention.</p>
     </div>
     <div id="content">
 
+      <!-- KPI strip -->
       <div class="stat-row" style="margin-top:2rem;">
-        <div class="stat-card c-teal">
-          <div class="stat-label">Active Courses</div>
-          <div class="stat-value c-teal">3</div>
-          <div class="stat-delta">On GoHighLevel</div>
+        <div class="stat-card c-green">
+          <div class="stat-label">Monthly Revenue</div>
+          <div class="stat-value c-green">$4,200</div>
+          <div class="stat-delta delta-up">↑ 12% vs last month</div>
         </div>
         <div class="stat-card c-gold">
           <div class="stat-label">Enrolled Students</div>
           <div class="stat-value c-gold">24</div>
-          <div class="stat-delta delta-up">↑ Growing</div>
+          <div class="stat-delta delta-up">↑ 3 this week</div>
         </div>
-        <div class="stat-card c-green">
-          <div class="stat-label">Monthly Revenue</div>
-          <div class="stat-value c-green">$4,200</div>
-          <div class="stat-delta delta-up">↑ MRR + courses</div>
+        <div class="stat-card c-teal">
+          <div class="stat-label">MRR</div>
+          <div class="stat-value c-teal">$1,940</div>
+          <div class="stat-delta">Mastermind + Community</div>
         </div>
         <div class="stat-card c-purple">
           <div class="stat-label">Completion Rate</div>
           <div class="stat-value c-purple">87%</div>
-          <div class="stat-delta delta-up">↑ Above average</div>
+          <div class="stat-delta delta-up">↑ Above target</div>
         </div>
         <div class="stat-card c-amber">
-          <div class="stat-label">Community Members</div>
-          <div class="stat-value c-amber">300+</div>
-          <div class="stat-delta">Peer community</div>
+          <div class="stat-label">Refunds (MTD)</div>
+          <div class="stat-value c-amber">$0</div>
+          <div class="stat-delta">30-day guarantee</div>
         </div>
       </div>
 
       <div class="two-col">
-        <!-- Recent Enrollments -->
+        <!-- AWAITING REVIEW -->
         <div class="card">
-          <h2><span class="dot dot-gold"></span> Recent Enrollments <span class="badge badge-teal" style="margin-left:auto;font-size:0.65rem;">This Week</span></h2>
-          <div class="feed-item">
-            <div class="feed-icon fi-gold">🎓</div>
-            <div class="feed-body">
-              <div class="feed-title">New enrollment — Rebuild Smarter Program</div>
-              <div class="feed-sub">Stage 1: Foundation module access granted</div>
-            </div>
-            <div class="feed-time">2d ago</div>
+          <div class="h2-action">
+            <h2><span class="dot dot-gold"></span> Awaiting Your Review <span class="badge badge-amber" style="margin-left:0.5rem;font-size:0.65rem;">3 pending</span></h2>
+            <a class="link-arrow" onclick="showPage('inbox', document.querySelectorAll('.nav-item')[1])">View all →</a>
           </div>
-          <div class="feed-item">
-            <div class="feed-icon fi-green">✅</div>
-            <div class="feed-body">
-              <div class="feed-title">Course completion — Marketing Foundations</div>
-              <div class="feed-sub">Certificate issued and emailed</div>
+
+          <div class="review-item">
+            <div class="review-agent ra-pax">P</div>
+            <div class="review-body">
+              <div class="review-title">Competitor pricing research — Q2 report</div>
+              <div class="review-meta">Pax · 2h ago · 14-page brief</div>
             </div>
-            <div class="feed-time">4d ago</div>
+            <div class="review-actions">
+              <button class="btn btn-view">View</button>
+              <button class="btn btn-approve">Approve</button>
+            </div>
           </div>
-          <div class="feed-item">
-            <div class="feed-icon fi-teal">📞</div>
-            <div class="feed-body">
-              <div class="feed-title">New coaching call booked</div>
-              <div class="feed-sub">Live coaching session — Friday 2:00 PM</div>
+
+          <div class="review-item">
+            <div class="review-agent ra-nolan">N</div>
+            <div class="review-body">
+              <div class="review-title">Hiring framework — Sales Specialist role</div>
+              <div class="review-meta">Nolan · 6h ago · Job spec + 5 KPIs</div>
             </div>
-            <div class="feed-time">5d ago</div>
+            <div class="review-actions">
+              <button class="btn btn-view">View</button>
+              <button class="btn btn-approve">Approve</button>
+            </div>
+          </div>
+
+          <div class="review-item">
+            <div class="review-agent ra-max">M</div>
+            <div class="review-body">
+              <div class="review-title">Weekly business summary — May 21–28</div>
+              <div class="review-meta">Max · Yesterday · KPIs + recommendations</div>
+            </div>
+            <div class="review-actions">
+              <button class="btn btn-view">View</button>
+              <button class="btn btn-approve">Approve</button>
+            </div>
           </div>
         </div>
 
-        <!-- Platform Status -->
+        <!-- IN PROGRESS -->
         <div class="card">
-          <h2><span class="dot dot-green"></span> Platform Status <span class="badge badge-green" style="margin-left:auto;font-size:0.65rem;">● Healthy</span></h2>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
-            <div class="platform-stat">
-              <div class="num c-teal" style="color:var(--teal);">3</div>
-              <div class="lbl">Courses Live</div>
-            </div>
-            <div class="platform-stat">
-              <div class="num" style="color:var(--gold);">12</div>
-              <div class="lbl">Modules</div>
-            </div>
-            <div class="platform-stat">
-              <div class="num" style="color:var(--green);">48</div>
-              <div class="lbl">Lessons</div>
-            </div>
+          <div class="h2-action">
+            <h2><span class="dot dot-teal"></span> Agents · In Progress</h2>
+            <a class="link-arrow" onclick="showPage('maxpro', document.querySelector('.nav-maxpro'))">Delegate →</a>
           </div>
-          <div class="platform-note">
-            All courses delivered through <strong>GoHighLevel (GHL)</strong>. Platform healthy.
-          </div>
-          <div style="margin-top:1.25rem;">
-            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.4rem;">
-              <span style="color:var(--text2);font-weight:600;">Completion Rate</span>
-              <span style="color:var(--green);font-weight:700;">87%</span>
+
+          <div class="agent-status-row">
+            <div class="review-agent ra-max">M</div>
+            <div class="agent-status-body">
+              <div class="agent-status-name">Max · Orchestrator</div>
+              <div class="agent-status-task">Routing your weekly review request to specialists</div>
             </div>
-            <div class="progress-wrap"><div class="progress-bar progress-green" style="width:87%"></div></div>
+            <span class="agent-status-pill asp-working">● Working</span>
           </div>
-          <div style="margin-top:0.85rem;">
-            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.4rem;">
-              <span style="color:var(--text2);font-weight:600;">Enrollment Capacity</span>
-              <span style="color:var(--gold);font-weight:700;">24 / unlimited</span>
+
+          <div class="agent-status-row">
+            <div class="review-agent ra-pax">P</div>
+            <div class="agent-status-body">
+              <div class="agent-status-name">Pax · Research</div>
+              <div class="agent-status-task">Compiling lead-source benchmarks for 2026</div>
             </div>
-            <div class="progress-wrap"><div class="progress-bar" style="width:24%"></div></div>
+            <span class="agent-status-pill asp-working">● Working</span>
+          </div>
+
+          <div class="agent-status-row">
+            <div class="review-agent ra-nolan">N</div>
+            <div class="agent-status-body">
+              <div class="agent-status-name">Nolan · HR Director</div>
+              <div class="agent-status-task">No active tasks · awaiting brief</div>
+            </div>
+            <span class="agent-status-pill asp-idle">○ Idle</span>
+          </div>
+
+          <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);">
+            <button class="btn btn-approve" style="width:100%;padding:0.7rem;font-size:0.825rem;background:linear-gradient(135deg,var(--purple),var(--teal));" onclick="showPage('maxpro', document.querySelector('.nav-maxpro'))">
+              🤖 Open Max Pro to delegate a task
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- AI Team Status -->
+      <!-- QUICK ACTIONS -->
       <div class="card mb">
-        <h2><span class="dot dot-teal"></span> AI Team Status</h2>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:8px;overflow:hidden;">
-          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
-            <div style="font-size:1.1rem;font-weight:900;color:var(--gold);">Max</div>
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">AI Orchestrator</div>
-            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+        <h2><span class="dot dot-purple"></span> Quick Actions</h2>
+        <div class="quick-action-grid">
+          <div class="quick-action" onclick="maxQuickPrompt('Pax, run competitor pricing research on the top 3 home-inspector training platforms — focus on course price points, bundle strategy, and upsells.')">
+            <div class="qa-icon" style="background:rgba(14,165,233,0.12);">🔍</div>
+            <div class="qa-title">Pax · Run research</div>
+            <div class="qa-desc">Competitor, pricing, lead-source intel</div>
           </div>
-          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
-            <div style="font-size:1.1rem;font-weight:900;color:var(--teal);">Pax</div>
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">Research Specialist</div>
-            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+          <div class="quick-action" onclick="maxQuickPrompt('Nolan, walk me through the 5-question hiring framework for a new agent role. Start with: what specific task can the team not do well right now?')">
+            <div class="qa-icon" style="background:rgba(34,197,94,0.12);">👥</div>
+            <div class="qa-title">Nolan · Plan a hire</div>
+            <div class="qa-desc">5-question hiring framework</div>
           </div>
-          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
-            <div style="font-size:1.1rem;font-weight:900;color:var(--green);">Nolan</div>
-            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">HR Director</div>
-            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+          <div class="quick-action" onclick="maxQuickPrompt('Max, give me my weekly business summary: revenue, enrollments, MRR changes, refunds, and the top 3 things I should focus on this week.')">
+            <div class="qa-icon" style="background:rgba(212,168,67,0.15);">📈</div>
+            <div class="qa-title">Max · Weekly summary</div>
+            <div class="qa-desc">KPIs + top 3 priorities for the week</div>
+          </div>
+          <div class="quick-action" onclick="maxQuickPrompt('Max, draft a community post for the HIGA news feed about [topic]. Keep it punchy, on-brand, and end with a clear CTA.')">
+            <div class="qa-icon" style="background:rgba(139,92,246,0.12);">✍️</div>
+            <div class="qa-title">Max · Draft a post</div>
+            <div class="qa-desc">Community news feed content</div>
           </div>
         </div>
-        <p style="font-size:0.78rem;color:var(--text3);margin-top:1rem;">All agents online and ready. Use the <strong style="color:var(--text2);">Team</strong> tab to manage the roster.</p>
       </div>
 
-      <!-- Course Quick Ref -->
+      <!-- PLATFORM SNAPSHOT -->
       <div class="card">
-        <h2><span class="dot dot-gold"></span> Active Course Catalog</h2>
-        <table>
-          <thead><tr><th>Course</th><th>Price</th><th>Category</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Inspection Business Bootcamp</strong></td><td>$297</td><td><span class="badge badge-teal">Foundational</span></td></tr>
-            <tr><td><strong>Lead Machine: Google &amp; GBP</strong></td><td>$397</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-            <tr><td><strong>SOP Builder</strong></td><td>$247</td><td><span class="badge badge-green">Systems</span></td></tr>
-            <tr><td><strong>Hire Right</strong></td><td>$197</td><td><span class="badge badge-green">Systems</span></td></tr>
-            <tr><td><strong>The Scale System</strong></td><td>$597</td><td><span class="badge badge-amber">Advanced</span></td></tr>
-            <tr><td><strong>Video Marketing</strong></td><td>$197</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-            <tr><td><strong>Group Mastermind</strong></td><td>$97/mo</td><td><span class="badge badge-teal">Coaching</span></td></tr>
-            <tr><td><strong>Reputation Domination</strong></td><td>$147</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-          </tbody>
-        </table>
+        <div class="h2-action">
+          <h2><span class="dot dot-green"></span> Platform Snapshot <span class="badge badge-green" style="margin-left:0.5rem;font-size:0.65rem;">● Healthy</span></h2>
+          <a class="link-arrow" onclick="showPage('courses', document.querySelectorAll('.nav-item')[2])">Open courses →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+          <div class="platform-stat">
+            <div class="num" style="color:var(--teal);">8</div>
+            <div class="lbl">Courses Live</div>
+          </div>
+          <div class="platform-stat">
+            <div class="num" style="color:var(--gold);">24</div>
+            <div class="lbl">Students</div>
+          </div>
+          <div class="platform-stat">
+            <div class="num" style="color:var(--purple);">300+</div>
+            <div class="lbl">Community</div>
+          </div>
+          <div class="platform-stat">
+            <div class="num" style="color:var(--green);">87%</div>
+            <div class="lbl">Completion</div>
+          </div>
+        </div>
+        <div class="platform-note">
+          All courses delivered through <strong>GoHighLevel (GHL)</strong>. Community on <strong>BuddyBoss</strong>. Platform healthy.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── INBOX ── -->
+  <div class="page" id="page-inbox">
+    <div class="page-strip">
+      <h1>Inbox · Awaiting Review</h1>
+      <p>Completed deliverables from Max, Pax, and Nolan — approve, reject, or send back for revisions.</p>
+    </div>
+    <div id="content">
+
+      <div class="inbox-filters" style="margin-top:2rem;">
+        <div class="filter-chip active">All <span style="opacity:0.6;">3</span></div>
+        <div class="filter-chip">Max <span style="opacity:0.6;">1</span></div>
+        <div class="filter-chip">Pax <span style="opacity:0.6;">1</span></div>
+        <div class="filter-chip">Nolan <span style="opacity:0.6;">1</span></div>
+        <div class="filter-chip">Archived</div>
+      </div>
+
+      <div class="card mb">
+        <h2><span class="dot dot-gold"></span> Pending Review</h2>
+
+        <div class="review-item">
+          <div class="review-agent ra-pax">P</div>
+          <div class="review-body">
+            <div class="review-title">Competitor pricing research — Q2 report</div>
+            <div class="review-meta">Pax · 2h ago · 14-page brief · /owners-inbox/competitor-pricing-q2.md</div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-view">View</button>
+            <button class="btn btn-reject">Revise</button>
+            <button class="btn btn-approve">Approve</button>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="review-agent ra-nolan">N</div>
+          <div class="review-body">
+            <div class="review-title">Hiring framework — Sales Specialist role</div>
+            <div class="review-meta">Nolan · 6h ago · Job spec + 5 KPIs · /owners-inbox/sales-specialist-spec.md</div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-view">View</button>
+            <button class="btn btn-reject">Revise</button>
+            <button class="btn btn-approve">Approve</button>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="review-agent ra-max">M</div>
+          <div class="review-body">
+            <div class="review-title">Weekly business summary — May 21–28</div>
+            <div class="review-meta">Max · Yesterday · KPIs + recommendations · /owners-inbox/weekly-2026-05-28.md</div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-view">View</button>
+            <button class="btn btn-reject">Revise</button>
+            <button class="btn btn-approve">Approve</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="dot dot-teal"></span> Recently Approved</h2>
+        <div class="review-item">
+          <div class="review-agent ra-pax">P</div>
+          <div class="review-body">
+            <div class="review-title">Lead-source intel — Facebook vs Google for inspectors</div>
+            <div class="review-meta">Pax · 3 days ago · Approved by Ken</div>
+          </div>
+          <div class="review-actions">
+            <span class="agent-status-pill asp-done">✓ Approved</span>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-agent ra-max">M</div>
+          <div class="review-body">
+            <div class="review-title">Community welcome email — new member sequence</div>
+            <div class="review-meta">Max · 5 days ago · Approved by Ken</div>
+          </div>
+          <div class="review-actions">
+            <span class="agent-status-pill asp-done">✓ Approved</span>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1214,7 +1491,8 @@
   document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 
   var pageTitles = {
-    overview: 'Overview', courses: 'Courses', students: 'Students',
+    overview: 'Command Center', inbox: 'Inbox',
+    courses: 'Courses', students: 'Students',
     pipeline: 'Enrollment Pipeline', financial: 'Financial',
     team: 'Team', stories: 'Success Stories', settings: 'Settings',
     maxpro: 'Max Pro'
@@ -1337,6 +1615,22 @@
 
   document.getElementById('max-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); maxSend(); }
+  });
+
+  /* Jump to Max Pro and prefill a prompt */
+  function maxQuickPrompt(text) {
+    showPage('maxpro', document.querySelector('.nav-maxpro'));
+    var inp = document.getElementById('max-input');
+    inp.value = text;
+    inp.focus();
+  }
+
+  /* Inbox filter chips (UI only — no data wiring yet) */
+  document.querySelectorAll('.inbox-filters .filter-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.inbox-filters .filter-chip').forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+    });
   });
 
   maxRender();
