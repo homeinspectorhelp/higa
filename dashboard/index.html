@@ -124,7 +124,139 @@
       font-weight: 700;
       border: 1px solid rgba(212,168,67,0.2);
     }
+    .nav-maxpro {
+      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(14,165,233,0.15));
+      color: #c4b5fd;
+      border: 1px solid rgba(139,92,246,0.25);
+    }
+    .nav-maxpro:hover { color: #fff; background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(14,165,233,0.3)); }
+    .nav-maxpro.active { background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; border-color: transparent; }
     .nav-icon { font-size: 0.9rem; }
+
+    /* ── MAX PRO CHAT ── */
+    .maxpro-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - var(--nav-h) - 120px);
+    }
+    .maxpro-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px 14px 0 0;
+      border-bottom: none;
+      box-shadow: var(--shadow);
+    }
+    .maxpro-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .maxpro-id .nm { font-weight: 800; color: var(--text); font-size: 1rem; }
+    .maxpro-id .st { font-size: 0.75rem; color: var(--green); margin-top: 0.15rem; }
+    .maxpro-status { margin-left: auto; font-size: 0.75rem; color: var(--text3); font-weight: 600; }
+    .maxpro-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .maxpro-empty {
+      margin: auto;
+      text-align: center;
+      color: var(--text3);
+      padding: 2rem;
+    }
+    .maxpro-empty .icn { font-size: 2rem; margin-bottom: 0.75rem; }
+    .maxpro-msg-user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--navy);
+      border-radius: 14px 14px 4px 14px;
+      padding: 0.7rem 1rem;
+      max-width: 75%;
+      font-size: 0.875rem;
+      font-weight: 500;
+      white-space: pre-wrap;
+      box-shadow: 0 2px 6px rgba(212,168,67,0.25);
+    }
+    .maxpro-msg-assistant {
+      align-self: flex-start;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px 14px 14px 4px;
+      padding: 0.85rem 1.1rem;
+      max-width: 85%;
+      font-size: 0.875rem;
+      color: var(--text);
+      white-space: pre-wrap;
+      line-height: 1.65;
+    }
+    .spec-card {
+      align-self: flex-start;
+      border: 1px solid rgba(14,165,233,0.3);
+      background: rgba(14,165,233,0.08);
+      border-radius: 8px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.78rem;
+      color: #0369a1;
+      font-weight: 600;
+    }
+    .spec-card.done {
+      border-color: rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.08);
+      color: #16a34a;
+    }
+    .maxpro-input-row {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0 0 14px 14px;
+      border-top: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .maxpro-input {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      transition: border 0.15s;
+    }
+    .maxpro-input:focus { border-color: var(--purple); background: #fff; }
+    .maxpro-send {
+      padding: 0 1.5rem;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: opacity 0.15s;
+    }
+    .maxpro-send:hover { opacity: 0.9; }
+    .maxpro-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .nav-right {
       display: flex;
@@ -582,6 +714,7 @@
     </div>
     <div class="nav-divider"></div>
     <div class="nav-section">
+      <div class="nav-item nav-maxpro" onclick="showPage('maxpro',this)"><span class="nav-icon">🤖</span> Max Pro</div>
       <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
     </div>
   </div>
@@ -978,6 +1111,37 @@
     </div>
   </div>
 
+  <!-- ── MAX PRO ── -->
+  <div class="page" id="page-maxpro">
+    <div class="page-strip" style="background:linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #0c4a6e 100%);">
+      <h1 style="display:flex;align-items:center;gap:0.65rem;">🤖 Max Pro <span style="font-size:0.7rem;background:linear-gradient(135deg,var(--purple),var(--teal));padding:0.2rem 0.6rem;border-radius:100px;font-weight:700;letter-spacing:0.05em;">AI</span></h1>
+      <p>HIGA AI Orchestrator · Chat with Max and the specialist team</p>
+    </div>
+    <div id="content" style="padding-top:1.5rem;">
+      <div class="maxpro-wrap">
+        <div class="maxpro-header">
+          <div class="maxpro-avatar">🤖</div>
+          <div class="maxpro-id">
+            <div class="nm">Max Pro</div>
+            <div class="st">● Online · HIGA AI Orchestrator</div>
+          </div>
+          <div class="maxpro-status" id="max-status">Idle</div>
+        </div>
+        <div id="max-messages" class="maxpro-messages">
+          <div class="maxpro-empty" id="max-empty">
+            <div class="icn">💬</div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:0.35rem;">Start a conversation</div>
+            <div style="font-size:0.825rem;">Ask Max anything about HIGA — courses, students, business strategy, or delegate to Pax / Nolan.</div>
+          </div>
+        </div>
+        <div class="maxpro-input-row">
+          <textarea id="max-input" class="maxpro-input" rows="2" placeholder="Message Max Pro..."></textarea>
+          <button id="max-send" class="maxpro-send" onclick="maxSend()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── SETTINGS ── -->
   <div class="page" id="page-settings">
     <div class="page-strip">
@@ -1052,7 +1216,8 @@
   var pageTitles = {
     overview: 'Overview', courses: 'Courses', students: 'Students',
     pipeline: 'Enrollment Pipeline', financial: 'Financial',
-    team: 'Team', stories: 'Success Stories', settings: 'Settings'
+    team: 'Team', stories: 'Success Stories', settings: 'Settings',
+    maxpro: 'Max Pro'
   };
 
   function showPage(id, navEl) {
@@ -1066,6 +1231,115 @@
   document.querySelectorAll('.toggle').forEach(function(t){
     t.addEventListener('click', function(){ t.classList.toggle('on'); });
   });
+
+  /* ── MAX PRO CHAT ── */
+  var maxHistory = JSON.parse(localStorage.getItem('maxHistory') || '[]');
+  var maxBusy = false;
+
+  function maxRender() {
+    var c = document.getElementById('max-messages');
+    var empty = document.getElementById('max-empty');
+    if (maxHistory.length === 0) {
+      if (empty) empty.style.display = '';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    c.querySelectorAll('.maxpro-msg-user, .maxpro-msg-assistant, .spec-card').forEach(function(n){ n.remove(); });
+    maxHistory.forEach(function(m) {
+      var d = document.createElement('div');
+      d.className = m.role === 'user' ? 'maxpro-msg-user' : 'maxpro-msg-assistant';
+      d.textContent = typeof m.content === 'string' ? m.content : m.content.map(function(b){return b.text||'';}).join('');
+      c.appendChild(d);
+    });
+    c.scrollTop = c.scrollHeight;
+  }
+
+  function maxSend() {
+    if (maxBusy) return;
+    var inp = document.getElementById('max-input');
+    var txt = inp.value.trim();
+    if (!txt) return;
+    inp.value = '';
+    maxHistory.push({ role: 'user', content: txt });
+    maxRender();
+    maxBusy = true;
+    document.getElementById('max-send').disabled = true;
+    document.getElementById('max-status').textContent = 'Thinking...';
+    document.getElementById('max-status').style.color = 'var(--purple)';
+
+    var assistantText = '';
+    var msgDiv = document.createElement('div');
+    msgDiv.className = 'maxpro-msg-assistant';
+    document.getElementById('max-messages').appendChild(msgDiv);
+
+    fetch('/api/max-pro/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: maxHistory.filter(function(m){return m.role==='user'||m.role==='assistant';}) })
+    }).then(function(res) {
+      var reader = res.body.getReader();
+      var decoder = new TextDecoder();
+      var buf = '';
+      function read() {
+        reader.read().then(function(result) {
+          if (result.done) { finish(); return; }
+          buf += decoder.decode(result.value, { stream: true });
+          var lines = buf.split('\n');
+          buf = lines.pop();
+          var evtType = '';
+          lines.forEach(function(line) {
+            if (line.startsWith('event: ')) evtType = line.slice(7);
+            else if (line.startsWith('data: ') && evtType === 'text') {
+              try {
+                var d = JSON.parse(line.slice(6));
+                if (d.delta) { assistantText += d.delta; msgDiv.textContent = assistantText; }
+              } catch(e) {}
+            } else if (line.startsWith('data: ') && evtType === 'specialist_start') {
+              try {
+                var d = JSON.parse(line.slice(6));
+                var card = document.createElement('div');
+                card.className = 'spec-card';
+                card.textContent = '● ' + d.agent + ' · ' + d.title + ' — working...';
+                card.id = 'spec-card-' + d.agent;
+                document.getElementById('max-messages').appendChild(card);
+                document.getElementById('max-status').textContent = d.agent + ' is working...';
+              } catch(e) {}
+            } else if (line.startsWith('data: ') && evtType === 'specialist_done') {
+              try {
+                var d = JSON.parse(line.slice(6));
+                var card = document.getElementById('spec-card-' + d.agent);
+                if (card) { card.textContent = '✅ ' + d.agent + ' · Done'; card.classList.add('done'); }
+              } catch(e) {}
+            } else if (line.startsWith('data: ') && evtType === 'done') {
+              finish();
+            }
+            if (!line.startsWith('event: ') && !line.startsWith('data: ') && !line.startsWith(':')) evtType = '';
+          });
+          document.getElementById('max-messages').scrollTop = document.getElementById('max-messages').scrollHeight;
+          read();
+        });
+      }
+      read();
+    }).catch(function(err) {
+      msgDiv.textContent = 'Error: ' + err.message;
+      finish();
+    });
+
+    function finish() {
+      if (assistantText) maxHistory.push({ role: 'assistant', content: assistantText });
+      localStorage.setItem('maxHistory', JSON.stringify(maxHistory));
+      maxBusy = false;
+      document.getElementById('max-send').disabled = false;
+      document.getElementById('max-status').textContent = 'Idle';
+      document.getElementById('max-status').style.color = 'var(--text3)';
+    }
+  }
+
+  document.getElementById('max-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); maxSend(); }
+  });
+
+  maxRender();
 </script>
 </body>
 </html>
