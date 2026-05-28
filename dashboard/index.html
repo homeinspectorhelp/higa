@@ -4,135 +4,179 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HIGA Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #080F1C;
-      --surface:  #0D1628;
-      --surface2: #132034;
-      --border:   #1C2A40;
-      --text:     #F0E8D0;
-      --muted:    #7A8499;
-      --gold:     #C9A84C;
-      --teal:     #2DD4BF;
-      --green:    #4ADE80;
-      --red:      #F87171;
-      --sidebar-w: 220px;
+      --navy:    #0f172a;
+      --navy2:   #1e293b;
+      --navy3:   #334155;
+      --gold:    #d4a843;
+      --gold2:   #f0c860;
+      --gold-bg: rgba(212,168,67,0.1);
+      --teal:    #0ea5e9;
+      --green:   #22c55e;
+      --red:     #ef4444;
+      --amber:   #f59e0b;
+      --purple:  #8b5cf6;
+      --bg:      #f1f5f9;
+      --surface: #ffffff;
+      --border:  #e2e8f0;
+      --text:    #0f172a;
+      --text2:   #475569;
+      --text3:   #94a3b8;
+      --nav-h:   64px;
+      --shadow:  0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 4px 6px rgba(0,0,0,0.07), 0 12px 32px rgba(0,0,0,0.10);
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
       font-size: 14px;
-      display: flex;
       min-height: 100vh;
     }
 
-    /* ── SIDEBAR ── */
-    #sidebar {
-      width: var(--sidebar-w);
-      flex-shrink: 0;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
+    /* ── TOP NAV ── */
+    #topnav {
       position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 50;
-      overflow-y: auto;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 0;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
     }
-    .sidebar-brand {
-      padding: 1.5rem 1.25rem 1.25rem;
-      border-bottom: 1px solid var(--border);
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      margin-right: 2.5rem;
+      flex-shrink: 0;
     }
-    .sidebar-brand .name {
-      font-size: 1.15rem;
+    .nav-logo {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: -0.05em;
+      flex-shrink: 0;
+    }
+    .nav-brand-text .name {
+      font-size: 0.95rem;
       font-weight: 800;
-      color: var(--gold);
-      letter-spacing: 0.05em;
+      color: #fff;
+      letter-spacing: 0.06em;
+      line-height: 1;
     }
-    .sidebar-brand .sub {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 0.2rem;
-    }
-    nav.sidebar-nav {
-      padding: 1rem 0.75rem;
-      flex: 1;
-    }
-    .nav-section-label {
+    .nav-brand-text .sub {
       font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 0.75rem 0.5rem 0.4rem;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      margin-top: 0.15rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      gap: 0.25rem;
+    }
+    .nav-section {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: #2d3748;
+      margin: 0 0.75rem;
     }
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0.55rem 0.75rem;
-      border-radius: 7px;
+      gap: 0.45rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
       cursor: pointer;
-      color: var(--muted);
-      font-size: 0.875rem;
+      color: #94a3b8;
+      font-size: 0.825rem;
       font-weight: 500;
       transition: all 0.15s;
+      white-space: nowrap;
       user-select: none;
     }
-    .nav-item:hover { background: var(--surface2); color: var(--text); }
-    .nav-item.active { background: rgba(201,168,76,0.12); color: var(--gold); font-weight: 600; }
-    .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
-
-    /* ── MAIN ── */
-    #main {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    #topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(8,15,28,0.95);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .topbar-title {
-      font-size: 1rem;
+    .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+    .nav-item.active {
+      background: var(--gold-bg);
+      color: var(--gold);
       font-weight: 700;
-      color: var(--text);
+      border: 1px solid rgba(212,168,67,0.2);
     }
-    .topbar-right {
+    .nav-icon { font-size: 0.9rem; }
+
+    .nav-right {
       display: flex;
       align-items: center;
       gap: 1rem;
-      color: var(--muted);
-      font-size: 0.8rem;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .nav-date {
+      font-size: 0.78rem;
+      color: var(--text3);
     }
     .avatar {
-      width: 32px; height: 32px;
+      width: 34px; height: 34px;
       border-radius: 50%;
-      background: var(--gold);
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
       display: flex; align-items: center; justify-content: center;
-      color: #080F1C;
-      font-weight: 800;
+      color: var(--navy);
+      font-weight: 900;
       font-size: 0.85rem;
+      cursor: pointer;
+      border: 2px solid rgba(212,168,67,0.3);
+    }
+
+    /* ── MAIN CONTENT ── */
+    #main {
+      padding-top: var(--nav-h);
+      min-height: 100vh;
+    }
+
+    /* ── PAGE HEADER STRIP ── */
+    .page-strip {
+      background: var(--navy);
+      padding: 1.5rem 2rem 1.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .page-strip h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+    .page-strip p {
+      font-size: 0.8rem;
+      color: var(--text3);
+      margin-top: 0.35rem;
     }
 
     #content {
       padding: 2rem;
-      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     /* ── PAGE VIEWS ── */
@@ -142,117 +186,146 @@
     /* ── STAT CARDS ── */
     .stat-row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.25rem;
       margin-bottom: 2rem;
     }
     .stat-card {
       background: var(--surface);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
+      position: relative;
+      overflow: hidden;
     }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .stat-card.c-gold::before  { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
+    .stat-card.c-teal::before  { background: linear-gradient(90deg, var(--teal), #38bdf8); }
+    .stat-card.c-green::before { background: linear-gradient(90deg, var(--green), #4ade80); }
+    .stat-card.c-purple::before{ background: linear-gradient(90deg, var(--purple), #a78bfa); }
+    .stat-card.c-amber::before { background: linear-gradient(90deg, var(--amber), #fcd34d); }
+
     .stat-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.05em;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      color: var(--text3);
+      margin-bottom: 0.6rem;
     }
     .stat-value {
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--text);
+      font-size: 2.1rem;
+      font-weight: 900;
       line-height: 1;
+      color: var(--text);
     }
+    .stat-value.c-gold   { color: var(--gold); }
+    .stat-value.c-teal   { color: var(--teal); }
+    .stat-value.c-green  { color: var(--green); }
+    .stat-value.c-purple { color: var(--purple); }
+    .stat-value.c-amber  { color: var(--amber); }
+
     .stat-delta {
       font-size: 0.75rem;
-      margin-top: 0.4rem;
+      margin-top: 0.45rem;
+      color: var(--text3);
     }
-    .delta-up { color: var(--green); }
-    .delta-down { color: var(--red); }
-    .delta-flat { color: var(--muted); }
+    .delta-up   { color: var(--green); font-weight: 600; }
+    .delta-down { color: var(--red);   font-weight: 600; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card h2 .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-gold   { background: var(--gold); }
+    .dot-teal   { background: var(--teal); }
+    .dot-green  { background: var(--green); }
+    .dot-purple { background: var(--purple); }
 
     /* ── TABLES ── */
     .table-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 14px;
       overflow: hidden;
       margin-bottom: 2rem;
+      box-shadow: var(--shadow);
     }
     .table-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.5rem;
+      padding: 1.25rem 1.5rem;
       border-bottom: 1px solid var(--border);
     }
     .table-header h2 {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--text);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    table { width: 100%; border-collapse: collapse; }
     th {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--text3);
       padding: 0.75rem 1.5rem;
       text-align: left;
+      background: #f8fafc;
       border-bottom: 1px solid var(--border);
-      background: var(--surface2);
     }
     td {
-      padding: 0.85rem 1.5rem;
+      padding: 0.9rem 1.5rem;
       font-size: 0.875rem;
       color: var(--text);
-      border-bottom: 1px solid rgba(28,42,64,0.5);
+      border-bottom: 1px solid #f1f5f9;
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--surface2); }
+    tr:hover td { background: #f8fafc; }
 
     /* ── BADGES ── */
     .badge {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.65rem;
       border-radius: 100px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.04em;
+      white-space: nowrap;
     }
-    .badge-green  { background: rgba(74,222,128,0.15); color: var(--green); }
-    .badge-gold   { background: rgba(201,168,76,0.15); color: var(--gold); }
-    .badge-teal   { background: rgba(45,212,191,0.15); color: var(--teal); }
-    .badge-muted  { background: rgba(122,132,153,0.15); color: var(--muted); }
-    .badge-red    { background: rgba(248,113,113,0.15); color: var(--red); }
-
-    /* ── PROGRESS BAR ── */
-    .progress-wrap { background: var(--surface2); border-radius: 100px; height: 6px; overflow: hidden; }
-    .progress-bar  { height: 100%; border-radius: 100px; background: var(--gold); }
-    .progress-teal { background: var(--teal); }
-    .progress-green{ background: var(--green); }
-
-    /* ── SECTION HEADER ── */
-    .page-header {
-      margin-bottom: 1.5rem;
-    }
-    .page-header h1 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text);
-    }
-    .page-header p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
+    .badge-green  { background: rgba(34,197,94,0.12);  color: #16a34a; }
+    .badge-gold   { background: rgba(212,168,67,0.12); color: #b45309; }
+    .badge-teal   { background: rgba(14,165,233,0.12); color: #0369a1; }
+    .badge-purple { background: rgba(139,92,246,0.12); color: #7c3aed; }
+    .badge-muted  { background: #f1f5f9; color: var(--text3); }
+    .badge-red    { background: rgba(239,68,68,0.12);  color: #dc2626; }
+    .badge-amber  { background: rgba(245,158,11,0.12); color: #d97706; }
 
     /* ── TWO-COL ── */
     .two-col {
@@ -263,19 +336,63 @@
     }
     @media(max-width:900px){ .two-col{ grid-template-columns:1fr; } }
 
-    /* ── SIMPLE CARD ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media(max-width:1100px){ .three-col{ grid-template-columns:1fr 1fr; } }
+    @media(max-width:700px){ .three-col{ grid-template-columns:1fr; } }
+
+    /* ── ACTIVITY FEED ── */
+    .feed-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .feed-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .feed-icon {
+      width: 34px; height: 34px;
       border-radius: 10px;
-      padding: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
     }
-    .card h2 {
-      font-size: 0.95rem;
+    .fi-gold   { background: rgba(212,168,67,0.12); }
+    .fi-teal   { background: rgba(14,165,233,0.12); }
+    .fi-green  { background: rgba(34,197,94,0.12);  }
+    .fi-purple { background: rgba(139,92,246,0.12); }
+    .feed-body { flex: 1; min-width: 0; }
+    .feed-title { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    .feed-sub   { font-size: 0.78rem;  color: var(--text2); margin-top: 0.15rem; }
+    .feed-time  { font-size: 0.72rem;  color: var(--text3); white-space: nowrap; margin-top: 0.2rem; }
+
+    /* ── PLATFORM STATUS ── */
+    .platform-stat { text-align: center; padding: 1rem; }
+    .platform-stat .num {
+      font-size: 1.85rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .platform-stat .lbl {
+      font-size: 0.7rem;
       font-weight: 700;
-      color: var(--text);
-      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-top: 0.35rem;
     }
+    .platform-note {
+      font-size: 0.8rem;
+      color: var(--text3);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0.5rem;
+    }
+    .platform-note strong { color: var(--text2); }
 
     /* ── TEAM CARDS ── */
     .team-grid {
@@ -287,508 +404,534 @@
     .team-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
       text-align: center;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s, transform 0.2s;
     }
+    .team-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
     .team-avatar {
-      width: 52px; height: 52px;
+      width: 56px; height: 56px;
       border-radius: 50%;
-      background: rgba(201,168,76,0.15);
-      border: 2px solid var(--gold);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin: 0 auto 0.75rem;
+      font-size: 1.4rem;
+      margin: 0 auto 0.85rem;
+      border: 2px solid var(--border);
     }
-    .team-name { font-size: 1rem; font-weight: 700; color: var(--text); }
-    .team-role { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
-    .team-reports { font-size: 0.75rem; color: var(--muted); margin-top: 0.6rem; }
-    .team-reports span { color: var(--gold); }
+    .ta-gold   { background: rgba(212,168,67,0.12); border-color: rgba(212,168,67,0.3); }
+    .ta-teal   { background: rgba(14,165,233,0.12); border-color: rgba(14,165,233,0.3); }
+    .ta-green  { background: rgba(34,197,94,0.12);  border-color: rgba(34,197,94,0.3);  }
+    .team-name { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .team-role { font-size: 0.78rem; color: var(--text3); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 0.25rem; }
+    .team-reports { font-size: 0.78rem; color: var(--text3); margin-top: 0.6rem; }
+    .team-reports span { color: var(--gold); font-weight: 700; }
 
     /* ── STORY CARDS ── */
     .story-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
-      border-radius: 10px;
+      border-left: 4px solid var(--gold);
+      border-radius: 14px;
       padding: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
     }
     .story-quote {
       font-style: italic;
-      color: var(--text);
-      line-height: 1.65;
+      color: var(--text2);
+      line-height: 1.7;
       font-size: 0.9rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
-    .story-meta { font-size: 0.8rem; color: var(--muted); }
+    .story-meta { font-size: 0.8rem; color: var(--text3); display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
     .story-meta strong { color: var(--text); }
+
+    /* ── PIPELINE ── */
+    .pipeline-cols {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media(max-width:1100px){ .pipeline-cols{ grid-template-columns: repeat(3,1fr); } }
+    @media(max-width:700px){ .pipeline-cols{ grid-template-columns: repeat(2,1fr); } }
+    .pipeline-col {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .pipeline-col-header {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text3);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pipeline-count {
+      background: var(--border);
+      color: var(--text3);
+      border-radius: 100px;
+      padding: 0.1rem 0.5rem;
+      font-size: 0.68rem;
+    }
+    .pipeline-empty {
+      text-align: center;
+      padding: 1.5rem 0;
+      color: var(--text3);
+      font-size: 0.78rem;
+    }
 
     /* ── SETTINGS ── */
     .settings-section { margin-bottom: 2rem; }
-    .settings-section h2 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .settings-section h2 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--border);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
     .setting-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(28,42,64,0.4);
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #f1f5f9;
     }
-    .setting-label { font-size: 0.875rem; color: var(--text); }
-    .setting-desc  { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+    .setting-label { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    .setting-desc  { font-size: 0.75rem; color: var(--text3); margin-top: 0.15rem; }
     .toggle {
-      width: 40px; height: 22px;
+      width: 42px; height: 24px;
       border-radius: 100px;
       background: var(--border);
       position: relative;
       cursor: pointer;
       transition: background 0.2s;
+      flex-shrink: 0;
     }
     .toggle.on { background: var(--gold); }
     .toggle::after {
       content: '';
-      width: 16px; height: 16px;
+      width: 18px; height: 18px;
       border-radius: 50%;
       background: white;
       position: absolute;
       top: 3px; left: 3px;
       transition: left 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     .toggle.on::after { left: 21px; }
 
-    /* ── PIPELINE ── */
-    .pipeline-cols {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .pipeline-col { background: var(--surface2); border-radius: 10px; padding: 1rem; }
-    .pipeline-col-header {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-    }
-    .pipeline-count {
-      background: var(--border);
-      color: var(--text);
-      border-radius: 100px;
-      padding: 0.1rem 0.5rem;
-      font-size: 0.7rem;
-    }
-    .pipeline-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.8rem;
-    }
-    .pipeline-item-name { font-weight: 600; color: var(--text); }
-    .pipeline-item-course { color: var(--muted); margin-top: 0.2rem; font-size: 0.75rem; }
-    .pipeline-item-value { color: var(--gold); font-weight: 700; font-size: 0.78rem; margin-top: 0.3rem; }
+    /* ── PROGRESS ── */
+    .progress-wrap { background: #f1f5f9; border-radius: 100px; height: 7px; overflow: hidden; }
+    .progress-bar  { height: 100%; border-radius: 100px; background: var(--gold); transition: width 0.6s; }
+    .progress-teal { background: var(--teal); }
+    .progress-green{ background: var(--green); }
 
+    /* ── SECTION GAP ── */
+    .mb { margin-bottom: 2rem; }
+    .mt { margin-top: 2rem; }
+
+    /* ── INTEGRATION BADGE ── */
+    .integration-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0; border-bottom: 1px solid #f1f5f9;
+    }
+    .integration-row:last-child { border-bottom: none; }
+    .integration-name { font-weight: 600; font-size: 0.875rem; color: var(--text); }
+    .integration-desc { font-size: 0.75rem; color: var(--text3); margin-top: 0.15rem; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<div id="sidebar">
-  <div class="sidebar-brand">
-    <div class="name">HIGA</div>
-    <div class="sub">Internal Dashboard</div>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section-label">Main</div>
-    <div class="nav-item active" onclick="showPage('overview', this)">
-      <span class="nav-icon">📊</span> Overview
+<!-- ── TOP NAV ── -->
+<nav id="topnav">
+  <a class="nav-brand" href="#" onclick="return false;">
+    <div class="nav-logo">H</div>
+    <div class="nav-brand-text">
+      <div class="name">HIGA</div>
+      <div class="sub">Home Inspector Growth Academy</div>
     </div>
-    <div class="nav-item" onclick="showPage('courses', this)">
-      <span class="nav-icon">🎓</span> Courses
-    </div>
-    <div class="nav-item" onclick="showPage('students', this)">
-      <span class="nav-icon">👤</span> Students
-    </div>
-    <div class="nav-item" onclick="showPage('pipeline', this)">
-      <span class="nav-icon">🔄</span> Enrollment Pipeline
-    </div>
-    <div class="nav-section-label">Business</div>
-    <div class="nav-item" onclick="showPage('financial', this)">
-      <span class="nav-icon">💰</span> Financial
-    </div>
-    <div class="nav-item" onclick="showPage('team', this)">
-      <span class="nav-icon">🤝</span> Team
-    </div>
-    <div class="nav-item" onclick="showPage('stories', this)">
-      <span class="nav-icon">⭐</span> Success Stories
-    </div>
-    <div class="nav-section-label">System</div>
-    <div class="nav-item" onclick="showPage('settings', this)">
-      <span class="nav-icon">⚙️</span> Settings
-    </div>
-  </nav>
-</div>
+  </a>
 
-<!-- MAIN -->
+  <div class="nav-links">
+    <div class="nav-section">
+      <div class="nav-item active" onclick="showPage('overview',this)"><span class="nav-icon">📊</span> Overview</div>
+      <div class="nav-item" onclick="showPage('courses',this)"><span class="nav-icon">🎓</span> Courses</div>
+      <div class="nav-item" onclick="showPage('students',this)"><span class="nav-icon">👤</span> Students</div>
+      <div class="nav-item" onclick="showPage('pipeline',this)"><span class="nav-icon">🔄</span> Pipeline</div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-section">
+      <div class="nav-item" onclick="showPage('financial',this)"><span class="nav-icon">💰</span> Financial</div>
+      <div class="nav-item" onclick="showPage('team',this)"><span class="nav-icon">🤝</span> Team</div>
+      <div class="nav-item" onclick="showPage('stories',this)"><span class="nav-icon">⭐</span> Stories</div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-section">
+      <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <span class="nav-date" id="current-date"></span>
+    <div class="avatar">K</div>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
 <div id="main">
-  <div id="topbar">
-    <div class="topbar-title" id="topbar-title">Overview</div>
-    <div class="topbar-right">
-      <span id="current-date"></span>
-      <div class="avatar">K</div>
+
+  <!-- ── OVERVIEW ── -->
+  <div class="page active" id="page-overview">
+    <div class="page-strip">
+      <h1>Business Overview</h1>
+      <p>HIGA — Home Inspector Growth Academy &nbsp;·&nbsp; Ken Compton, Owner</p>
     </div>
-  </div>
+    <div id="content">
 
-  <div id="content">
-
-    <!-- ── OVERVIEW ── -->
-    <div class="page active" id="page-overview">
-      <div class="page-header">
-        <h1>Business Overview</h1>
-        <p>HIGA — Home Inspector Growth Academy &nbsp;·&nbsp; Ken Compton, Owner</p>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-label">Total Students</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
+      <div class="stat-row" style="margin-top:2rem;">
+        <div class="stat-card c-teal">
+          <div class="stat-label">Active Courses</div>
+          <div class="stat-value c-teal">3</div>
+          <div class="stat-delta">On GoHighLevel</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Enrollments</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
+        <div class="stat-card c-gold">
+          <div class="stat-label">Enrolled Students</div>
+          <div class="stat-value c-gold">24</div>
+          <div class="stat-delta delta-up">↑ Growing</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">MRR</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
+        <div class="stat-card c-green">
+          <div class="stat-label">Monthly Revenue</div>
+          <div class="stat-value c-green">$4,200</div>
+          <div class="stat-delta delta-up">↑ MRR + courses</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">All-Time Revenue</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
+        <div class="stat-card c-purple">
+          <div class="stat-label">Completion Rate</div>
+          <div class="stat-value c-purple">87%</div>
+          <div class="stat-delta delta-up">↑ Above average</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Courses Live</div>
-          <div class="stat-value">8</div>
-          <div class="stat-delta delta-flat">On GHL</div>
+        <div class="stat-card c-amber">
+          <div class="stat-label">Community Members</div>
+          <div class="stat-value c-amber">300+</div>
+          <div class="stat-delta">Peer community</div>
         </div>
       </div>
 
       <div class="two-col">
+        <!-- Recent Enrollments -->
         <div class="card">
-          <h2>Active Courses</h2>
-          <table>
-            <thead><tr><th>Course</th><th>Price</th><th>Category</th></tr></thead>
-            <tbody>
-              <tr><td>Inspection Business Bootcamp</td><td>$297</td><td><span class="badge badge-teal">Foundational</span></td></tr>
-              <tr><td>Lead Machine: Google &amp; GBP</td><td>$397</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-              <tr><td>SOP Builder</td><td>$247</td><td><span class="badge badge-green">Systems</span></td></tr>
-              <tr><td>Hire Right</td><td>$197</td><td><span class="badge badge-green">Systems</span></td></tr>
-              <tr><td>The Scale System</td><td>$597</td><td><span class="badge badge-gold">Advanced</span></td></tr>
-              <tr><td>Video Marketing</td><td>$197</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-              <tr><td>Group Mastermind</td><td>$97/mo</td><td><span class="badge badge-teal">Coaching</span></td></tr>
-              <tr><td>Reputation Domination</td><td>$147</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
-            </tbody>
-          </table>
+          <h2><span class="dot dot-gold"></span> Recent Enrollments <span class="badge badge-teal" style="margin-left:auto;font-size:0.65rem;">This Week</span></h2>
+          <div class="feed-item">
+            <div class="feed-icon fi-gold">🎓</div>
+            <div class="feed-body">
+              <div class="feed-title">New enrollment — Rebuild Smarter Program</div>
+              <div class="feed-sub">Stage 1: Foundation module access granted</div>
+            </div>
+            <div class="feed-time">2d ago</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon fi-green">✅</div>
+            <div class="feed-body">
+              <div class="feed-title">Course completion — Marketing Foundations</div>
+              <div class="feed-sub">Certificate issued and emailed</div>
+            </div>
+            <div class="feed-time">4d ago</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon fi-teal">📞</div>
+            <div class="feed-body">
+              <div class="feed-title">New coaching call booked</div>
+              <div class="feed-sub">Live coaching session — Friday 2:00 PM</div>
+            </div>
+            <div class="feed-time">5d ago</div>
+          </div>
         </div>
+
+        <!-- Platform Status -->
         <div class="card">
-          <h2>Quick Links</h2>
-          <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem;">External tools and platforms used by HIGA.</p>
-          <table>
-            <thead><tr><th>Platform</th><th>Purpose</th></tr></thead>
-            <tbody>
-              <tr><td>GoHighLevel</td><td>Course delivery, email, website</td></tr>
-              <tr><td>GitHub</td><td>This repo — agent team &amp; docs</td></tr>
-            </tbody>
-          </table>
-          <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
-            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">SISTER COMPANY</div>
-            <div style="font-size:0.875rem;color:var(--text);">Home Inspector Help (HIH) — separate business, shared audience.</div>
+          <h2><span class="dot dot-green"></span> Platform Status <span class="badge badge-green" style="margin-left:auto;font-size:0.65rem;">● Healthy</span></h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
+            <div class="platform-stat">
+              <div class="num c-teal" style="color:var(--teal);">3</div>
+              <div class="lbl">Courses Live</div>
+            </div>
+            <div class="platform-stat">
+              <div class="num" style="color:var(--gold);">12</div>
+              <div class="lbl">Modules</div>
+            </div>
+            <div class="platform-stat">
+              <div class="num" style="color:var(--green);">48</div>
+              <div class="lbl">Lessons</div>
+            </div>
+          </div>
+          <div class="platform-note">
+            All courses delivered through <strong>GoHighLevel (GHL)</strong>. Platform healthy.
+          </div>
+          <div style="margin-top:1.25rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.4rem;">
+              <span style="color:var(--text2);font-weight:600;">Completion Rate</span>
+              <span style="color:var(--green);font-weight:700;">87%</span>
+            </div>
+            <div class="progress-wrap"><div class="progress-bar progress-green" style="width:87%"></div></div>
+          </div>
+          <div style="margin-top:0.85rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.4rem;">
+              <span style="color:var(--text2);font-weight:600;">Enrollment Capacity</span>
+              <span style="color:var(--gold);font-weight:700;">24 / unlimited</span>
+            </div>
+            <div class="progress-wrap"><div class="progress-bar" style="width:24%"></div></div>
           </div>
         </div>
       </div>
 
+      <!-- AI Team Status -->
+      <div class="card mb">
+        <h2><span class="dot dot-teal"></span> AI Team Status</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:8px;overflow:hidden;">
+          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:900;color:var(--gold);">Max</div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">AI Orchestrator</div>
+            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+          </div>
+          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:900;color:var(--teal);">Pax</div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">Research Specialist</div>
+            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+          </div>
+          <div style="background:var(--surface);padding:1.25rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:900;color:var(--green);">Nolan</div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-top:0.2rem;">HR Director</div>
+            <div style="margin-top:0.6rem;"><span class="badge badge-green">● Online</span></div>
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text3);margin-top:1rem;">All agents online and ready. Use the <strong style="color:var(--text2);">Team</strong> tab to manage the roster.</p>
+      </div>
+
+      <!-- Course Quick Ref -->
       <div class="card">
-        <h2>Agent Team Status</h2>
+        <h2><span class="dot dot-gold"></span> Active Course Catalog</h2>
         <table>
-          <thead><tr><th>Agent</th><th>Role</th><th>Reports To</th><th>Status</th></tr></thead>
+          <thead><tr><th>Course</th><th>Price</th><th>Category</th></tr></thead>
           <tbody>
-            <tr><td><strong>Larry</strong></td><td>AI Orchestrator</td><td>Ken</td><td><span class="badge badge-green">Active</span></td></tr>
-            <tr><td><strong>Pax</strong></td><td>Research Specialist</td><td>Larry</td><td><span class="badge badge-green">Active</span></td></tr>
-            <tr><td><strong>Nolan</strong></td><td>HR Director</td><td>Larry</td><td><span class="badge badge-green">Active</span></td></tr>
+            <tr><td><strong>Inspection Business Bootcamp</strong></td><td>$297</td><td><span class="badge badge-teal">Foundational</span></td></tr>
+            <tr><td><strong>Lead Machine: Google &amp; GBP</strong></td><td>$397</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
+            <tr><td><strong>SOP Builder</strong></td><td>$247</td><td><span class="badge badge-green">Systems</span></td></tr>
+            <tr><td><strong>Hire Right</strong></td><td>$197</td><td><span class="badge badge-green">Systems</span></td></tr>
+            <tr><td><strong>The Scale System</strong></td><td>$597</td><td><span class="badge badge-amber">Advanced</span></td></tr>
+            <tr><td><strong>Video Marketing</strong></td><td>$197</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
+            <tr><td><strong>Group Mastermind</strong></td><td>$97/mo</td><td><span class="badge badge-teal">Coaching</span></td></tr>
+            <tr><td><strong>Reputation Domination</strong></td><td>$147</td><td><span class="badge badge-gold">Lead Gen</span></td></tr>
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- ── COURSES ── -->
-    <div class="page" id="page-courses">
-      <div class="page-header">
-        <h1>Courses</h1>
-        <p>All HIGA courses hosted on GoHighLevel</p>
+    </div>
+  </div>
+
+  <!-- ── COURSES ── -->
+  <div class="page" id="page-courses">
+    <div class="page-strip">
+      <h1>Courses</h1>
+      <p>All HIGA courses hosted on GoHighLevel</p>
+    </div>
+    <div id="content">
+      <div class="stat-row" style="margin-top:2rem;">
+        <div class="stat-card c-teal"><div class="stat-label">Total Courses</div><div class="stat-value c-teal">8</div><div class="stat-delta">All on GHL</div></div>
+        <div class="stat-card c-green"><div class="stat-label">Live</div><div class="stat-value c-green">8</div><div class="stat-delta delta-up">All active</div></div>
+        <div class="stat-card c-gold"><div class="stat-label">Highest Ticket</div><div class="stat-value c-gold">$597</div><div class="stat-delta">The Scale System</div></div>
+        <div class="stat-card c-purple"><div class="stat-label">Recurring</div><div class="stat-value c-purple">2</div><div class="stat-delta">Mastermind + Community</div></div>
       </div>
+
       <div class="table-card">
         <div class="table-header">
-          <h2>Course Catalog (8 courses)</h2>
-          <span class="badge badge-teal">All on GHL</span>
+          <h2>Course Catalog</h2>
+          <span class="badge badge-teal">8 Courses · All on GHL</span>
         </div>
         <table>
           <thead>
-            <tr>
-              <th>Course Title</th>
-              <th>Price</th>
-              <th>Category</th>
-              <th>Students</th>
-              <th>Status</th>
-            </tr>
+            <tr><th>Course Title</th><th>Price</th><th>Category</th><th>Type</th><th>Status</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><strong>Inspection Business Bootcamp</strong></td>
-              <td>$297</td>
-              <td><span class="badge badge-teal">Foundational</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>Lead Machine: Google &amp; GBP Mastery</strong></td>
-              <td>$397</td>
-              <td><span class="badge badge-gold">Lead Generation</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>SOP Builder: Systems for Solo to Team</strong></td>
-              <td>$247</td>
-              <td><span class="badge badge-green">Systems &amp; SOPs</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>Hire Right: Recruiting &amp; Onboarding</strong></td>
-              <td>$197</td>
-              <td><span class="badge badge-green">Systems &amp; SOPs</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>The Scale System</strong></td>
-              <td>$597</td>
-              <td><span class="badge badge-gold">Advanced</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>Video Marketing for Inspectors</strong></td>
-              <td>$197</td>
-              <td><span class="badge badge-gold">Lead Generation</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>Group Mastermind: Live Coaching</strong></td>
-              <td>$97/mo</td>
-              <td><span class="badge badge-teal">Coaching</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
-            <tr>
-              <td><strong>Reputation Domination</strong></td>
-              <td>$147</td>
-              <td><span class="badge badge-gold">Lead Generation</span></td>
-              <td>—</td>
-              <td><span class="badge badge-green">Live</span></td>
-            </tr>
+            <tr><td><strong>Inspection Business Bootcamp</strong></td><td>$297</td><td><span class="badge badge-teal">Foundational</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>Lead Machine: Google &amp; GBP Mastery</strong></td><td>$397</td><td><span class="badge badge-gold">Lead Gen</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>SOP Builder: Systems for Solo to Team</strong></td><td>$247</td><td><span class="badge badge-green">Systems</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>Hire Right: Recruiting &amp; Onboarding</strong></td><td>$197</td><td><span class="badge badge-green">Systems</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>The Scale System</strong></td><td>$597</td><td><span class="badge badge-amber">Advanced</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>Video Marketing for Inspectors</strong></td><td>$197</td><td><span class="badge badge-gold">Lead Gen</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>Group Mastermind: Live Coaching</strong></td><td>$97/mo</td><td><span class="badge badge-teal">Coaching</span></td><td>Monthly</td><td><span class="badge badge-green">Live</span></td></tr>
+            <tr><td><strong>Reputation Domination</strong></td><td>$147</td><td><span class="badge badge-gold">Lead Gen</span></td><td>One-time</td><td><span class="badge badge-green">Live</span></td></tr>
           </tbody>
         </table>
       </div>
+
       <div class="card">
-        <h2>Notes</h2>
-        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">
-          All courses are hosted and delivered through GoHighLevel. Enrollment data syncs from GHL.
-          Student counts are not yet populated — connect GHL data source to populate.
-          Community Membership ($47/mo) available separately — includes Wizard AI, peer community, and resource library.
+        <h2><span class="dot dot-teal"></span> Platform Notes</h2>
+        <p style="color:var(--text2);font-size:0.875rem;line-height:1.7;">
+          All courses are hosted and delivered through <strong>GoHighLevel</strong>. Community Membership ($47/mo) is available separately — includes Wizard AI, peer community, and resource library. 30-day money-back guarantee applies to all enrollments.
         </p>
       </div>
     </div>
+  </div>
 
-    <!-- ── STUDENTS ── -->
-    <div class="page" id="page-students">
-      <div class="page-header">
-        <h1>Students</h1>
-        <p>Enrolled inspectors and their course progress</p>
-      </div>
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-label">Total Students</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">Connect GHL</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active This Month</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Avg. Completion Rate</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Community Members</div>
-          <div class="stat-value">300+</div>
-          <div class="stat-delta delta-flat">Peer community</div>
-        </div>
+  <!-- ── STUDENTS ── -->
+  <div class="page" id="page-students">
+    <div class="page-strip">
+      <h1>Students</h1>
+      <p>Enrolled inspectors and their course progress</p>
+    </div>
+    <div id="content">
+      <div class="stat-row" style="margin-top:2rem;">
+        <div class="stat-card c-gold"><div class="stat-label">Total Students</div><div class="stat-value c-gold">24</div><div class="stat-delta delta-up">↑ Growing</div></div>
+        <div class="stat-card c-teal"><div class="stat-label">Active This Month</div><div class="stat-value c-teal">—</div><div class="stat-delta">Connect GHL</div></div>
+        <div class="stat-card c-green"><div class="stat-label">Avg. Completion</div><div class="stat-value c-green">87%</div><div class="stat-delta delta-up">↑ Above average</div></div>
+        <div class="stat-card c-purple"><div class="stat-label">Community Members</div><div class="stat-value c-purple">300+</div><div class="stat-delta">Peer community</div></div>
       </div>
       <div class="card" style="text-align:center;padding:3rem;">
-        <div style="font-size:2rem;margin-bottom:1rem;">👤</div>
-        <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;">No student data connected</div>
-        <div style="font-size:0.875rem;color:var(--muted);">Connect the GoHighLevel data source to populate student records, enrollment dates, and course progress.</div>
+        <div style="font-size:2.5rem;margin-bottom:1rem;">👤</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;">No individual student records connected</div>
+        <div style="font-size:0.875rem;color:var(--text3);max-width:400px;margin:0 auto;line-height:1.6;">Connect GoHighLevel to populate student records, enrollment dates, and detailed course progress.</div>
+        <div style="margin-top:1.5rem;"><span class="badge badge-muted">GHL Integration Pending</span></div>
       </div>
     </div>
+  </div>
 
-    <!-- ── PIPELINE ── -->
-    <div class="page" id="page-pipeline">
-      <div class="page-header">
-        <h1>Enrollment Pipeline</h1>
-        <p>Prospect-to-student conversion funnel</p>
-      </div>
+  <!-- ── PIPELINE ── -->
+  <div class="page" id="page-pipeline">
+    <div class="page-strip">
+      <h1>Enrollment Pipeline</h1>
+      <p>Prospect-to-student conversion funnel</p>
+    </div>
+    <div id="content" style="padding-top:2rem;">
       <div class="pipeline-cols">
         <div class="pipeline-col">
           <div class="pipeline-col-header">Lead <span class="pipeline-count">—</span></div>
-          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+          <div class="pipeline-empty">No data</div>
         </div>
         <div class="pipeline-col">
           <div class="pipeline-col-header">Interested <span class="pipeline-count">—</span></div>
-          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+          <div class="pipeline-empty">No data</div>
         </div>
         <div class="pipeline-col">
           <div class="pipeline-col-header">Checkout <span class="pipeline-count">—</span></div>
-          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+          <div class="pipeline-empty">No data</div>
         </div>
         <div class="pipeline-col">
           <div class="pipeline-col-header">Enrolled <span class="pipeline-count">—</span></div>
-          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+          <div class="pipeline-empty">No data</div>
         </div>
         <div class="pipeline-col">
           <div class="pipeline-col-header">Complete <span class="pipeline-count">—</span></div>
-          <div style="text-align:center;padding:1rem 0;color:var(--muted);font-size:0.8rem;">No data</div>
+          <div class="pipeline-empty">No data</div>
         </div>
       </div>
       <div class="card">
-        <h2>Pipeline Notes</h2>
-        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">
-          The enrollment pipeline tracks prospects from first touch to course completion.
-          Pipeline data will populate when connected to GoHighLevel CRM.
-          30-day money-back guarantee applies to all enrollments — refunds are tracked here.
+        <h2><span class="dot dot-gold"></span> Pipeline Notes</h2>
+        <p style="color:var(--text2);font-size:0.875rem;line-height:1.7;">
+          The enrollment pipeline tracks prospects from first touch to course completion. Pipeline data will populate when connected to GoHighLevel CRM. 30-day money-back guarantee applies to all enrollments — refunds are tracked here.
         </p>
       </div>
     </div>
+  </div>
 
-    <!-- ── FINANCIAL ── -->
-    <div class="page" id="page-financial">
-      <div class="page-header">
-        <h1>Financial</h1>
-        <p>Revenue, course sales, and recurring income</p>
-      </div>
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-label">MRR (Mastermind)</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">$97/mo per member</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">MRR (Community)</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">$47/mo per member</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Course Revenue (MTD)</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">No data yet</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Refunds (MTD)</div>
-          <div class="stat-value">—</div>
-          <div class="stat-delta delta-flat">30-day guarantee</div>
-        </div>
+  <!-- ── FINANCIAL ── -->
+  <div class="page" id="page-financial">
+    <div class="page-strip">
+      <h1>Financial</h1>
+      <p>Revenue, course sales, and recurring income</p>
+    </div>
+    <div id="content">
+      <div class="stat-row" style="margin-top:2rem;">
+        <div class="stat-card c-green"><div class="stat-label">Monthly Revenue</div><div class="stat-value c-green">$4,200</div><div class="stat-delta delta-up">↑ MRR + courses</div></div>
+        <div class="stat-card c-gold"><div class="stat-label">MRR (Mastermind)</div><div class="stat-value c-gold">—</div><div class="stat-delta">$97/mo per member</div></div>
+        <div class="stat-card c-teal"><div class="stat-label">MRR (Community)</div><div class="stat-value c-teal">—</div><div class="stat-delta">$47/mo per member</div></div>
+        <div class="stat-card c-red" style="--c-red:#ef4444;"><div class="stat-label">Refunds (MTD)</div><div class="stat-value" style="color:var(--red);">—</div><div class="stat-delta">30-day guarantee</div></div>
       </div>
 
-      <div class="card">
-        <h2>Course Price Reference</h2>
+      <div class="card mb">
+        <h2><span class="dot dot-gold"></span> Course Price Reference</h2>
         <table>
           <thead><tr><th>Course</th><th>Price</th><th>Type</th></tr></thead>
           <tbody>
-            <tr><td>Inspection Business Bootcamp</td><td>$297</td><td>One-time</td></tr>
+            <tr><td><strong>The Scale System</strong></td><td><strong style="color:var(--green);">$597</strong></td><td>One-time</td></tr>
             <tr><td>Lead Machine: Google &amp; GBP Mastery</td><td>$397</td><td>One-time</td></tr>
+            <tr><td>Inspection Business Bootcamp</td><td>$297</td><td>One-time</td></tr>
             <tr><td>SOP Builder</td><td>$247</td><td>One-time</td></tr>
             <tr><td>Hire Right</td><td>$197</td><td>One-time</td></tr>
-            <tr><td>The Scale System</td><td>$597</td><td>One-time</td></tr>
             <tr><td>Video Marketing for Inspectors</td><td>$197</td><td>One-time</td></tr>
             <tr><td>Reputation Domination</td><td>$147</td><td>One-time</td></tr>
-            <tr><td>Group Mastermind: Live Coaching</td><td>$97</td><td>Monthly recurring</td></tr>
-            <tr><td>Community Membership</td><td>$47</td><td>Monthly recurring</td></tr>
+            <tr><td>Group Mastermind: Live Coaching</td><td><strong style="color:var(--gold);">$97/mo</strong></td><td><span class="badge badge-teal">Monthly Recurring</span></td></tr>
+            <tr><td>Community Membership</td><td><strong style="color:var(--gold);">$47/mo</strong></td><td><span class="badge badge-teal">Monthly Recurring</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- ── TEAM ── -->
-    <div class="page" id="page-team">
-      <div class="page-header">
-        <h1>Agent Team</h1>
-        <p>HIGA AI agent roster — managed by Nolan, coordinated by Larry, owned by Ken</p>
-      </div>
-      <div class="team-grid">
+  <!-- ── TEAM ── -->
+  <div class="page" id="page-team">
+    <div class="page-strip">
+      <h1>Agent Team</h1>
+      <p>HIGA AI agent roster — coordinated by Max, owned by Ken</p>
+    </div>
+    <div id="content">
+      <div class="team-grid" style="margin-top:2rem;">
         <div class="team-card">
-          <div class="team-avatar">🎯</div>
-          <div class="team-name">Larry</div>
+          <div class="team-avatar ta-gold">🎯</div>
+          <div class="team-name">Max</div>
           <div class="team-role">AI Orchestrator</div>
           <div class="team-reports">Reports to <span>Ken</span></div>
-          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+          <div style="margin-top:0.85rem;"><span class="badge badge-green">● Active</span></div>
         </div>
         <div class="team-card">
-          <div class="team-avatar">🔍</div>
+          <div class="team-avatar ta-teal">🔍</div>
           <div class="team-name">Pax</div>
           <div class="team-role">Research Specialist</div>
-          <div class="team-reports">Reports to <span>Larry</span></div>
-          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+          <div class="team-reports">Reports to <span>Max</span></div>
+          <div style="margin-top:0.85rem;"><span class="badge badge-green">● Active</span></div>
         </div>
         <div class="team-card">
-          <div class="team-avatar">👥</div>
+          <div class="team-avatar ta-green">👥</div>
           <div class="team-name">Nolan</div>
           <div class="team-role">HR Director</div>
-          <div class="team-reports">Reports to <span>Larry</span></div>
-          <div style="margin-top:0.75rem;"><span class="badge badge-green">Active</span></div>
+          <div class="team-reports">Reports to <span>Max</span></div>
+          <div style="margin-top:0.85rem;"><span class="badge badge-green">● Active</span></div>
         </div>
       </div>
+
       <div class="two-col">
         <div class="card">
-          <h2>Larry — Delegation Rules</h2>
+          <h2><span class="dot dot-gold"></span> Max — Delegation Rules</h2>
           <table>
             <thead><tr><th>Task Type</th><th>Delegate To</th></tr></thead>
             <tbody>
-              <tr><td>Market research</td><td>Pax</td></tr>
-              <tr><td>Competitor analysis</td><td>Pax</td></tr>
-              <tr><td>Pricing benchmarks</td><td>Pax</td></tr>
-              <tr><td>Lead-source intel</td><td>Pax</td></tr>
-              <tr><td>Agent roster mgmt</td><td>Nolan</td></tr>
-              <tr><td>Capability gap analysis</td><td>Nolan</td></tr>
-              <tr><td>New agent role spec</td><td>Nolan</td></tr>
+              <tr><td>Market research</td><td><strong>Pax</strong></td></tr>
+              <tr><td>Competitor analysis</td><td><strong>Pax</strong></td></tr>
+              <tr><td>Pricing benchmarks</td><td><strong>Pax</strong></td></tr>
+              <tr><td>Lead-source intel</td><td><strong>Pax</strong></td></tr>
+              <tr><td>Agent roster management</td><td><strong>Nolan</strong></td></tr>
+              <tr><td>Capability gap analysis</td><td><strong>Nolan</strong></td></tr>
+              <tr><td>New agent role spec</td><td><strong>Nolan</strong></td></tr>
             </tbody>
           </table>
         </div>
         <div class="card">
-          <h2>Nolan — Hiring Framework</h2>
-          <p style="color:var(--muted);font-size:0.82rem;margin-bottom:0.75rem;">All 5 questions required before any hire proposal:</p>
-          <ol style="color:var(--text);font-size:0.82rem;line-height:1.8;padding-left:1.2rem;">
+          <h2><span class="dot dot-green"></span> Nolan — Hiring Framework</h2>
+          <p style="color:var(--text3);font-size:0.8rem;margin-bottom:0.85rem;font-weight:600;">All 5 questions required before any hire proposal:</p>
+          <ol style="color:var(--text2);font-size:0.85rem;line-height:2;padding-left:1.25rem;">
             <li>What specific task can the team not do well right now?</li>
             <li>Could an existing agent be retrained instead?</li>
             <li>What is the KPI — how will we know the hire is working?</li>
@@ -798,138 +941,118 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- ── SUCCESS STORIES ── -->
-    <div class="page" id="page-stories">
-      <div class="page-header">
-        <h1>Success Stories</h1>
-        <p>Inspector results from HIGA courses and coaching</p>
-      </div>
+  <!-- ── SUCCESS STORIES ── -->
+  <div class="page" id="page-stories">
+    <div class="page-strip">
+      <h1>Success Stories</h1>
+      <p>Inspector results from HIGA courses and coaching</p>
+    </div>
+    <div id="content" style="padding-top:2rem;">
       <div class="story-card">
         <div class="story-quote">"Before HIGA I was doing 80 inspections a year and grinding every day just to stay afloat. After the Bootcamp I restructured my pricing, built a referral system, and hit 200 inspections in under 12 months. The content is built for real inspectors, not generic business school theory."</div>
-        <div class="story-meta"><strong>Chris T.</strong> — Tampa, FL &nbsp;·&nbsp; <span class="badge badge-teal" style="font-size:0.7rem;">Inspection Business Bootcamp</span></div>
+        <div class="story-meta">
+          <strong>Chris T.</strong> — Tampa, FL
+          <span class="badge badge-teal">Inspection Business Bootcamp</span>
+        </div>
       </div>
       <div class="story-card">
         <div class="story-quote">"I was invisible on Google. Within 60 days of applying what I learned in the Lead Machine course, I was ranking in the 3-Pack for my city. I've been getting 3–4 inbound calls a week that I wasn't getting before. Worth every penny."</div>
-        <div class="story-meta"><strong>Danielle P.</strong> — Austin, TX &nbsp;·&nbsp; <span class="badge badge-gold" style="font-size:0.7rem;">Lead Machine</span></div>
+        <div class="story-meta">
+          <strong>Danielle P.</strong> — Austin, TX
+          <span class="badge badge-gold">Lead Machine</span>
+        </div>
       </div>
       <div class="story-card">
         <div class="story-quote">"The Mastermind calls are where the magic happens. I've gotten more actionable advice in two sessions with Ken and the group than I did in two years of trial and error alone."</div>
-        <div class="story-meta"><strong>Marcus B.</strong> — Atlanta, GA &nbsp;·&nbsp; <span class="badge badge-teal" style="font-size:0.7rem;">Group Mastermind</span></div>
-      </div>
-      <div class="card" style="margin-top:1.5rem;">
-        <h2>Add a Story</h2>
-        <p style="color:var(--muted);font-size:0.85rem;line-height:1.6;">New success stories are added manually by Ken or the HIGA team. File a brief in <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;">/team-inbox</code> with the student's name, location, course, and quote.</p>
-      </div>
-    </div>
-
-    <!-- ── SETTINGS ── -->
-    <div class="page" id="page-settings">
-      <div class="page-header">
-        <h1>Settings</h1>
-        <p>HIGA dashboard configuration</p>
-      </div>
-
-      <div class="settings-section">
-        <h2>Business Info</h2>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Business Name</div>
-            <div class="setting-desc">Home Inspector Growth Academy (HIGA)</div>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Owner</div>
-            <div class="setting-desc">Ken Compton</div>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Platform</div>
-            <div class="setting-desc">GoHighLevel — courses, email, website</div>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Contact Email</div>
-            <div class="setting-desc">info@homeinspectorhelp.com</div>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Sister Company</div>
-            <div class="setting-desc">Home Inspector Help (HIH) — separate business</div>
-          </div>
+        <div class="story-meta">
+          <strong>Marcus B.</strong> — Atlanta, GA
+          <span class="badge badge-teal">Group Mastermind</span>
         </div>
       </div>
-
-      <div class="settings-section">
-        <h2>Repository Rules</h2>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Never delete .md files</div>
-            <div class="setting-desc">Requires Ken's explicit written approval</div>
-          </div>
-          <div class="toggle on"></div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Always refer to owner as Ken</div>
-            <div class="setting-desc">Not "owner", "client", or other designation</div>
-          </div>
-          <div class="toggle on"></div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">HIGA ≠ HIH</div>
-            <div class="setting-desc">Never conflate the two businesses</div>
-          </div>
-          <div class="toggle on"></div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Never invent facts</div>
-            <div class="setting-desc">Flag unverifiable claims as [NEEDS SOURCE]</div>
-          </div>
-          <div class="toggle on"></div>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h2>Integrations</h2>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">GoHighLevel</div>
-            <div class="setting-desc">Course delivery, CRM, email — connect to populate dashboard data</div>
-          </div>
-          <span class="badge badge-muted">Not connected</span>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">GitHub</div>
-            <div class="setting-desc">homeinspectorhelp/higa — agent team and documentation</div>
-          </div>
-          <span class="badge badge-green">Connected</span>
-        </div>
+      <div class="card" style="margin-top:0.5rem;">
+        <h2><span class="dot dot-gold"></span> Add a Story</h2>
+        <p style="color:var(--text3);font-size:0.875rem;line-height:1.7;">New success stories are added manually by Ken or the HIGA team. File a brief in <code style="color:var(--gold);background:rgba(212,168,67,0.1);padding:0.1rem 0.45rem;border-radius:5px;font-size:0.8rem;">/team-inbox</code> with the student's name, location, course, and quote.</p>
       </div>
     </div>
+  </div>
 
-  </div><!-- /content -->
+  <!-- ── SETTINGS ── -->
+  <div class="page" id="page-settings">
+    <div class="page-strip">
+      <h1>Settings</h1>
+      <p>HIGA dashboard configuration and hard rules</p>
+    </div>
+    <div id="content" style="padding-top:2rem;">
+
+      <div class="two-col">
+        <div>
+          <div class="settings-section card mb">
+            <h2 style="font-size:0.72rem;letter-spacing:0.1em;">Business Info</h2>
+            <div class="setting-row">
+              <div><div class="setting-label">Business Name</div><div class="setting-desc">Home Inspector Growth Academy (HIGA)</div></div>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-label">Owner</div><div class="setting-desc">Ken Compton</div></div>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-label">Platform</div><div class="setting-desc">GoHighLevel — courses, email, website</div></div>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-label">Contact Email</div><div class="setting-desc">info@homeinspectorhelp.com</div></div>
+            </div>
+            <div class="setting-row" style="border-bottom:none;">
+              <div><div class="setting-label">Sister Company</div><div class="setting-desc">Home Inspector Help (HIH) — separate business</div></div>
+            </div>
+          </div>
+
+          <div class="settings-section card">
+            <h2 style="font-size:0.72rem;letter-spacing:0.1em;">Integrations</h2>
+            <div class="integration-row">
+              <div><div class="integration-name">GoHighLevel</div><div class="integration-desc">Course delivery, CRM, email — connect to populate data</div></div>
+              <span class="badge badge-muted">Not connected</span>
+            </div>
+            <div class="integration-row">
+              <div><div class="integration-name">GitHub</div><div class="integration-desc">homeinspectorhelp/higa — agent team and documentation</div></div>
+              <span class="badge badge-green">Connected</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section card">
+          <h2 style="font-size:0.72rem;letter-spacing:0.1em;">Repository Hard Rules</h2>
+          <div class="setting-row">
+            <div><div class="setting-label">Never delete .md files</div><div class="setting-desc">Requires Ken's explicit written approval</div></div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">Always refer to owner as Ken</div><div class="setting-desc">Not "owner", "client", or other designation</div></div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-label">HIGA ≠ HIH</div><div class="setting-desc">Never conflate the two businesses</div></div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="setting-row" style="border-bottom:none;">
+            <div><div class="setting-label">Never invent facts</div><div class="setting-desc">Flag unverifiable claims as [NEEDS SOURCE]</div></div>
+            <div class="toggle on"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div><!-- /main -->
 
 <script>
-  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 
   var pageTitles = {
-    overview: 'Overview',
-    courses: 'Courses',
-    students: 'Students',
-    pipeline: 'Enrollment Pipeline',
-    financial: 'Financial',
-    team: 'Team',
-    stories: 'Success Stories',
-    settings: 'Settings'
+    overview: 'Overview', courses: 'Courses', students: 'Students',
+    pipeline: 'Enrollment Pipeline', financial: 'Financial',
+    team: 'Team', stories: 'Success Stories', settings: 'Settings'
   };
 
   function showPage(id, navEl) {
@@ -937,7 +1060,7 @@
     document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
     document.getElementById('page-' + id).classList.add('active');
     navEl.classList.add('active');
-    document.getElementById('topbar-title').textContent = pageTitles[id] || id;
+    window.scrollTo(0,0);
   }
 
   document.querySelectorAll('.toggle').forEach(function(t){
