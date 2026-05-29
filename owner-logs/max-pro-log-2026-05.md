@@ -122,3 +122,21 @@ Here's what **can** happen instead:
 **NEXT STEP** — If you want Pax to dig through HIGA's existing files for any industry news already on file, paste this: `Max, have Pax search the HIGA repo for any existing home inspection industry news, headlines, or competitor intelligence that has already been filed.`
 
 ---
+## 2026-05-29 08:17 UTC
+
+**Topic:** Max, have Pax search the web for one recent home inspection industry headline from this week.
+
+**Specialists called:** Pax (Research Specialist)
+
+**Max's reply:**
+Pax flagged that she doesn't have live internet access — her tools are limited to the HIGA internal repo (files, knowledge base). Neither Pax nor I can browse external websites or pull live news headlines.
+
+**Here's what we CAN do instead:**
+
+1. **You paste a headline** — Share any headline or URL you've spotted this week, and Pax can analyze it, summarize it, and file it as a research note in the repo.
+2. **Search internal files** — If anyone on the team has already logged industry news in the HIGA knowledge base, Pax can surface it.
+3. **Set up a process** — We could create a standing template in the repo where the team logs weekly industry headlines manually, and I can summarize them for you on demand.
+
+**NEXT STEP** — If you find a headline you want filed and analyzed, paste it here and I'll have Pax write it up as a research note in the Owner's Inbox.
+
+---
