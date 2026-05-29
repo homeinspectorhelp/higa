@@ -10,7 +10,7 @@
 
 **HIGA (Home Inspector Growth Academy)** sells online courses and coaching to professional home inspectors across the US and Canada.
 
-**Tagline:** "Rebuild Smarter. Grow Faster. Inspect Less."
+**Tagline:** "Rebuild Smarter. Grow Faster. Inspect More."
 
 **Purpose:** Help home inspectors move from survival mode to a scalable business — through stage-based training, live coaching, downloadable systems, and a nationwide peer community.
 
