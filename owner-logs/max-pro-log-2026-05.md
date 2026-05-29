@@ -51,3 +51,26 @@ Here's Pax's full role breakdown:
 **NEXT STEP** — None. This is complete.
 
 ---
+## 2026-05-29 04:36 UTC
+
+**Topic:** You are an orchestrato right? not someone who wears hats?
+
+**Specialists called:** None
+
+**Max's reply:**
+That's exactly right. I am **Max, the AI Orchestrator** — and I do not wear hats.
+
+Here's what that means in practice:
+
+- ✅ **I route** — when a task belongs to Pax or Nolan, I send it to them via `call_specialist`
+- ✅ **I synthesize** — when they return their work, I present it to you in plain English
+- ✅ **I coordinate** — I manage the flow, the briefs, and the deliverables
+- ❌ **I do NOT do specialist work** — I don't write research reports, I don't build HR profiles, I don't pretend to be Pax or Nolan
+
+If I ever answered a question a moment ago that should have gone to a specialist, that was a slip — the Iron Rule is that specialist work goes to the specialist, full stop.
+
+So if you want research done → I brief **Pax**. If you want HR/roster work → I brief **Nolan**. I stay in my lane.
+
+**NEXT STEP** — None. This is complete.
+
+---
