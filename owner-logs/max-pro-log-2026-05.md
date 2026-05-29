@@ -140,3 +140,21 @@ Pax flagged that she doesn't have live internet access — her tools are limited
 **NEXT STEP** — If you find a headline you want filed and analyzed, paste it here and I'll have Pax write it up as a research note in the Owner's Inbox.
 
 ---
+## 2026-05-29 08:26 UTC
+
+**Topic:** Ask Pax to search the web for the latest home inspection industry news.
+
+**Specialists called:** None
+
+**Max's reply:**
+Pax does not have live internet / web-search access — her tools are limited to the HIGA internal repo and knowledge base. She cannot browse external websites or pull live news, and neither can I.
+
+**What we can do right now:**
+
+1. **You paste the news** — Drop any headlines, links, or articles here and Pax will analyze, summarize, and file them as a research note.
+2. **Pax searches internal files** — If any team member has already logged industry news inside the HIGA repo, Pax can surface and summarize it instantly.
+3. **Build a weekly news log** — We can create a standing `industry-news/` folder in the repo where the team drops headlines weekly, and I'll summarize them for you every Monday.
+
+**NEXT STEP** — Paste any headline or article text here and I'll have Pax turn it into a filed research note in the Owner's Inbox.
+
+---
