@@ -74,3 +74,33 @@ So if you want research done → I brief **Pax**. If you want HR/roster work →
 **NEXT STEP** — None. This is complete.
 
 ---
+## 2026-05-29 07:46 UTC
+
+**Topic:** Max, have Pax research the top online courses for home inspectors.
+
+**Specialists called:** Pax (Research Specialist)
+
+**Max's reply:**
+Here's where things stand — Pax returned the task incomplete and was transparent about why.
+
+---
+
+**What Pax reported:**
+
+Pax searched the entire HIGA knowledge base and found **no existing competitor research** on file. She also doesn't have live internet access to browse and verify competitor websites, pricing, or course listings in real time. Her honesty rule prevents her from inventing data — so she flagged the gap rather than making things up.
+
+**She offered three paths forward:**
+
+> **Option A** — She builds a research methodology template you (or a team member) can use to manually collect competitor data.
+>
+> **Option B** — She analyzes what HIGA's own internal course titles and strategy reveal about perceived market gaps (what Ken believes is underserved).
+>
+> **Option C** — You give her a list of specific competitor names or websites, and she structures the analysis around those known players.
+
+---
+
+**My recommendation:** Go with **Option C** — give me 3–5 competitor names you already know (e.g. InterNACHI, AHIT, ICA, etc.) and I'll re-brief Pax to do a structured analysis of those specific players. That way she has real anchors to work from without having to browse the live web.
+
+**NEXT STEP** — To continue, paste this prompt: `Max, re-brief Pax with these competitors to research: [list your known competitors here] and have her file the report to owners-inbox.`
+
+---
