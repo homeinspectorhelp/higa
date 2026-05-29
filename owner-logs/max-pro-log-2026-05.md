@@ -104,3 +104,21 @@ Pax searched the entire HIGA knowledge base and found **no existing competitor r
 **NEXT STEP** — To continue, paste this prompt: `Max, re-brief Pax with these competitors to research: [list your known competitors here] and have her file the report to owners-inbox.`
 
 ---
+## 2026-05-29 08:13 UTC
+
+**Topic:** Max, have Pax search the web for one recent home inspection industry headline from this week.
+
+**Specialists called:** Pax (Research Specialist)
+
+**Max's reply:**
+Pax confirmed that she doesn't have live web access — her tools are limited to reading and searching files inside the HIGA repository. She can't browse the internet or pull real-time news. That's a tool limitation on her end, not something I can work around by re-routing.
+
+Here's what **can** happen instead:
+
+1. **You find the headline** — grab it from Google News, InterNACHI, ASHI, or any industry source you follow — and paste it here. I'll have Pax format it, file it, and tag it for the team.
+2. **Pax searches HIGA's internal files** for any industry news or competitor intel that's already been filed in the repo.
+3. **I note this as a capability gap** — if you want live web research to be a standing feature, we'd need to add a web search tool to Pax's toolkit.
+
+**NEXT STEP** — If you want Pax to dig through HIGA's existing files for any industry news already on file, paste this: `Max, have Pax search the HIGA repo for any existing home inspection industry news, headlines, or competitor intelligence that has already been filed.`
+
+---
