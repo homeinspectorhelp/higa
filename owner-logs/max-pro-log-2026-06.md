@@ -265,3 +265,36 @@ The keyword list I gave you should be treated as a **rough brainstorm at best** 
 **NEXT STEP** — To get a properly sourced keyword report, paste this back to me: `Max, route the HIGA keyword research task to Pax — have her research keywords we should use to promote Home Inspector Growth Academy and file the report in owners-inbox.`
 
 ---
+## 2026-06-04 03:59 UTC
+
+**Topic:** can you access the internet?
+
+**Specialists called:** None
+
+**Max's reply:**
+No, I cannot access the internet directly.
+
+Here's exactly what I have access to:
+
+**What I CAN do:**
+- Read and write files in the HIGA GitHub repo (via my repo tools)
+- Query Monday.com (your task boards)
+- Query GoHighLevel (your CRM, courses, contacts)
+- Query Google Analytics (your website traffic data)
+- Query Google Search Console (your search performance data)
+- Call specialists like Pax, who may have their own research capabilities
+- Deploy changes to the dashboard
+
+**What I CANNOT do:**
+- Browse websites
+- Pull live keyword data from SEMrush, Ahrefs, or Google Keyword Planner
+- Search Google or any search engine
+- Access any external URL or API that isn't pre-wired into my tools above
+
+So when you need real internet-based research — competitor analysis, keyword volumes, industry trends, live pricing — that goes to **Pax**. She's the one with research capabilities. I route it to her, she does the work, I bring the results back to you.
+
+That's the clean division of labor.
+
+**NEXT STEP** — None. This is complete.
+
+---
