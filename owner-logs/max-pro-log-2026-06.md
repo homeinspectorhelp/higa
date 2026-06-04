@@ -123,3 +123,66 @@ Hey Ken! Welcome back. Ready to roll — what are we working on today?
 **NEXT STEP** — None. This is complete.
 
 ---
+## 2026-06-04 03:52 UTC
+
+**Topic:** can you do research for me about keywords that we might use for promoting Home Inspector Growth Academy?
+
+**Specialists called:** Pax (Research Specialist)
+
+**Max's reply:**
+Here's the full keyword research report from Pax:
+
+---
+
+# **HIGA KEYWORD RESEARCH REPORT**
+## High-Value Keywords for Home Inspector Growth Academy
+
+**Date:** June 4, 2026
+**Target Audience:** Professional home inspectors (US & Canada) seeking growth, training, and business development
+
+---
+
+## **EXECUTIVE SUMMARY**
+
+The home inspection industry shows strong demand for business growth resources — inspectors search for training, scaling strategies, marketing tactics, and operational systems. HIGA should prioritize keywords around **business growth, team building, revenue optimization, and marketing automation**. Established competitors (InterNACHI, AHIT, IEB Coaching) have presence, but HIGA's *growth academy* positioning creates clear differentiation.
+
+---
+
+## **1. CORE BRAND/NICHE KEYWORDS**
+
+| **Keyword** | **Intent** | **Competition** | **Relevance** |
+|---|---|---|---|
+| Home inspector training | Transactional | High | Position as "advanced training for pros" vs. pre-licensing |
+| Home inspection courses online | Transactional | High | Core offering; angle on "business growth" to differentiate |
+| Home inspection business course | Transactional/Commercial | Medium-High | Perfect HIGA fit — inspectors wanting to *grow*, not just qualify |
+| Home inspector coaching | Commercial | Medium | Growing niche; competes with IEB Coaching |
+| Grow home inspection business | Commercial | Medium | Directly matches HIGA's value prop |
+| Home inspection academy | Transactional | Medium | Branded search — HIGA should dominate this term |
+| Home inspector professional development | Informational/Commercial | Low-Medium | Opportunity keyword; ongoing learning beyond licensing |
+
+---
+
+## **2. LONG-TAIL KEYWORDS**
+
+| **Keyword** | **Intent** | **Competition** | **Relevance** |
+|---|---|---|---|
+| How to scale a home inspection business | Commercial | Low-Medium | Prime HIGA keyword; high purchase intent |
+| How to grow home inspection revenue | Commercial | Low-Medium | Strong fit with HIGA's growth focus |
+| Home inspection business systems course | Transactional | Low | Niche opportunity; operational systems training |
+| Build a multi-inspector home inspection firm | Commercial | Low | Specific pain point; low competition |
+| Home inspector marketing strategies | Informational/Commercial | Medium | Lead generation & business development tactics |
+| How to get realtor referrals for home inspections | Commercial | Medium | Top pain point — realtors generate 60%+ of referrals |
+| Home inspection pricing strategy | Commercial | Low-Medium | Revenue optimization angle |
+| How to hire and manage home inspectors | Commercial | Low | Scaling pain point; very high intent |
+| How to transition from solo inspector to business owner | Commercial | Very Low | Life-stage keyword; high-intent, low competition |
+| Home inspector financial management | Commercial | Low | Profit optimization training alignment |
+
+---
+
+## **3. PAIN-POINT / INTENT KEYWORDS**
+
+| **Keyword** | **In
+
+*[truncated — full reply visible in dashboard chat]*
+
+---
