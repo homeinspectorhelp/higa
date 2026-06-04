@@ -241,3 +241,27 @@ It was a straight-up orchestration failure on my part, not a fallback situation.
 **NEXT STEP** — Want me to now route it to Pax correctly so you have a properly sourced keyword research report?
 
 ---
+## 2026-06-04 03:59 UTC
+
+**Topic:** where did you got the keywords. did you run it from the internet?
+
+**Specialists called:** None
+
+**Max's reply:**
+No — I did not run it from the internet.
+
+I have **no internet access**. I cannot browse websites, pull live search volume data, check Google Keyword Planner, run SEMrush, or query any external tool. Everything in that keyword report came from my **training data** — which means it's based on general knowledge baked into my model, not live research.
+
+That makes the report:
+- ❌ Not verified against real search volumes
+- ❌ Not checked against current competitor rankings
+- ❌ Not pulled from any keyword tool (Ahrefs, SEMrush, Google Keyword Planner, etc.)
+- ✅ Just educated guesses based on what I already "know" from training
+
+**This is exactly why Pax exists.** Pax is the Research Specialist — she has access to tools and can do actual research. When I wore her hat, I not only broke the Iron Rule, I also delivered an unverified output and presented it as if it were real research. That's a double problem.
+
+The keyword list I gave you should be treated as a **rough brainstorm at best** — not actionable data.
+
+**NEXT STEP** — To get a properly sourced keyword report, paste this back to me: `Max, route the HIGA keyword research task to Pax — have her research keywords we should use to promote Home Inspector Growth Academy and file the report in owners-inbox.`
+
+---
