@@ -298,3 +298,24 @@ That's the clean division of labor.
 **NEXT STEP** — None. This is complete.
 
 ---
+## 2026-06-04 03:59 UTC
+
+**Topic:** who in your team can access the internet?
+
+**Specialists called:** None
+
+**Max's reply:**
+Here's what the repo actually says — no guessing:
+
+**Pax's profile does not explicitly state he has internet access.** What it does say is that he must **cite every factual claim with a real, verifiable source** and flag anything unverifiable as `[NEEDS SOURCE]`. That honesty standard implies he's expected to do real sourced research — but whether that's live internet browsing or other research tools, his profile doesn't specify.
+
+The rest of the team profiles are specialists in execution roles (course creation, video, design, email, ads, etc.) — internet access isn't really relevant to most of them.
+
+**Bottom line:**
+- I cannot access the internet ❌
+- Pax is the only one whose role *requires* sourced research — whether he truly has live internet access would only be confirmed by actually calling him on a research task and seeing what he returns
+- No other team member's role would require it
+
+**NEXT STEP** — None. This is complete.
+
+---
