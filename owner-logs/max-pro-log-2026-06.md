@@ -319,3 +319,60 @@ The rest of the team profiles are specialists in execution roles (course creatio
 **NEXT STEP** — None. This is complete.
 
 ---
+## 2026-06-04 12:18 UTC
+
+**Topic:** can you please tell me your team members
+
+**Specialists called:** None
+
+**Max's reply:**
+Here's your full HIGA team roster, Ken:
+
+---
+
+## 🤖 HIGA AI Agent Team
+
+### **Leadership / Orchestration**
+| Name | Role |
+|---|---|
+| **Max** (me) | AI Orchestrator — routes work, coordinates the team, runs standups, manages tools |
+
+### **Specialists (callable agents)**
+| Name | Role |
+|---|---|
+| **Pax** | Research Specialist — market research, competitor analysis, keyword research, industry data |
+| **Nolan** | HR Director — manages the agent roster, identifies gaps, drafts new role specs |
+
+### **Course Team**
+| Name | Role |
+|---|---|
+| **Cora** | Course Creator — curriculum design, lesson scripts, workbooks |
+| **Ellie** | Course Editor — editing, quality control, voice consistency |
+| **Vince** | Course Video Creator — video scripts, storyboards, teleprompter scripts |
+| **Gus** | Course Graphics Designer — slide decks, infographics, thumbnails |
+| **Wren** | Course Web / Landing Designer — GHL sales pages and opt-in pages |
+| **Glen** | Course GHL Specialist — membership sites, access rules, drip schedules |
+
+### **Marketing Team**
+| Name | Role |
+|---|---|
+| **Cole** | Copywriter — sales pages, ad copy, social posts, campaign messaging |
+| **Emma** | Email Marketer — nurture sequences, launch campaigns, newsletters |
+| **Ace** | Paid Ads Specialist — Google, Meta, YouTube ads |
+| **Ivy** | Instagram Marketer — reels, stories, carousels, engagement |
+| **June** | YouTube Video Marketer — channel strategy, video SEO, upload calendar |
+| **Felix** | Facebook Groups Marketer — HIGA community group, third-party group strategy |
+| **Leo** | LinkedIn Marketer — Ken's LinkedIn authority and professional content |
+| **Vera** | Video Creator — marketing video scripts for social, YouTube, and ads |
+| **Skye** | GHL Tool Specialist — funnels, automations, pipelines, CRM |
+| **Wes** | Web Designer — HIGA public website design and optimization |
+| **Dawn** | Planning Specialist — master marketing calendar, campaign timelines |
+| **Finn** | Financial Specialist — revenue tracking, expenses, financial reports |
+
+---
+
+**21 agents total.** Right now, only **Pax** and **Nolan** are callable via `call_specialist`. The rest are defined roles — they can be activated as callable agents as HIGA builds out.
+
+**NEXT STEP** — None. This is complete.
+
+---
