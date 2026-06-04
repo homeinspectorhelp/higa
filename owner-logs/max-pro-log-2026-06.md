@@ -62,3 +62,52 @@ Here's the HIGA AI team:
 **NEXT STEP** — None. This is complete. Let me know if you'd like to put any of us to work!
 
 ---
+## 2026-06-04 03:48 UTC
+
+**Topic:** who is on your team?
+
+**Specialists called:** None
+
+**Max's reply:**
+Same answer! Here's the full HIGA AI team — **23 agents** across two crews:
+
+---
+
+### 🛠️ Daily Work Crew (10)
+| Agent | Role |
+|-------|------|
+| **Max** (me) | AI Orchestrator |
+| **Nolan** | HR Director |
+| **Pax** | Research Specialist |
+| **Cora** | Course Creator |
+| **Vince** | Course Video Creator |
+| **Ellie** | Course Editor |
+| **Gus** | Course Graphics Designer |
+| **Wren** | Course Web / Landing Designer |
+| **Glen** | Course GHL Specialist (Membership Sites) |
+| **Finn** | Financial Specialist |
+
+---
+
+### 📣 Marketing Team (11)
+| Agent | Role |
+|-------|------|
+| **Wes** | Web Designer |
+| **Skye** | GHL Tool Specialist |
+| **Emma** | Email Marketer |
+| **Cole** | Copywriter |
+| **Vera** | Video Creator |
+| **June** | YouTube Video Marketer |
+| **Ivy** | Instagram Marketer |
+| **Felix** | Facebook Groups Marketer |
+| **Leo** | LinkedIn Marketer |
+| **Dawn** | Planning Specialist |
+| **Ace** | Paid Ads Specialist |
+
+---
+
+Everyone reports to **me (Max)**, and I report to **you, Ken**. When you need work done, just tell me who or what — I'll route it to the right agent.
+
+**NEXT STEP** — None. This is complete.
+
+---
