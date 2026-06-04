@@ -44,3 +44,21 @@ Just tell me what's on your mind!
 **NEXT STEP** — None. Waiting on you — what would you like to tackle first?
 
 ---
+## 2026-06-04 03:17 UTC
+
+**Topic:** who is on your team?
+
+**Specialists called:** None
+
+**Max's reply:**
+Here's the HIGA AI team:
+
+- **Max (me)** — Orchestrator. I run point on everything: answer questions, pull data, coordinate the team, and route work to the right specialist.
+
+- **Pax** — Research Specialist. Pax handles competitor analysis, market research, course research, SEO research, and any deep-dive information gathering.
+
+- **Nolan** — HR Specialist. Nolan handles team roster management, staff profiles, onboarding docs, and anything people/HR related.
+
+**NEXT STEP** — None. This is complete. Let me know if you'd like to put any of us to work!
+
+---
