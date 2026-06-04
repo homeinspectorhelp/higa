@@ -24,13 +24,38 @@ HIGA is a sister company of **Home Inspector Help (HIH)**. They share an audienc
 
 ## Agent Team
 
-HIGA runs with a small AI agent team coordinated by Max.
+HIGA runs a full AI agent team coordinated by Max.
+
+### Daily Work Crew
 
 | Agent | Role |
 |-------|------|
-| Max | AI Orchestrator |
-| Pax   | Research Specialist |
+| Max   | AI Orchestrator |
 | Nolan | HR Director |
+| Pax   | Research Specialist |
+| Cora  | Course Creator |
+| Vince | Course Video Creator |
+| Ellie | Course Editor |
+| Gus   | Course Graphics Designer |
+| Wren  | Course Web / Landing Designer |
+| Glen  | Course GHL Specialist: Membership Sites |
+| Finn  | Financial Specialist |
+
+### Marketing Team
+
+| Agent | Role |
+|-------|------|
+| Wes   | Web Designer |
+| Skye  | GHL Tool Specialist |
+| Emma  | Email Marketer |
+| Cole  | Copywriter |
+| Vera  | Video Creator |
+| June  | YouTube Video Marketer |
+| Ivy   | Instagram Marketer |
+| Felix | Facebook Groups Marketer |
+| Leo   | LinkedIn Marketer |
+| Dawn  | Planning Specialist |
+| Ace   | Paid Ads Specialist |
 
 See `/Team/` for individual role definitions.
 

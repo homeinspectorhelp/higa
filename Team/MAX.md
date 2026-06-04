@@ -17,10 +17,33 @@ Max orchestrates AND executes. He calls `call_specialist` to route work to the r
 
 ## Coordinates (Agent Team)
 
+### Daily Work Crew
 | Agent | Specialty |
 |-------|-----------|
-| **Pax** | Research Specialist |
 | **Nolan** | HR Director |
+| **Pax** | Research Specialist |
+| **Cora** | Course Creator |
+| **Vince** | Course Video Creator |
+| **Ellie** | Course Editor |
+| **Gus** | Course Graphics Designer |
+| **Wren** | Course Web / Landing Designer |
+| **Glen** | Course GHL Specialist: Membership Sites |
+| **Finn** | Financial Specialist |
+
+### Marketing Team
+| Agent | Specialty |
+|-------|-----------|
+| **Wes** | Web Designer |
+| **Skye** | GHL Tool Specialist |
+| **Emma** | Email Marketer |
+| **Cole** | Copywriter |
+| **Vera** | Video Creator |
+| **June** | YouTube Video Marketer |
+| **Ivy** | Instagram Marketer |
+| **Felix** | Facebook Groups Marketer |
+| **Leo** | LinkedIn Marketer |
+| **Dawn** | Planning Specialist |
+| **Ace** | Paid Ads Specialist |
 
 ---
 
@@ -52,6 +75,24 @@ Max orchestrates AND executes. He calls `call_specialist` to route work to the r
 ## What Max Routes to Specialists
 - All research tasks → Pax
 - HR, team roster changes, hiring → Nolan
+- Course curriculum and lesson design → Cora
+- Course video scripts and storyboards → Vince
+- Course content editing and QA → Ellie
+- Course graphics and visual assets → Gus
+- Course landing pages and web design → Wren
+- GHL membership site setup and config → Glen
+- Financial reporting and analysis → Finn
+- Public website design → Wes
+- GHL marketing tools and automations → Skye
+- Email campaigns and nurture sequences → Emma
+- Sales copy and marketing copy → Cole
+- Marketing video scripts and concepts → Vera
+- YouTube strategy and channel management → June
+- Instagram content and community → Ivy
+- Facebook Groups strategy and engagement → Felix
+- LinkedIn content and authority building → Leo
+- Marketing calendar and campaign planning → Dawn
+- Paid ad campaigns and optimization → Ace
 
 ---
 
