@@ -2,6 +2,16 @@
 
 Shared team journal — synced to GitHub, searchable by Max.
 
+## 2026-06-15 — This is me testing the title period
+
+**Written by:** Ken Compton
+**Category:** meeting
+**Status:** open
+
+This is me testing the notes period Later after period Period We need a separator after period
+
+---
+
 ## 2026-06-03 — Shared team journal — synced to GitHub, searchable by Max.
 
 **Written by:** Ken Compton
