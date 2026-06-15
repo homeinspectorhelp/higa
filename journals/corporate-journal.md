@@ -2,20 +2,6 @@
 
 Shared team journal — synced to GitHub, searchable by Max.
 
-## 2026-06-15 — This is a test.
-
-**Written by:** Ken Compton
-**Category:** meeting
-**Status:** open
-
-All things are smooth and I'm going to attach a file.
-
-### Attachments
-
-- [20260615memorypersistenceandmaxburnexplainer.md](journals/attachments/2026-06-15__this-is-a-test__5866dj/20260615memorypersistenceandmaxburnexplainer.md)
-
----
-
 ## 2026-06-15 — test
 
 **Written by:** Ken Compton
