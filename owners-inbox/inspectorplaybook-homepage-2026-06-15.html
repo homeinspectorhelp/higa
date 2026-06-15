@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Inspector Playbook — Rebuild Smarter. Grow Faster.</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #f8f7f4;
+      color: #0f1c2e;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── Utility ── */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.18s ease, background 0.18s ease;
+      border: 2px solid transparent;
+      text-align: center;
+    }
+    .btn:hover { opacity: 0.88; }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border-color: #fff;
+    }
+
+    .btn-outline:hover { background: rgba(255,255,255,0.1); opacity: 1; }
+
+    .section-heading {
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 700;
+      color: #0f1c2e;
+      margin-bottom: 8px;
+    }
+
+    .section-subhead {
+      font-size: 1.05rem;
+      color: #6b7280;
+      margin-bottom: 48px;
+    }
+
+    .pill-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 999px;
+      border: 1.5px solid #2563eb;
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.07);
+      letter-spacing: 0.02em;
+      margin-bottom: 20px;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 1 — Sticky Nav
+    ══════════════════════════════════ */
+    #site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0f1c2e;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 16px;
+    }
+
+    .nav-wordmark {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.82);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta { flex-shrink: 0; }
+
+    .nav-cta .btn { padding: 9px 22px; font-size: 14px; }
+
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    /* Mobile Nav */
+    @media (max-width: 767px) {
+      .nav-hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: #0f1c2e;
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 0 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        z-index: 99;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links li { width: 100%; }
+
+      .nav-links a {
+        display: block;
+        padding: 12px 24px;
+        font-size: 15px;
+      }
+
+      .nav-inner { position: relative; }
+    }
+
+    /* ══════════════════════════════════
+       SECTION 2 — Hero
+    ══════════════════════════════════ */
+    #hero {
+      background: #0f1c2e;
+      padding: 96px 0 104px;
+      text-align: center;
+    }
+
+    #hero h1 {
+      font-size: clamp(2rem, 5.5vw, 3.5rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.18;
+      max-width: 720px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.02em;
+    }
+
+    #hero .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: #a8b5c8;
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 3 — Stats Bar
+    ══════════════════════════════════ */
+    #stats {
+      background: #f0f4f8;
+      padding: 48px 0 40px;
+    }
+
+    .stats-source {
+      text-align: center;
+      font-size: 12px;
+      font-style: italic;
+      color: #9ca3af;
+      margin-bottom: 36px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 24px 16px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(15,28,46,0.07);
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: #0f1c2e;
+      line-height: 1.1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 767px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ══════════════════════════════════
+       SECTION 4 — Course Grid
+    ══════════════════════════════════ */
+    #courses {
+      padding: 80px 0;
+      background: #f8f7f4;
+    }
+
+    #courses .section-intro { text-align: center; }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    @media (max-width: 991px) {
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 639px) {
+      .courses-grid { grid-template-columns: 1fr; }
+    }
+
+    .course-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(15,28,46,0.08);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      border: 2px solid transparent;
+    }
+
+    .course-card:hover {
+      box-shadow: 0 6px 24px rgba(15,28,46,0.13);
+      transform: translateY(-3px);
+    }
+
+    .course-card.featured {
+      border-color: #2563eb;
+    }
+
+    .course-thumbnail {
+      background: #cbd5e1;
+      height: 160px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .course-badge-popular {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+
+    .course-body {
+      padding: 20px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .course-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f1c2e;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .course-tagline {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+
+    .course-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .course-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f1c2e;
+    }
+
+    .course-footer .btn {
+      padding: 9px 22px;
+      font-size: 14px;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 5 — Three Pillars
+    ══════════════════════════════════ */
+    #why {
+      background: #f8f7f4;
+      padding: 80px 0;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    #why .section-intro { text-align: center; }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    @media (max-width: 767px) {
+      .pillars-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .pillar-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(15,28,46,0.07);
+    }
+
+    .pillar-icon {
+      font-size: 2.75rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .pillar-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f1c2e;
+      margin-bottom: 10px;
+    }
+
+    .pillar-copy {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 6 — Testimonials
+    ══════════════════════════════════ */
+    #results {
+      background: #e5e7eb;
+      padding: 80px 0;
+    }
+
+    #results .section-intro { text-align: center; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    @media (max-width: 899px) {
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid .testimonial-card:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 480px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 599px) {
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .testimonials-grid .testimonial-card:nth-child(3) {
+        grid-column: auto;
+        max-width: 100%;
+      }
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 32px 28px;
+      box-shadow: 0 2px 8px rgba(15,28,46,0.07);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .testimonial-quote {
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.75;
+      flex: 1;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .testimonial-quote::before {
+      content: '\201C';
+      font-size: 2.5rem;
+      color: #2563eb;
+      line-height: 0.6;
+      display: block;
+      margin-bottom: 10px;
+      font-style: normal;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #0f1c2e;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f1c2e;
+    }
+
+    .author-location {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 7 — Email Capture
+    ══════════════════════════════════ */
+    #lead-magnet {
+      background: #0f1c2e;
+      padding: 88px 0 96px;
+      text-align: center;
+    }
+
+    #lead-magnet .pill-badge {
+      color: #60a5fa;
+      border-color: #60a5fa;
+      background: rgba(96,165,250,0.1);
+    }
+
+    #lead-magnet h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 600px;
+      margin: 0 auto 16px;
+      line-height: 1.25;
+    }
+
+    #lead-magnet .lm-sub {
+      font-size: 1.05rem;
+      color: #a8b5c8;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .email-form input[type="email"] {
+      flex: 1;
+      min-width: 240px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+      color: #0f1c2e;
+      outline: none;
+    }
+
+    .email-form input[type="email"]::placeholder { color: #9ca3af; }
+
+    .email-form .btn { white-space: nowrap; }
+
+    .email-trust {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .email-form { flex-direction: column; align-items: stretch; }
+      .email-form input[type="email"],
+      .email-form .btn { width: 100%; }
+    }
+
+    /* ══════════════════════════════════
+       SECTION 8 — Footer
+    ══════════════════════════════════ */
+    #site-footer {
+      background: #0f1c2e;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 48px;
+    }
+
+    @media (max-width: 767px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    .footer-col-brand .brand-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .footer-col-brand p {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.65;
+      max-width: 220px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-col ul a {
+      font-size: 13px;
+      color: #6b7280;
+      transition: color 0.15s;
+    }
+
+    .footer-col ul a:hover { color: #fff; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-bottom p,
+    .footer-bottom a {
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    .footer-bottom a:hover { color: #9ca3af; }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       SECTION 1 — Sticky Navigation
+  ══════════════════════════════════ -->
+  <nav id="site-nav" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-wordmark">The Inspector Playbook</a>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#why">About</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Log in</a></li>
+        </ul>
+
+        <div class="nav-cta" style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <a href="#courses" class="btn btn-primary">Browse courses</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════════════════
+         SECTION 2 — Hero
+    ══════════════════════════════════ -->
+    <section id="hero" aria-label="Hero">
+      <div class="container">
+        <span class="pill-badge" style="color:#60a5fa; border-color:#60a5fa; background:rgba(96,165,250,0.1);">Built exclusively for home inspectors</span>
+        <h1>Grab what you need.<br>Grow your business.</h1>
+        <p class="hero-sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula purus vel urna faucibus, at molestie magna tempus.</p>
+        <div class="hero-ctas">
+          <a href="#courses" class="btn btn-primary">Browse courses</a>
+          <a href="#why" class="btn btn-outline">See what's included</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SECTION 3 — Industry Stats Bar
+    ══════════════════════════════════ -->
+    <section id="stats" aria-label="Industry statistics">
+      <div class="container">
+        <p class="stats-source">Source: Spectora 2026 Industry Report — 429 inspectors surveyed</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">+25%</span>
+            <p class="stat-label">Avg. national price increase</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">78%</span>
+            <p class="stat-label">Inspections sourced from agent referrals</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">71%</span>
+            <p class="stat-label">Inspectors now using AI in their workflow</p>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">40%</span>
+            <p class="stat-label">Drop clients at report delivery</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SECTION 4 — Featured Course Grid
+    ══════════════════════════════════ -->
+    <section id="courses" aria-label="Featured courses">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">Featured Courses</h2>
+          <p class="section-subhead">Lorem ipsum dolor sit amet, consectetur adipiscing elit praesent at magna.</p>
+        </div>
+
+        <div class="courses-grid">
+
+          <!-- Card 1 — Featured -->
+          <article class="course-card featured">
+            <div class="course-thumbnail"></div>
+            <span class="course-badge-popular">⭐ Most Popular</span>
+            <div class="course-body">
+              <h3 class="course-title">Pricing with Confidence</h3>
+              <p class="course-tagline">Charge what you're worth</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="course-card">
+            <div class="course-thumbnail"></div>
+            <div class="course-body">
+              <h3 class="course-title">Mastering Agent Relationships</h3>
+              <p class="course-tagline">Become the go-to inspector</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="course-card">
+            <div class="course-thumbnail"></div>
+            <div class="course-body">
+              <h3 class="course-title">AI for Home Inspectors</h3>
+              <p class="course-tagline">Buy back your time</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="course-card">
+            <div class="course-thumbnail"></div>
+            <div class="course-body">
+              <h3 class="course-title">Writing Reports That Land</h3>
+              <p class="course-tagline">Buyers and agents get it</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="course-card">
+            <div class="course-thumbnail"></div>
+            <div class="course-body">
+              <h3 class="course-title">The Post-Inspection Opportunity</h3>
+              <p class="course-tagline">Turn reports into referrals</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="course-card">
+            <div class="course-thumbnail"></div>
+            <div class="course-body">
+              <h3 class="course-title">The 72-Hour Window</h3>
+              <p class="course-tagline">Help buyers take action</p>
+              <div class="course-footer">
+                <span class="course-price">$97</span>
+                <a href="#" class="btn btn-primary">Get it</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SECTION 5 — Three-Pillar Block
+    ══════════════════════════════════ -->
+    <section id="why" aria-label="Why The Inspector Playbook">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">Why The Inspector Playbook?</h2>
+          <p class="section-subhead">Lorem ipsum dolor sit amet, consectetur adipiscing elit facilisis.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-icon" role="img" aria-label="House">🏠</span>
+            <h3 class="pillar-name">Industry-specific</h3>
+            <p class="pillar-copy">Written for working inspectors — not generic business advice</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon" role="img" aria-label="Target">🎯</span>
+            <h3 class="pillar-name">Actionable outcomes</h3>
+            <p class="pillar-copy">Every module ends with one action you can use before the next lesson</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon" role="img" aria-label="Chart">📊</span>
+            <h3 class="pillar-name">Data-backed</h3>
+            <p class="pillar-copy">Every course is grounded in real industry data from the Spectora 2026 Report</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SECTION 6 — Testimonials
+    ══════════════════════════════════ -->
+    <section id="results" aria-label="Testimonials">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">What inspectors are saying</h2>
+          <p class="section-subhead">Lorem ipsum dolor sit amet, consectetur adipiscing elit praesent.</p>
+        </div>
+
+        <div class="testimonials-grid">
+
+          <!-- Testimonial 1 -->
+          <article class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula purus a felis tincidunt, vel sodales nisl fringilla. Pellentesque habitant morbi tristique senectus et netus.
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">JM</div>
+              <div>
+                <p class="author-name">J.M.</p>
+                <p class="author-location">Jacksonville, FL</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 2 -->
+          <article class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">RT</div>
+              <div>
+                <p class="author-name">R.T.</p>
+                <p class="author-location">Denver, CO</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 3 -->
+          <article class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa.
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">SK</div>
+              <div>
+                <p class="author-name">S.K.</p>
+                <p class="author-location">Portland, OR</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SECTION 7 — Email Capture
+    ══════════════════════════════════ -->
+    <section id="lead-magnet" aria-label="Free guide email capture">
+      <div class="container">
+        <span class="pill-badge">Free guide</span>
+        <h2>5 Pricing Mistakes Home Inspectors Make</h2>
+        <p class="lm-sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit praesent faucibus purus magna.</p>
+        <form class="email-form" onsubmit="return false;" aria-label="Get the free guide">
+          <input type="email" placeholder="Your email address" aria-label="Email address" required />
+          <button type="submit" class="btn btn-primary">Send my guide</button>
+        </form>
+        <p class="email-trust">No spam. Unsubscribe anytime.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════
+       SECTION 8 — Footer
+  ══════════════════════════════════ -->
+  <footer id="site-footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Brand Column -->
+        <div class="footer-col footer-col-brand">
+          <p class="brand-name">The Inspector Playbook</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit praesent vehicula purus vel urna faucibus.</p>
+        </div>
+
+        <!-- Courses Column -->
+        <div class="footer-col">
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="#">Pricing with Confidence</a></li>
+            <li><a href="#">Mastering Agent Relationships</a></li>
+            <li><a href="#">AI for Home Inspectors</a></li>
+            <li><a href="#">Writing Reports That Land</a></li>
+            <li><a href="#">The Post-Inspection Opportunity</a></li>
+            <li><a href="#">The 72-Hour Window</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Account Column -->
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="#">Log in</a></li>
+            <li><a href="#">My courses</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Inspector Playbook &middot; inspectorplaybook.com</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal hamburger toggle
+    (function () {
+      var hamburger = document.getElementById('nav-hamburger');
+      var navLinks  = document.getElementById('nav-links');
+
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', function () {
+        var isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      // Close nav when a link is tapped on mobile
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
