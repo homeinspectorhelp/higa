@@ -35,3 +35,31 @@ PROOF:              Read /var/www/higa-dashboard/journals/team-learnings.md; ls 
 ```
 
 ---
+## 2026-06-15 19:50 UTC
+
+**Topic:** It's a public-facing website, and I want it built in HTML instead of GHL. The project is building the home page of Inspectorplaybook.com. I have a wireframe PDF and an .md file with the particulars. For the text, just use Lorem Ipsum.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+This is a **Wes job** — public-facing homepage, HTML build. Ready to route it right now.
+
+Before I brief Wes, I need the two files you mentioned:
+
+1. **The wireframe PDF** — drop it here in chat (or paste the filename if it's already in the repo)
+2. **The .md file** with the particulars — same, paste it here or share the filename
+
+Once I have both, I'll put together a complete brief for Wes and get the build started.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Identified correct specialist (Wes — public website owner); confirmed scope (HTML homepage build, Lorem Ipsum text)
+HANDED OFF:         Nothing yet — waiting on Ken's two files before briefing Wes
+STILL OPEN:         Ken to share wireframe PDF + particulars .md file
+PROOF:              Read Team/WES.md to confirm ownership scope
+```
+
+---
