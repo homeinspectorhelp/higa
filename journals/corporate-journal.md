@@ -2,6 +2,20 @@
 
 Shared team journal — synced to GitHub, searchable by Max.
 
+## 2026-06-15 — test
+
+**Written by:** Ken Compton
+**Category:** meeting
+**Status:** open
+
+Test
+
+### Attachments
+
+- [20260615qpersistencesdkconversionrequirements.md](journals/attachments/2026-06-15__test__d4iwut/20260615qpersistencesdkconversionrequirements.md)
+
+---
+
 ## 2026-06-03 — Shared team journal — synced to GitHub, searchable by Max.
 
 **Written by:** Ken Compton
