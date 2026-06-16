@@ -210,3 +210,33 @@ PROOF:              Write tool confirmed file created at /var/www/higa-dashboard
 ```
 
 ---
+## 2026-06-16 14:41 UTC
+
+**Topic:** who is your team?
+
+**Specialists called:** None
+
+**Max's reply:**
+
+The Inspector Playbook agent team has three members right now:
+
+**Max (me) — AI Orchestrator**
+Routes tasks, coordinates specialists, produces deliverables, and keeps Ken informed. I don't do specialist work myself — I route it.
+
+**Pax — Research Specialist**
+Handles all research: market analysis, course topic validation, competitor intel, student demand, and pricing benchmarks. Always cites sources; flags anything unverifiable.
+
+**Nolan — HR Director**
+Manages the agent roster — identifies capability gaps, drafts role specs for new agents, and handles onboarding/retiring agents. Never touches agent profile files without Ken's explicit approval.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Answered from CLAUDE.md team roster (no routing needed — direct knowledge question)
+HANDED OFF:         Nothing
+STILL OPEN:         None.
+PROOF:              Team defined in CLAUDE.md under "The Agent Team" section
+```
+
+---
