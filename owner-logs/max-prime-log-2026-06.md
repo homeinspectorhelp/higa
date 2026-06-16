@@ -308,3 +308,37 @@ PROOF:             mcp__hih__wordpress tool calls this turn; file read via pytho
 ```
 
 ---
+## 2026-06-16 16:02 UTC
+
+**Topic:** Use the wordpress tool to fully extract the Home Inspector Training area for a course-site rebuild, and route the organizing to Wes (website/WordPress) and Cora (course structure).
+
+Run list_pages with per_page 100. Find the hub page and the 6 path pages: Just Graduated; In Business 24 Months or Les
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Big extraction. I'll load the WordPress tool schema, kick off the initial scans in parallel, and then route the organized output to Wes and Cora. Starting now.Running the two initial scans in parallel now.The `list_pages` timed out — too much payload. The `/wp/v2/types` came back clean: **no LearnDash, LifterLMS, Tutor, or BuddyBoss course post types** — courses are embedded in pages (Elementor/BuddyBoss page builder). Retrying pages with a slim field set to avoid the timeout.Got all the pages. I can see the hub and all 6 paths. Now fetching full content for all 7 pages in parallel — hub + each path.`get_page` isn't a valid action — using `custom` GET instead. Fetching all 7 pages in parallel.All 6 path pages returned massive Elementor HTML dumps saved to files. The hub page came through clean in context. Now running Python to parse all 6 dump files and extract course content, video URLs, and downloads.All 6 are valid JSON. Now writing a full parser to extract course structure, videos, and downloads from the Elementor HTML.Excellent — the structure is clear. Now running the full extraction script across all 6 pages to pull courses, videos, and downloads.Good data counts. Now building the full structured output for all 6 paths.Full data is extracted. Now building the organized markdown — writing the comprehensive map directly.447KB is too noisy — raw bullet lines, not organized structure. Let me parse the HTML more intelligently, identifying course headings, week/day/task structure, video file names, and download groups properly.Now I have a clear picture of the structure. Let me look at the HTML to find the actual tab boundary markers so I can split Courses vs Tools & Templates accurately.Found it — Elementor nested tabs with ID-based content blocks. Now extracting Courses and Tools & Templates tabs separately for all 6 paths.Videos came up 0 — they're likely in the outer page, not inside the tab div. Let me debug and also check the One-Man Shop Needing Systems tools tab issue.The "videos" are actually MP3 audio lessons in `<video>` tags. And One-Man Shop Needing Systems does have 2 tabs but a regex issue. Fixing both and building the final document now.One-Man Shop Needing Systems shows 0 tools files but had 5 in the original pull — let me check that and also get the tools text for it.The 5 downloads are embedded in the Courses tab as inline links (within the 30-Day Plan text), not in the Tools tab. Let me check Tab 2 content for that page.One-Man Shop Tools tab is genuinely empty — no content uploaded yet. Now I have everything needed. Building the final organized markdown document.459KB / 2356 lines — complete extraction. Now copying to owner's inbox, then routing to Wes and Cora.File is filed and readable. Now routing to Wes and Cora in parallel — each gets a complete, self-contained brief.Here's where things stand, Ken:
+
+**What's done:**
+- Pulled all 6 path pages and the hub from WordPress
+- Confirmed: **no LMS plugin** — everything runs in Elementor nested tabs (no LearnDash, LifterLMS, etc.)
+- Extracted and organized the full content map: 6 paths, their course listings, 30-Day Action Plans, audio lessons, and downloadable PDFs
+- **Flagged gaps:** Path 3 (One-Man Shop Needing Systems) has an empty Tools & Templates tab; Path 2 (In Business 24 Months) has zero audio lessons
+- Filed the raw extraction to the Owner's Inbox — the Download button above will get you the full file
+
+**What's in motion:**
+- **Wes** is writing the WordPress Rebuild Brief — platform options (keep Elementor tabs vs. migrate to real LMS), migration notes, architecture recommendation
+- **Cora** is building the structured Course Hierarchy Map — all 6 paths in Path → Course → Module → Lesson format, cross-path content flagged
+
+Both are running now. I'll relay their full outputs as soon as they land.
+
+**Quick summary of what was found:**
+
+| Path | Courses | Audio Lessons | Tool PDFs |
+|------|---------|---------------|-----------|
+| Just Graduated | 20+ 
+
+*[truncated — full reply was shown in the dashboard chat]*
+
+---
