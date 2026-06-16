@@ -240,3 +240,31 @@ PROOF:              Team defined in CLAUDE.md under "The Agent Team" section
 ```
 
 ---
+## 2026-06-16 15:24 UTC
+
+**Topic:** Use the wordpress tool — run get_site and tell me the site title and how many pages are there
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me search for a WordPress tool in the available tools.No WordPress tool is available in this session — it's not in the loaded tools or the deferred tools list.
+
+The tools I have access to are: file operations (Read/Write/Edit), Bash, web search/fetch, Monday.com, and GoHighLevel (GHL). There's no `wordpress` or `get_site` tool connected.
+
+**A few possibilities:**
+- The WordPress MCP server may not be installed or configured yet.
+- It may need to be added to the Claude Code settings/MCP config.
+
+To get it set up, Ken would need to install a WordPress MCP integration. Would you like me to look into what's needed to add a WordPress tool to this dashboard? If you have a specific plugin or MCP server in mind (like `@wordpress/mcp` or similar), share the details and I can help configure it.
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Searched deferred tools list for "wordpress" — returned no matches
+HANDED OFF:          Nothing to hand off; tool not available
+STILL OPEN:          WordPress MCP tool not configured — Ken's decision on how to proceed
+PROOF:               ToolSearch("wordpress") → "No matching deferred tools found"
+```
+
+---
