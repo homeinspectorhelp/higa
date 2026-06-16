@@ -2,6 +2,20 @@
 
 Shared team journal — synced to GitHub, searchable by Max.
 
+## 2026-06-16 — Test
+
+**Written by:** Ken Compton
+**Category:** meeting
+**Status:** open
+
+PDF
+
+### Attachments
+
+- [4. An Integrated Ecosystem Where Each Company Solves a Different Problem.pdf](journals/attachments/2026-06-16__test__hjgkbq/4._An_Integrated_Ecosystem_Where_Each_Company_Solves_a_Different_Problem.pdf)
+
+---
+
 ## 2026-06-03 — Shared team journal — synced to GitHub, searchable by Max.
 
 **Written by:** Ken Compton
