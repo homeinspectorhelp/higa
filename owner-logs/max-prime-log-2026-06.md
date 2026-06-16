@@ -268,3 +268,43 @@ PROOF:               ToolSearch("wordpress") → "No matching deferred tools fou
 ```
 
 ---
+## 2026-06-16 15:34 UTC
+
+**Topic:** Use the wordpress tool — run get_site, then list_users, and tell me the site title and member count.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Pulling site info and user list from the WordPress tool now.Running both calls in parallel now.The user list came back cleanly. Let me grab the site title from the saved file.Here's what the WordPress site returned:
+
+---
+
+**Site Title:** Home Inspector Growth Academy
+**URL:** homeinspectorgrowthacademy.com
+
+**Total Users:** 43
+
+| Role | Count |
+|---|---|
+| Administrators (staff/internal) | 6 |
+| Subscribers (members) | 37 |
+
+A few notes on the subscriber list:
+- **Real inspector members** make up the bulk — names like Tod, Brandon, John, Clay, Missy, etc.
+- A handful look like **staff or test accounts** mixed in: `tianne@homeinspectorhelp.com`, `shiela@homeinspectorhelp.com`, `test@example.com`, `support@homeinspectorgrowthacademy.com` — so the true active member count is likely closer to **32–33**.
+- Most recent join: **James Chisholm** (sacinspects@gmail.com, joined 2025-06-26).
+
+Want me to pull MemberPress membership data (`/mp/v1/members`) to get a cleaner active-member count with subscription status?
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):    pulled mcp__hih__wordpress get_site + list_users (2 tool calls, parallel); read get_site result from saved file; tallied user roles
+HANDED OFF:        nothing
+STILL OPEN:        None.
+PROOF:             mcp__hih__wordpress tool calls this turn; file read via python3 from tool-results/mcp-hih-wordpress-1781624041008.txt; list_users returned count:43
+```
+
+---
