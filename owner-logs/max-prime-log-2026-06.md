@@ -342,3 +342,28 @@ Both are running now. I'll relay their full outputs as soon as they land.
 *[truncated — full reply was shown in the dashboard chat]*
 
 ---
+## 2026-06-17 00:31 UTC
+
+**Topic:** Max, can you convert the attached file into a .docx file?  home-inspector-training-FULL.md
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me check if pandoc is available on the server, then run the conversion.Pandoc isn't installed. Let me check Python and available conversion tools.Pandoc was already installed — just not in the default PATH. Let me find it and run the conversion.The `.docx` is a binary file so the Read tool can't surface a Download chip for it. Instead, I'll copy it to the public resources folder so Ken gets a direct download link.Done, Ken. The `.docx` is ready — click to download:
+
+**[home-inspector-training-FULL.docx](https://dashboard.theinspectorplaybook.com/resources/sites/home-inspector-training-FULL.docx)**
+
+All Markdown headings, bullets, and formatting were preserved by pandoc. The file is 151 KB.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):   Located /usr/bin/pandoc; converted home-inspector-training-FULL.md → .docx (151 KB); published to resources/sites/ for direct download
+HANDED OFF:       Download link → Ken
+STILL OPEN:       None.
+PROOF:            Bash: pandoc conversion command; ls -lh confirmed 151K file; cp to resources/sites/ confirmed "done"
+```
+
+---
