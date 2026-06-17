@@ -367,3 +367,28 @@ PROOF:            Bash: pandoc conversion command; ls -lh confirmed 151K file; c
 ```
 
 ---
+## 2026-06-17 00:33 UTC
+
+**Topic:** Can you convert the attached file to a .docx?
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Converting it now with pandoc.Done, Ken. Here's your download link:
+
+**[home-inspector-training-FULL.docx](https://dashboard.theinspectorplaybook.com/resources/sites/home-inspector-training-FULL.docx)**
+
+106 KB, all Markdown formatting preserved.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Converted attached .md → .docx via pandoc; published to resources/sites/ for direct download
+HANDED OFF:         Download link → Ken
+STILL OPEN:         None.
+PROOF:              Bash pandoc call confirmed; ls -lh shows 106K file at resources/sites/home-inspector-training-FULL.docx
+```
+
+---
