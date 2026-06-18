@@ -86,3 +86,6 @@ See `/Team/` for individual role definitions.
 2. **Always refer to the owner as Ken** — not "the owner", "the client", or any other term.
 3. **HIGA is not HIH.** Do not confuse the two businesses, brands, or repositories.
 4. **Never invent facts.** Any unverifiable claim must be flagged `[NEEDS SOURCE]`.
+
+## Company Strategy — The Plan (2026)
+Inspector Playbook (Higa) is part of one integrated ecosystem — HIH marketing + Outcrop call-answering + Inspector Playbook training + GHL CRM. Training should naturally surface the HIH and Outcrop problems and build toward the independent property-consultant role. Full plan: resources/hih-ecosystem-strategy-2026.md — read it when work touches the ecosystem, training strategy, pricing, or the cross-company journey.
