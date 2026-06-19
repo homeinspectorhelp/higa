@@ -600,3 +600,78 @@ PROOF:               Bash unzip + Read /tmp/max-prime-SSKvrr/HIGATraining/FOR-MA
 ```
 
 ---
+## 2026-06-19 07:23 UTC
+
+**Topic:** Please read the handoff and understand it
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me read the team learnings first, then find the handoff file in the repo.Good — there are three handoff files filed here. Let me read them all.Good. I've read everything filed. Here's what the handoff actually says:
+
+---
+
+## The HIT Handoff — What the Team Found
+
+Two specialists filed reports on **Home Inspector Training (HIT)** at homeinspectorgrowthacademy.com. Here's the full picture:
+
+---
+
+### What Cora (Course Creator) mapped
+
+The 6 learning paths are documented in a rebuild-ready hierarchy:
+
+| Path | Audio | PDFs | Status |
+|---|---|---|---|
+| 1 — Just Graduated | 21 MP3s | Not yet enumerated | Complete |
+| 2 — In Business 24 Months | **0 MP3s ⚠️** | 20 PDFs | **Gap: no audio** |
+| 3 — One-Man Shop Systems | 9 MP3s | **0 PDFs ⚠️** | **Gap: Tools tab empty** |
+| 4 — One-Man Shop Multi | 6 MP3s | 36 PDFs | Complete |
+| 5 — New/Small Multi | 20 MP3s | 82 PDFs | **Richest path — needs dedicated audit** |
+| 6 — Established Multi | 4 MP3s | 24 PDFs | Complete |
+
+**Key finding:** 13 lessons are repeated across multiple paths — Cora recommends building a **Core Lessons Library** once and referencing it everywhere rather than re-uploading.
+
+**Rebuild priority order Cora recommends:** Path 5 → Path 1 → Path 2 → Path 4 → Path 6 → Path 3.
+
+---
+
+### What Wes (Web Designer) found
+
+The site is **not a real LMS** — it's all hand-built in Elementor page tabs. No progress tracking, no enrollment records, and path selection is `localStorage` only (clears when a member switches devices).
+
+**Wes's recommendation:** Migrate to **LearnDash** (Option B) — it has native BuddyBoss integration (they co-developed it) and maps perfectly to the 6-path structure.
+
+**If budget/timeline is tight:** Do a fast Elementor cleanup first, then migrate to LearnDash in a second phase.
+
+---
+
+### The 4 Open Gaps (Wes confirmed, Cora flagged)
+
+1. **Path 3 Tools tab is empty** — members on the systems path get zero downloads
+2. **Path 2 has no audio at all** — every other path has 4–21 MP3 lessons; this one has none
+3. **Path 5 full lesson list not extracted** — it's the richest path (592 content lines) and needs its own dedicated audit
+4. **Path selection is client-side only** — needs to be written to server-side user meta so email sequences and BuddyBoss groups can be personalized by path
+
+---
+
+### The Decision That's Waiting on You
+
+**Option A (Elementor in-place):** Faster, lower cost, no migration. Still not a real LMS — progress tracking requires custom dev.
+
+**Option B (LearnDash):** Wes recommends this. $199/year, native BuddyBoss integration, real progress tracking. One-time rebuild of ~60 lessons — significant effort but maintainable long-term.
+
+**What do you want to do, Ken?** Once you pick A or B, I can route Wes to start the rebuild and route Cora to run the Path 5 dedicated audit in parallel.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Read HIT-course-structure-map-CORA.md (Cora's full 6-path map), HIT-wordpress-rebuild-brief-WES.md (Wes's full rebuild brief), journals/team-learnings.md (session start)
+HANDED OFF:          Ken — LMS decision (Option A vs B); Cora — Path 5 audit (pending Ken's go); Wes — rebuild kickoff (pending Ken's decision)
+STILL OPEN:          Ken's LMS choice; Path 5 full content audit; Path 2 audio (record or upload?); Path 3 tools content
+PROOF:               Read /var/www/higa-dashboard/owners-inbox/HIT-course-structure-map-CORA.md; Read /var/www/higa-dashboard/owners-inbox/HIT-wordpress-rebuild-brief-WES.md; Read /var/www/higa-dashboard/journals/team-learnings.md
+```
+
+---
