@@ -433,3 +433,27 @@ PROOF:               Read /var/www/higa-dashboard/journals/team-learnings.md (li
 ```
 
 ---
+## 2026-06-19 06:46 UTC
+
+**Topic:** Hi Max if I upload a zip file here can you extract it to see the multiple docs that is in that Zip?
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Yes, you can upload a zip file here. Once you attach it to a message, I'll be able to:
+
+1. **Extract it** using the terminal tools I have access to
+2. **List the files** inside so you can see what's there
+3. **Read and relay each document** — pasting the content in chat and generating Download chips so you can grab individual files
+
+Just drag and drop (or use the attachment button) and send it over. I'll handle the rest.
+
+---
+___ ORCHESTRATOR BADGE ___
+DID (verified): Answered Ken's question about zip upload capability
+HANDED OFF: Nothing — awaiting Ken's file upload
+STILL OPEN: Ken to upload the zip file
+PROOF: Direct answer from known shell/tool capabilities in this environment
+
+---
