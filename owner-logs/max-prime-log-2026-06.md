@@ -842,3 +842,48 @@ PROOF:              Agent(wes); grep confirmed All Courses, Bestseller, Ken Comp
 ```
 
 ---
+## 2026-06-19 08:16 UTC
+
+**Topic:** Here, not good
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Reading both screenshots now.I can see the problem clearly. Two issues:
+
+1. **Broken CSS/JS** — Next.js exports asset paths like `/_next/static/...` which don't resolve when served from a subdirectory. The spinner and smashed-together nav are the result — nothing loaded.
+2. **Course cards not rendering** — just a navy rectangle, no cards at all.
+
+The fix: Wes needs to build a **self-contained HTML file** (no framework dependencies, inline CSS) for the preview. The Next.js app stays for the real build, but for what you can see right now in a browser it needs to be dependency-free.
+
+Routing Wes to fix it now.Wes rebuilt it as a clean self-contained file. Let me verify it's correct before sending you the link.All 8 key UI elements confirmed, zero `/_next/` references, 17KB self-contained file. 
+
+**Open this link — it should render correctly now:**
+
+**[https://dashboard.theinspectorplaybook.com/resources/sites/inspector-playbook-lms/](https://dashboard.theinspectorplaybook.com/resources/sites/inspector-playbook-lms/)**
+
+What you should see this time:
+- **White nav bar** with TIP logo, search box, My Learning, Log In, orange Sign Up
+- **Category tabs** — click to filter (All Courses / Just Starting Out / Growing My Business / Multi-Inspector Firm)
+- **6 course cards** in a 3-column grid — colored thumbnails, Ken Compton, star ratings, lesson counts, prices, Bestseller badge on Path 5
+- **Live search** as you type
+
+Let me know if it looks right this time. If yes, Sprint 2 is auth (register/login) — I'll route that immediately on your go.
+
+---
+
+```
+─── WES BADGE (relayed) ───
+DID: Replaced broken Next.js static export with 17,828-byte self-contained HTML; zero /_next/ references; all CSS inline; category tab JS filter + live search working; 6 course cards per spec
+HANDED OFF: Ken — live link above
+STILL OPEN: Auth pages (Sprint 2) pending Ken's approval
+
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Routed redesign fix to Wes (1 Agent call); grep confirmed 0 /_next/ refs + 8/8 UI elements present in deployed file
+HANDED OFF:         Ken — live link to verify
+STILL OPEN:         Ken's review; Sprint 2 (auth) on Ken's go
+PROOF:              Agent(wes); Bash grep/wc on /resources/sites/inspector-playbook-lms/index.html
+```
+
+---
