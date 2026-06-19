@@ -550,3 +550,53 @@ PROOF:           nginx -T confirmed client_max_body_size 100M live; Edit tool ad
 ```
 
 ---
+## 2026-06-19 07:00 UTC
+
+**Topic:** Here
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Reading the team learnings journal to start current, then I'll examine that zip file.There's a handoff note in there for me. Let me extract and read it.Got it — the full HIGA training library has landed. Here's what you sent:
+
+**17 DOCX files** — the complete content of HIGA's two training hubs:
+
+**Hub 1 — Home Inspector Training (6 files)**
+| # | Category | Courses | Lessons |
+|---|---|---|---|
+| 1 | Just Graduated Home Inspection School | 13 | 419 |
+| 2 | In Business 24 Months or Less | 12 | 382 |
+| 3 | One-Man Shop Needing Systems & Procedures | 2 | 5 |
+| 4 | One-Man Shop Wanting Multi-Inspector Firm | 3 | 30 |
+| 5 | New/Small Multi-Inspector Firm | 11 | 378 |
+| 6 | An Established Multi-Inspector Firm | 4 | 31 |
+
+**Hub 2 — Advanced Training (11 files)**
+Online Marketing, 5 Pillars of Success, Sphere of Influence, Offline Marketing, Recruiting/Hiring, Prior Client Marketing, Listing Agents, Property Consultant, Community Events, Business Ready to Sell + a live bbPress forum.
+
+The handoff note flags three things for my attention:
+1. **Dead link** — `/member-course/reputation-marketing/` links on the live site go nowhere — needs a decision (rebuild it or redirect)
+2. **Assets not migrated** — tool/template PDFs (248) and lesson audio/video (89) are still on HIGA's WordPress media library/S3
+3. **Home Base forum** has no static content to migrate — it's a live member discussion board
+
+**What would you like to do with this material, Ken?**
+
+A few likely directions — tell me which fits (or give me something different):
+
+1. **File it** — convert all 17 DOCX to Markdown and store in the repo as source material for course builds
+2. **Course extraction** — have Cora map the content against Inspector Playbook's 19 course opportunities and identify what can be repurposed
+3. **New site build** — route to Wes to start planning the migration architecture
+4. **All of the above** — I'll sequence and delegate
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Read FOR-MAX-HIGA-HANDOFF.md from the extracted zip; reviewed full inventory of 17 DOCX files and 3 flags
+HANDED OFF:          Awaiting Ken's direction on next step
+STILL OPEN:          What to do with the HIGA training content — Ken's decision
+PROOF:               Bash unzip + Read /tmp/max-prime-SSKvrr/HIGATraining/FOR-MAX-HIGA-HANDOFF.md
+```
+
+---
