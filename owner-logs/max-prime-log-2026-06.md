@@ -675,3 +675,58 @@ PROOF:               Read /var/www/higa-dashboard/owners-inbox/HIT-course-struct
 ```
 
 ---
+## 2026-06-19 07:38 UTC
+
+**Topic:** I need you to review this chat with me and Claude Code 
+
+please know that we will be creating a course site by the use of Caude code. 
+
+1. when clietns pay for the course they will eb given a login like what we can see in Udemy 
+2. =they will see possible courses for them 
+3. when they click my lear
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me read those screenshots first.Got it. I've read all four screenshots. Here's what I understand — confirm or correct me:
+
+---
+
+## The Build: Inspector Playbook LMS
+
+**What you want:** A custom-coded Udemy-style course platform for home inspectors, built here in Claude Code. Not LearnDash, not BuddyBoss, not GHL courses — a purpose-built site.
+
+**The 5 features confirmed buildable (from your Claude Code chat):**
+
+| # | Feature | How it's built |
+|---|---|---|
+| 1 | Pay → get a login | Stripe Checkout + user accounts |
+| 2 | Course catalog | Public browse + "available to you" |
+| 3 | My Learning | Dashboard filtered to owned courses |
+| 4 | Resume where you left off | Per-lesson progress saved to account |
+| 5 | Course player | Video + section nav sidebar (like screenshot 4) |
+
+**Content source:** The HIGA courses you downloaded — 6 learning paths, ~60 lessons, already mapped by Cora.
+
+---
+
+## Two things I need from you before we build:
+
+**1. Relationship to GHL** — The Inspector Playbook currently delivers courses through GoHighLevel. Is this new site *replacing* GHL courses, or is it a separate product (e.g., a different brand/audience)?
+
+**2. First deliverable** — Do you want me to produce a **full build plan** first (architecture, data model, pages, Stripe setup, video hosting choice, phases) — or do you want to **start coding immediately** with Claude Code on a specific first piece?
+
+Once I have those two answers I'll route the right people and get the first deliverable in your hands in this same turn.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Read all 4 screenshots; confirmed the 5-feature Udemy-pattern build; identified 2 clarifying questions before proceeding
+HANDED OFF:          Ken — 2 decisions needed (GHL relationship + build plan vs. start coding)
+STILL OPEN:          Both decisions above
+PROOF:               Read /tmp/max-prime-00UWw4/pasted-178185457* (all 4 images)
+```
+
+---
