@@ -971,3 +971,40 @@ PROOF:               curl POST https://dashboard.theinspectorplaybook.com/api/jo
 ```
 
 ---
+## 2026-06-19 09:00 UTC
+
+**Topic:** create an MD file that I am going to attach to a chat for Claude so He will include what we have done here today in the playbook.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Writing the handoff document now, then reading it so your download button appears.The file is ready — the Download button should appear above this reply. Here's what's in it:
+
+**`2026-06-19-inspector-playbook-lms-context-for-claude.md`** — filed in Owner's Inbox
+
+The doc covers everything Claude will need to pick up where we left off:
+
+- **What the project is** — Udemy-style LMS, custom-coded, no GHL/LearnDash
+- **5 core features** and their planned implementation
+- **What's already built** — all 3 live HTML files with their URLs
+- **Full course structure** — all 6 paths with lesson counts, audio, and PDF inventory
+- **Path 1 complete module/lesson breakdown** (already coded into the player)
+- **Tech stack** — Next.js app at `/var/www/inspector-playbook-lms/`, planned auth/DB/Stripe
+- **Sprint roadmap** — Sprint 1 done, Sprints 2–7 queued
+- **Open gaps and decisions** — Path 2 no audio, Path 3 no tools, video hosting TBD
+- **Design decisions locked in** — Udemy pattern, navy + orange, Ken Compton as instructor
+
+Just attach that file when you open a new Claude Code chat and it will have full context.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Wrote 2026-06-19-inspector-playbook-lms-context-for-claude.md to owners-inbox; Read it back to confirm content and trigger download
+HANDED OFF:          Ken — download button above; attach to next Claude Code session
+STILL OPEN:          None.
+PROOF:               Write /var/www/higa-dashboard/owners-inbox/2026-06-19-inspector-playbook-lms-context-for-claude.md (186 lines); Read confirmed full content
+```
+
+---
