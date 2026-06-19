@@ -457,3 +457,33 @@ STILL OPEN: Ken to upload the zip file
 PROOF: Direct answer from known shell/tool capabilities in this environment
 
 ---
+## 2026-06-19 06:50 UTC
+
+**Topic:** why Backend returned 413
+
+**Specialists called:** None
+
+**Max's reply:**
+
+A **413 "Request Entity Too Large"** error means the server rejected the upload because the file exceeds the configured size limit. Let me check the server config right now.Found it. Express is set to `100mb` (line 112), but the **413 is almost certainly coming from Nginx** — the reverse proxy sitting in front of Node. Nginx's default `client_max_body_size` is **1MB**, so any ZIP larger than that gets rejected before it even reaches Express.
+
+Let me check the Nginx config to confirm.There's the problem. `dashboard.theinspectorplaybook.com` has **no `client_max_body_size`** set — so Nginx falls back to its default of **1MB**. The other dashboards have explicit limits (HIH has 100M, Outcrop has 50M), but The Inspector Playbook's block was never updated.
+
+Let me find and fix the Nginx config file.Confirmed — no `client_max_body_size` in this config. I'll add `100M` to match the HIH dashboard.Fixed and live. Here's the full picture:
+
+**Root cause:** Nginx's default `client_max_body_size` is **1MB**. The Inspector Playbook dashboard config had no override, so any file larger than 1MB triggered a 413 before the request even reached Node.js.
+
+**Fix:** Added `client_max_body_size 100M;` to `/etc/nginx/sites-available/playbook-dashboard` — same limit as the HIH dashboard. Config tested clean and Nginx reloaded.
+
+You can try uploading your ZIP again now — it should go through.
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):  Read server.js (confirmed Express limit = 100mb, not the issue); checked Nginx config via `nginx -T`; identified missing client_max_body_size on dashboard.theinspectorplaybook.com; edited /etc/nginx/sites-available/playbook-dashboard to add 100M limit; ran nginx -t + systemctl reload nginx (both returned OK)
+HANDED OFF:      Ken to retry the ZIP upload
+STILL OPEN:      None.
+PROOF:           server.js:112 shows Express limit; nginx -T output showed no client_max_body_size for theinspectorplaybook.com block; Edit tool updated playbook-dashboard; nginx -t + reload confirmed
+```
+
+---
