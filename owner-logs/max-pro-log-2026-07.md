@@ -73,3 +73,47 @@ What
 *[truncated — full reply visible in dashboard chat]*
 
 ---
+## 2026-07-02 19:28 UTC
+
+**Topic:** Quick status check: Where are we on the Inspector Playbook LMS build? What's done, what's blocking Sprint 2, and what decisions does Ken need to make? Keep your answer concise — 300 words max.
+
+**Specialists called:** None
+
+**Max's reply:**
+Here's where things stand as of the July 2 status report:
+
+---
+
+## ✅ Done
+- **Sprint 1 complete** — Static HTML previews live: Course Catalog, Course Detail (Path 1), and Lesson Player with JS accordion and localStorage progress tracking
+- **Content audit complete** — All 6 paths mapped (gaps flagged)
+- **WordPress analysis complete** — Confirmed no real LMS exists; fully custom Next.js app is the right call
+- **Next.js app scaffolded** — File structure in place, no functional code yet
+
+---
+
+## 🔲 Sprint 2 Blockers (Auth: Register / Login)
+Sprint 2 itself (NextAuth.js) can technically start — but **video hosting must be decided first** because it changes the database schema and lesson player code, which Sprint 3 and 5 depend on.
+
+**Sprint 2 is ready to launch the moment Ken makes Decision #1 below.**
+
+---
+
+## 📋 Ken's Open Decisions (7 total)
+| # | Decision |
+|---|----------|
+| 1 | **Video hosting** — Vimeo ($20/mo), Bunny.net ($0.01/GB), or S3+CloudFront? *(critical path)* |
+| 2 | **Path 2 audio** — Record new MP3s or ship text/PDF-only? |
+| 3 | **Path 3 Tools tab** — Ken records content or assign Cora to adapt it? |
+| 4 | **Path 5 full audit** — Green-light Cora/Pax to finish extraction? |
+| 5 | **Pricing** — $197–$297 placeholders need real prices before Stripe sprint |
+| 6 | **Domain DNS** — Point `courses.theinspectorplaybook.com` at the server |
+| 7 | **Shared lessons** — Build a Core Lessons Library or duplicate per path? |
+
+Decisions #1 and #5 are the **critical path** — nothing functional can be built until those are locked.
+
+---
+
+**NEXT STEP** — Work through the 7 decisions above. When you're ready, tell me your answers and I'll kick off Sprint 2 immediately.
+
+---
