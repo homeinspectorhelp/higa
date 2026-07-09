@@ -53,3 +53,47 @@ PROOF:            node --check outputs above; curl /api/inbox → 9 files; git c
 ```
 
 ---
+## 2026-07-09 11:18 UTC
+
+**Topic:** Please check the meeting trsanscript and tell me what else needs to be done in this dashboard. Look in to the overview. Ken did mention about the monthly revenue
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Reading the transcript and the current dashboard overview section in parallel.The key section on the dashboard is around lines 35:44–36:19 of the transcript. Let me read the Overview section of the dashboard HTML to see what's currently there.Got it. Now let me check what courses exist in the repo to pull real counts.Now I have a clear picture. Here's what Ken said at ~35:44–36:19 of the transcript:
+
+> *"this right here, the revenue is... it's coming from the enrolled students. Things we want to do is **courses available**, **courses under construction**, then maybe a little CRM stuff. There would be a place for monthly revenue, but **not right there at the top**."*
+
+**The fix:** Restructure the Overview KPI strip — pull Monthly Revenue off the top row and replace with course-focused stats. Add revenue as a secondary section below. Let me do it.Now I have the full picture. Making the changes Ken requested: courses at the top, revenue moved below.Now add the Revenue Snapshot row after Platform Snapshot (before the closing `</div></div>` of the overview page):Now verify the syntax is clean and commit:Now appending the lesson:Done. Here's what I pulled from the meeting and what changed:
+
+**What Ken said (transcript ~35:44–36:19):**
+- "This right here, the revenue is… it's coming from the enrolled students" — the current top stat was wrong/misleading
+- "Things we want to do is **courses available**, **courses under construction**, then maybe a little CRM stuff"
+- "There would be a place for monthly revenue, but **not right there at the top**"
+
+**What I changed on the Overview:**
+
+| Position | Before | After |
+|---|---|---|
+| KPI #1 | Monthly Revenue $4,200 | **Courses Available** (0 — awaiting GHL) |
+| KPI #2 | Enrolled Students | **Courses in Production** (19 identified) |
+| KPI #3 | MRR | Enrolled Students |
+| KPI #4 | Completion Rate | Completion Rate |
+| KPI #5 | Refunds | MRR |
+| **New section (bottom)** | — | **Revenue Snapshot** card — Monthly Revenue, MRR, Refunds |
+
+Revenue didn't disappear — it's now in its own card lower on the page where Ken said it belongs. Committed as `378a4ea` + learnings logged.
+
+**One thing to flag from the transcript:** Ken also mentioned the "revenue is coming from enrolled students" — that means the $4,200 / $1,940 placeholder numbers aren't real. Once GHL is connected, those will pull actual course sale data, not enrolled-student counts. That's a future wiring task (for Skye or Glen when GHL integration is set up).
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Read transcript (extracted KPI layout decision), read dashboard HTML, edited Overview KPI strip + added Revenue Snapshot card, committed 378a4ea, appended learnings → be27887
+HANDED OFF:         GHL live-data wiring (revenue + enrollment) → Skye/Glen when Ken is ready to connect the API
+STILL OPEN:         GHL API connection needed to populate real "Courses Available" count and actual revenue figures
+PROOF:              Edit tool calls to dashboard/index.html; git commits 378a4ea and be27887; journals/team-learnings.md appended
+```
+
+---
