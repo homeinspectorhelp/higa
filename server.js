@@ -15,6 +15,7 @@ import chatHandler from "./api/max-pro/chat.js";
 import xlsxToMdHandler from "./api/xlsx-to-md.js";
 import bulkUpdateHandler from "./api/bulk-update-clients.js";
 import journalHandler from "./api/journal.js";
+import inboxHandler from "./api/inbox/index.js";
 import ghlAuthHandler, { callbackHandler as ghlCallback, statusHandler as ghlStatus, getValidToken } from "./api/ghl/auth.js";
 import { googleAuthHandler, googleCallbackHandler, googleStatusHandler } from "./api/lib/google-oauth.js";
 import healthHandler from "./api/health.js";
@@ -133,6 +134,10 @@ app.all("/api/max-prime/chat", async (req, res) => {
 // GitHub-synced journal (corporate / ken / beth) — read/write the same files
 // from anywhere (Philippines or USA). GET, POST, PUT (edit), PATCH (comment), DELETE.
 app.all("/api/journal", journalHandler);
+
+// ── Owner's Inbox ─────────────────────────────────────────────────────────────
+// Serves completed deliverables filed in owners-inbox/ (list + inline/download).
+app.all("/api/inbox", inboxHandler);
 
 // ── Resources (Shared Library) ────────────────────────────────────────────────
 // Filesystem-based shared library under resources/shared/. The The Inspector Playbook deploy

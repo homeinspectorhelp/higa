@@ -862,6 +862,67 @@
     .integration-name { font-weight: 600; font-size: 0.875rem; color: var(--text); }
     .integration-desc { font-size: 0.75rem; color: var(--text3); margin-top: 0.15rem; }
 
+    /* ── OWNER'S INBOX ── */
+    .oi-toolbar { display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center; margin:2rem 0 1rem; }
+    .oi-filters { display:flex; flex-wrap:wrap; gap:0.5rem; }
+    .oi-search {
+      flex:1; min-width:220px; padding:0.55rem 0.85rem;
+      border:1px solid var(--border); border-radius:8px; background:var(--surface);
+      color:var(--text); font-size:0.825rem; font-family:inherit;
+    }
+    .oi-search:focus { outline:none; border-color:var(--gold); }
+    .oi-list { display:flex; flex-direction:column; }
+    .oi-sec-head {
+      font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;
+      color:var(--text3); padding:1rem 0 0.4rem 0.25rem;
+    }
+    .oi-sub-head {
+      font-size:0.7rem; font-weight:600; color:var(--text3);
+      padding:0.75rem 0 0.25rem 0.25rem; border-top:1px solid var(--border); margin-top:0.4rem;
+    }
+    .oi-row {
+      display:flex; align-items:center; gap:0.85rem;
+      background:var(--surface); border:1px solid var(--border); border-radius:10px;
+      padding:0.7rem 0.9rem; margin-bottom:0.5rem;
+    }
+    .oi-row:hover { border-color:var(--gold); box-shadow:var(--shadow); }
+    .oi-row-icon { font-size:1.2rem; flex-shrink:0; }
+    .oi-row-main { flex:1; min-width:0; }
+    .oi-row-name { font-size:0.85rem; font-weight:600; color:var(--text); word-break:break-word; }
+    .oi-row-sub { font-size:0.72rem; color:var(--text3); margin-top:0.1rem; }
+    .oi-row-actions { display:flex; gap:0.4rem; flex-shrink:0; }
+    .oi-action {
+      padding:0.35rem 0.75rem; border-radius:7px; font-size:0.72rem; font-weight:700;
+      cursor:pointer; border:1px solid var(--border); background:var(--bg);
+      color:var(--text2); text-decoration:none; display:inline-block;
+    }
+    .oi-action:hover { border-color:var(--gold); color:var(--gold); }
+    .oi-others summary { cursor:pointer; font-size:0.75rem; font-weight:600; color:var(--text3); padding:0.5rem 0.25rem; }
+    .oi-empty { padding:2.5rem; text-align:center; color:var(--text3); }
+    .oi-modal-overlay {
+      position:fixed; inset:0; z-index:200; background:rgba(15,23,42,0.55);
+      display:none; align-items:center; justify-content:center; padding:1rem;
+    }
+    .oi-modal {
+      background:var(--surface); border-radius:14px; width:min(820px,94vw);
+      max-height:90vh; display:flex; flex-direction:column; box-shadow:var(--shadow-lg);
+    }
+    .oi-modal-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1rem 1.25rem; border-bottom:1px solid var(--border);
+    }
+    .oi-modal-title { font-size:0.9rem; font-weight:700; color:var(--text); word-break:break-word; }
+    .oi-modal-close { background:none; border:none; font-size:1.1rem; cursor:pointer; color:var(--text3); }
+    .oi-modal-body { padding:1.25rem; overflow:auto; }
+    .oi-view {
+      white-space:pre-wrap; word-break:break-word; font-family:'SFMono-Regular',Consolas,monospace;
+      font-size:0.8rem; line-height:1.55; color:var(--text); margin:0;
+    }
+    .oi-modal-footer {
+      display:flex; justify-content:flex-end; gap:0.6rem;
+      padding:1rem 1.25rem; border-top:1px solid var(--border);
+    }
+
     /* scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -884,6 +945,7 @@
     <div class="nav-section">
       <div class="nav-item active" onclick="showPage('overview',this)"><span class="nav-icon">📊</span> Overview</div>
       <div class="nav-item" onclick="showPage('inbox',this)"><span class="nav-icon">📥</span> Inbox <span class="nav-badge" id="inbox-count">3</span></div>
+      <div class="nav-item" onclick="showPage('ownersinbox',this)"><span class="nav-icon">📬</span> Owner's Inbox</div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-section">
@@ -1172,6 +1234,47 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ── OWNER'S INBOX ── -->
+  <div class="page" id="page-ownersinbox">
+    <div class="page-strip">
+      <h1>Owner's Inbox</h1>
+      <p>Completed work filed for Ken — PDFs, reports, and deliverables from the team.</p>
+    </div>
+    <div id="content">
+      <div class="oi-toolbar">
+        <input id="oi-search" class="oi-search" placeholder="🔎 Search filed work by name…">
+        <div class="oi-filters" id="oi-type-filter">
+          <div class="filter-chip active" data-type="all">All</div>
+          <div class="filter-chip" data-type="pdf">📕 PDFs</div>
+          <div class="filter-chip" data-type="report">🌐 Reports</div>
+          <div class="filter-chip" data-type="doc">📄 Docs</div>
+          <div class="filter-chip" data-type="data">📊 Data</div>
+        </div>
+        <button class="btn btn-view" id="oi-refresh-btn">↺ Refresh</button>
+      </div>
+      <div class="oi-list" id="oi-list">
+        <div class="oi-empty">Loading files…</div>
+      </div>
+    </div>
+
+    <!-- Inline viewer modal -->
+    <div class="oi-modal-overlay" id="oi-modal">
+      <div class="oi-modal">
+        <div class="oi-modal-header">
+          <div class="oi-modal-title" id="oi-modal-title">File</div>
+          <button class="oi-modal-close" id="oi-modal-close">✕</button>
+        </div>
+        <div class="oi-modal-body">
+          <pre class="oi-view" id="oi-view"></pre>
+        </div>
+        <div class="oi-modal-footer">
+          <a class="btn btn-view" id="oi-modal-download" href="#" download>Download</a>
+          <button class="btn btn-approve" id="oi-modal-ok">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1688,6 +1791,7 @@
     document.getElementById('page-' + id).classList.add('active');
     navEl.classList.add('active');
     window.scrollTo(0,0);
+    if (id === 'ownersinbox') window.OwnersInboxView && window.OwnersInboxView.open();
   }
 
   document.querySelectorAll('.toggle').forEach(function(t){
@@ -1862,6 +1966,145 @@
       chip.classList.add('active');
     });
   });
+
+  /* ── OWNER'S INBOX ── */
+  (function () {
+    var $ = function (id) { return document.getElementById(id); };
+    function esc(s) { var d = document.createElement('div'); d.textContent = (s == null ? '' : s); return d.innerHTML; }
+
+    var $list = $('oi-list'), $modal = $('oi-modal'), $mTitle = $('oi-modal-title'),
+        $mView = $('oi-view'), $mDl = $('oi-modal-download');
+    var loaded = false, loading = false;
+    var allFiles = [], typeFilter = 'all', searchQ = '';
+
+    var TEXT_EXTS = ['md','txt','csv','json'];
+    var IFRAME_EXTS = ['pdf','png','jpg','jpeg','gif','webp','html','htm'];
+    var EXT_ICON = { pdf:'📕', md:'📄', txt:'📄', csv:'📊', xlsx:'📊', json:'📄', html:'🌐', htm:'🌐', png:'🖼', jpg:'🖼', jpeg:'🖼', webp:'🖼' };
+
+    function typeOf(ext) {
+      if (ext === 'pdf') return 'pdf';
+      if (ext === 'html' || ext === 'htm') return 'report';
+      if (ext === 'md' || ext === 'txt' || ext === 'json') return 'doc';
+      if (ext === 'csv' || ext === 'xlsx') return 'data';
+      return 'other';
+    }
+    function fmtWhen(ms) {
+      if (!ms) return '';
+      var s = Math.floor((Date.now() - ms) / 1000);
+      if (s < 60) return 'just now';
+      if (s < 3600) return Math.floor(s / 60) + 'm ago';
+      if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+      var d = Math.floor(s / 86400);
+      if (d < 30) return d + 'd ago';
+      if (d < 365) return Math.floor(d / 30) + 'mo ago';
+      return Math.floor(d / 365) + 'y ago';
+    }
+
+    function rowHtml(f) {
+      var icon = EXT_ICON[f.ext] || '📁';
+      var dlUrl = '/api/inbox?file=' + encodeURIComponent(f.path) + '&download=1';
+      var openUrl = '/api/inbox?file=' + encodeURIComponent(f.path) + '&inline=1';
+      var viewBtn = TEXT_EXTS.indexOf(f.ext) !== -1
+        ? '<button class="oi-action" data-act="view" data-path="' + esc(f.path) + '" data-name="' + esc(f.name) + '">View</button>'
+        : IFRAME_EXTS.indexOf(f.ext) !== -1
+          ? '<a class="oi-action" href="' + openUrl + '" target="_blank" rel="noopener">Open</a>'
+          : '';
+      var when = fmtWhen(f.mtimeMs);
+      return '<div class="oi-row">' +
+        '<div class="oi-row-icon">' + icon + '</div>' +
+        '<div class="oi-row-main">' +
+          '<div class="oi-row-name">' + esc(f.name) + '</div>' +
+          '<div class="oi-row-sub">' + esc(f.sizeStr) + (when ? ' · ' + esc(when) : '') + '</div>' +
+        '</div>' +
+        '<div class="oi-row-actions">' + viewBtn +
+          '<a class="oi-action" href="' + dlUrl + '" download>Download</a>' +
+        '</div>' +
+      '</div>';
+    }
+    function sectionHead(label, n) { return '<div class="oi-sec-head">' + label + ' (' + n + ')</div>'; }
+    function subHead(label) { return '<div class="oi-sub-head">' + esc(label) + '</div>'; }
+
+    function render() {
+      if (!allFiles.length) { $list.innerHTML = '<div class="oi-empty">No files yet.</div>'; return; }
+      var q = searchQ.trim().toLowerCase();
+      var pass = function (f) {
+        return (typeFilter === 'all' || typeOf(f.ext) === typeFilter) && (!q || f.name.toLowerCase().indexOf(q) !== -1);
+      };
+      var top = allFiles.filter(function (f) { return f.top && pass(f); });
+      var sub = allFiles.filter(function (f) { return !f.top && pass(f); });
+
+      var html = sectionHead('📁 Deliverables — newest first', top.length);
+      html += top.length ? top.map(rowHtml).join('')
+        : '<div class="oi-empty">No deliverables match.</div>';
+
+      if (sub.length) {
+        var groups = {};
+        sub.forEach(function (f) { var g = f.dir || '/'; (groups[g] = groups[g] || []).push(f); });
+        html += '<details class="oi-others"' + (q ? ' open' : '') + ' style="margin-top:0.9rem">' +
+          '<summary>🗂 Team &amp; system files (' + sub.length + ') — click to expand</summary>';
+        Object.keys(groups).forEach(function (g) {
+          html += subHead(g);
+          html += groups[g].map(rowHtml).join('');
+        });
+        html += '</details>';
+      }
+      $list.innerHTML = html;
+    }
+
+    function loadList() {
+      loading = true;
+      $list.innerHTML = '<div class="oi-empty">Loading files…</div>';
+      fetch('/api/inbox').then(function (res) {
+        if (!res.ok) return res.json().catch(function(){return {};}).then(function(er){ throw new Error(er.error || ('HTTP ' + res.status)); });
+        return res.json();
+      }).then(function (data) {
+        loaded = true;
+        allFiles = data.files || [];
+        render();
+      }).catch(function (err) {
+        $list.innerHTML = '<div class="oi-empty" style="color:var(--red)">Failed to load: ' + esc(err.message) + '</div>';
+      }).finally(function () { loading = false; });
+    }
+
+    function viewFile(filePath, name) {
+      $mTitle.textContent = name;
+      $mDl.href = '/api/inbox?file=' + encodeURIComponent(filePath) + '&download=1';
+      $modal.style.display = 'flex';
+      var ext = (name.split('.').pop() || '').toLowerCase();
+      if (IFRAME_EXTS.indexOf(ext) !== -1) {
+        $mView.innerHTML = '<iframe src="/api/inbox?file=' + encodeURIComponent(filePath) + '&inline=1" style="width:100%;height:68vh;border:none;border-radius:8px;background:#fff"></iframe>';
+        return;
+      }
+      $mView.textContent = 'Loading…';
+      fetch('/api/inbox?file=' + encodeURIComponent(filePath)).then(function (res) {
+        if (!res.ok) return res.json().catch(function(){return {};}).then(function(er){ throw new Error(er.error || ('HTTP ' + res.status)); });
+        return res.json();
+      }).then(function (data) {
+        $mView.textContent = data.content || '(empty file)';
+      }).catch(function (err) { $mView.textContent = 'Failed to load: ' + err.message; });
+    }
+
+    if ($list) $list.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-act="view"]');
+      if (!btn) return;
+      viewFile(btn.dataset.path, btn.dataset.name);
+    });
+
+    function closeModal() { $modal.style.display = 'none'; }
+    if ($('oi-modal-close')) $('oi-modal-close').addEventListener('click', closeModal);
+    if ($('oi-modal-ok')) $('oi-modal-ok').addEventListener('click', closeModal);
+    if ($modal) $modal.addEventListener('click', function (e) { if (e.target === $modal) closeModal(); });
+    if ($('oi-refresh-btn')) $('oi-refresh-btn').addEventListener('click', function () { loadList(); });
+    if ($('oi-search')) $('oi-search').addEventListener('input', function (e) { searchQ = e.target.value; render(); });
+    if ($('oi-type-filter')) $('oi-type-filter').addEventListener('click', function (e) {
+      var b = e.target.closest('.filter-chip'); if (!b) return;
+      typeFilter = b.dataset.type || 'all';
+      $('oi-type-filter').querySelectorAll('.filter-chip').forEach(function (c) { c.classList.toggle('active', c === b); });
+      render();
+    });
+
+    window.OwnersInboxView = { open: function () { if (!loaded && !loading) loadList(); } };
+  })();
 
   maxRender();
 </script>
