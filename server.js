@@ -98,7 +98,7 @@ app.post("/api/webhook/github", express.raw({ type: "*/*" }), (req, res) => {
     } else {
       // The Inspector Playbook push: pull this repo + reload
       exec(
-        `cd "${__dirname}" && git pull origin main && pm2 reload max`,
+        `cd "${__dirname}" && git pull --no-rebase origin main && pm2 reload max`,
         { timeout: 60000 },
         (err, stdout) => {
           if (err) console.error("[webhook] The Inspector Playbook deploy error:", err.message);
@@ -204,7 +204,7 @@ app.post("/api/deploy", (req, res) => {
   res.json({ ok: true, message: "Deploy triggered — pulling latest and reloading." });
   setTimeout(() => {
     exec(
-      `cd "${__dirname}" && git pull origin main && pm2 reload max`,
+      `cd "${__dirname}" && git pull --no-rebase origin main && pm2 reload max`,
       { timeout: 60000 },
       (err, stdout, stderr) => {
         if (err) console.error("Deploy error:", err.message);
