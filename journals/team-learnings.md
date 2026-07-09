@@ -12,5 +12,6 @@ A compact, **append-only** log of durable lessons. Agents **read this on session
 
 ## Learnings (newest first)
 
+- 2026-07-09 — [decision] Overview KPI strip: Ken wants courses first (Courses Available, Courses in Production), then students/completion — Monthly Revenue goes in a secondary Revenue Snapshot card below, not at the top.
 - 2026-07-09 — [ops] Always commit live edits to the higa repo immediately — untracked files are lost on PM2 restart/redeploy. Create a .gitignore excluding node_modules/, .env, *.bak-*, and location-tokens.json before first big commit.
 - 2026-06-12 — [architecture] Max Prime runs on the Claude Code (Agent SDK) engine, delegates to specialist sub-agents (pax, nolan) via the Task tool, ends with an ORCHESTRATOR BADGE, and never wears a hat. Auto-learning is on (read this on start, append at end of task).
