@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Team Session Report — May 29, 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0a0f1e;
+    color: #f1f5f9;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 64px;
+    opacity: 0;
+    transform: translateY(40px);
+    pointer-events: none;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-40px);
+    pointer-events: none;
+  }
+
+  /* ── slide backgrounds ── */
+  .slide-1  { background: linear-gradient(135deg, #0a0f1e 0%, #1a1040 100%); }
+  .slide-2  { background: linear-gradient(135deg, #0f1f0a 0%, #0a2a1a 100%); }
+  .slide-3  { background: linear-gradient(135deg, #1a0a0f 0%, #2a0f20 100%); }
+  .slide-4  { background: linear-gradient(135deg, #0a1a2a 0%, #0f2040 100%); }
+  .slide-5  { background: linear-gradient(135deg, #1a1a0a 0%, #2a2010 100%); }
+  .slide-6  { background: linear-gradient(135deg, #0a1a1a 0%, #0f2a2a 100%); }
+  .slide-7  { background: linear-gradient(135deg, #1a0a1a 0%, #200a30 100%); }
+  .slide-8  { background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); }
+
+  /* ── typography ── */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+
+  h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.1; text-align: center; }
+  h2 { font-size: clamp(24px, 3.5vw, 40px); font-weight: 700; line-height: 1.2; text-align: center; margin-bottom: 12px; }
+  .subtitle { font-size: clamp(14px, 1.8vw, 20px); opacity: 0.65; text-align: center; max-width: 640px; line-height: 1.6; margin-top: 16px; }
+
+  /* ── big emoji illustration ── */
+  .hero-emoji {
+    font-size: clamp(60px, 10vw, 100px);
+    margin-bottom: 24px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* ── accent pill ── */
+  .pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  .pill.green  { background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.4); color: #34d399; }
+  .pill.blue   { background: rgba(96,165,250,0.15); border-color: rgba(96,165,250,0.4); color: #60a5fa; }
+  .pill.orange { background: rgba(251,146,60,0.15); border-color: rgba(251,146,60,0.4); color: #fb923c; }
+  .pill.purple { background: rgba(167,139,250,0.15); border-color: rgba(167,139,250,0.4); color: #a78bfa; }
+
+  /* ── before/after card ── */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 760px;
+    margin-top: 28px;
+  }
+
+  .ba-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .ba-card .ba-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 10px;
+  }
+
+  .ba-card .ba-icon { font-size: 40px; margin-bottom: 12px; }
+  .ba-card .ba-text { font-size: 15px; line-height: 1.5; opacity: 0.8; }
+  .ba-card.before { border-color: rgba(239,68,68,0.3); }
+  .ba-card.after  { border-color: rgba(52,211,153,0.3); }
+
+  /* ── feature list ── */
+  .feature-list {
+    list-style: none;
+    width: 100%;
+    max-width: 680px;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  .feature-list .icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── team grid ── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 760px;
+    margin-top: 28px;
+  }
+
+  .team-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 18px 12px;
+    text-align: center;
+  }
+
+  .team-card .avatar { font-size: 32px; margin-bottom: 8px; }
+  .team-card .name { font-size: 14px; font-weight: 700; }
+  .team-card .role { font-size: 11px; opacity: 0.5; margin-top: 3px; }
+  .team-card .status { font-size: 11px; font-weight: 600; margin-top: 8px; color: #34d399; }
+
+  /* ── stat row ── */
+  .stat-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .stat-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 20px 28px;
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .stat-box .num {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .label { font-size: 12px; opacity: 0.55; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── flow diagram ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 32px;
+    width: 100%;
+    max-width: 720px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .flow-bubble {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .flow-label { font-size: 12px; font-weight: 600; opacity: 0.7; max-width: 80px; line-height: 1.3; }
+
+  .flow-arrow {
+    font-size: 22px;
+    opacity: 0.35;
+    margin: 0 8px;
+    padding-bottom: 28px;
+  }
+
+  /* ── progress bar ── */
+  .progress-bar {
+    width: 100%;
+    max-width: 540px;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    transition: width 1s ease;
+  }
+
+  /* ── nav ── */
+  .nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 10px 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    padding: 4px 8px;
+  }
+
+  .nav button:hover { opacity: 1; }
+
+  .dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.active { background: #fff; transform: scale(1.4); }
+
+  .slide-counter {
+    font-size: 12px;
+    opacity: 0.4;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  /* ── entry animations for active slide ── */
+  .slide.active .hero-emoji { animation: float 3s ease-in-out infinite, popIn 0.5s ease 0.2s both; }
+  .slide.active h1,
+  .slide.active h2 { animation: fadeUp 0.6s ease 0.3s both; }
+  .slide.active .subtitle { animation: fadeUp 0.6s ease 0.4s both; }
+  .slide.active .pill { animation: fadeUp 0.6s ease 0.5s both; }
+  .slide.active .ba-grid { animation: fadeUp 0.6s ease 0.45s both; }
+  .slide.active .feature-list { animation: fadeUp 0.6s ease 0.45s both; }
+  .slide.active .team-grid { animation: fadeUp 0.6s ease 0.45s both; }
+  .slide.active .stat-row { animation: fadeUp 0.6s ease 0.45s both; }
+  .slide.active .flow { animation: fadeUp 0.6s ease 0.45s both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── pulse badge ── */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #34d399;
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-top: 20px;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* checkmark list */
+  .check-list {
+    list-style: none;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .check-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 16px;
+    line-height: 1.4;
+    opacity: 0.88;
+  }
+
+  .check-list .ck { font-size: 22px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ── SLIDE 1: Title ── -->
+  <div class="slide slide-1 active" data-index="0">
+    <div class="eyebrow">May 29, 2026 — Work Session Report</div>
+    <span class="hero-emoji">🤖</span>
+    <h1>Your AI Teams<br>Got a Major Upgrade</h1>
+    <p class="subtitle">Here's everything we built, fixed, and improved today — in plain English.</p>
+    <div class="live-badge"><div class="live-dot"></div> Both Teams Online &amp; Fully Operational</div>
+  </div>
+
+  <!-- ── SLIDE 2: The Two Teams ── -->
+  <div class="slide slide-2" data-index="1">
+    <div class="eyebrow">Who We're Talking About</div>
+    <span class="hero-emoji">🏢</span>
+    <h2>Two Separate AI Teams,<br>Both Got Upgraded Today</h2>
+    <div class="team-grid" style="grid-template-columns: repeat(2,1fr); max-width:540px;">
+      <div class="team-card">
+        <div class="avatar">🏠</div>
+        <div class="name">Nikki + Team</div>
+        <div class="role">Home Inspector Help</div>
+        <div class="status">✅ Upgraded</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar">🎓</div>
+        <div class="name">Max + Team</div>
+        <div class="role">Home Inspector Growth Academy</div>
+        <div class="status">✅ Upgraded</div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:20px;">Think of Nikki and Max as the managers. They each have a team of specialists (Craig, Pax, etc.) who do the actual research and writing.</p>
+  </div>
+
+  <!-- ── SLIDE 3: Problem 1 — Broken Webhook ── -->
+  <div class="slide slide-3" data-index="2">
+    <div class="eyebrow">Problem #1 — Fixed</div>
+    <span class="hero-emoji">🔌</span>
+    <h2>The HIGA Dashboard<br>Wasn't Receiving Updates</h2>
+    <div class="ba-grid">
+      <div class="ba-card before">
+        <div class="ba-label">Before</div>
+        <div class="ba-icon">❌</div>
+        <div class="ba-text">When code changes were made, the HIGA dashboard server never got the message. It was like sending a package to the wrong address — it bounced back every time.</div>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">After</div>
+        <div class="ba-icon">✅</div>
+        <div class="ba-text">The server now receives update notifications correctly. Every code change is automatically delivered and applied — no manual work needed.</div>
+      </div>
+    </div>
+    <div class="pill green" style="margin-top:20px;">Auto-updates now working on both dashboards</div>
+  </div>
+
+  <!-- ── SLIDE 4: Problem 2 — Hat Wearing ── -->
+  <div class="slide slide-4" data-index="3">
+    <div class="eyebrow">Problem #2 — Fixed</div>
+    <span class="hero-emoji">🎭</span>
+    <h2>The Managers Were<br>Pretending to Be Specialists</h2>
+    <div class="ba-grid">
+      <div class="ba-card before">
+        <div class="ba-label">Before</div>
+        <div class="ba-icon">😬</div>
+        <div class="ba-text">Nikki and Max were sometimes writing answers themselves — then <em>also</em> sending it to the specialist. You were getting the manager's guess instead of the expert's real work.</div>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">After</div>
+        <div class="ba-icon">🎯</div>
+        <div class="ba-text">A "retract guard" was installed. If Nikki or Max starts writing before the specialist is done, that text is automatically deleted. Only the specialist's real output reaches you.</div>
+      </div>
+    </div>
+    <div class="pill blue">Verified clean — managers stay in their lane</div>
+  </div>
+
+  <!-- ── SLIDE 5: Problem 3 — No Internet ── -->
+  <div class="slide slide-5" data-index="4">
+    <div class="eyebrow">Problem #3 — Fixed</div>
+    <span class="hero-emoji">🌐</span>
+    <h2>Specialists Couldn't<br>Search the Internet</h2>
+    <div class="ba-grid">
+      <div class="ba-card before">
+        <div class="ba-label">Before</div>
+        <div class="ba-icon">📵</div>
+        <div class="ba-text">Craig, Pax, and all the specialists were working in the dark. If you asked for current industry news, they had to say "I can't access the internet." That's not good enough.</div>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">After</div>
+        <div class="ba-icon">🔍</div>
+        <div class="ba-text">Every specialist now has live web search and can read any web page. Ask Pax for today's home inspection trends — she'll search the web in real time and bring you sourced, current results.</div>
+      </div>
+    </div>
+    <div class="pill orange">All specialists now have live internet access</div>
+  </div>
+
+  <!-- ── SLIDE 6: How it Works Now ── -->
+  <div class="slide slide-6" data-index="5">
+    <div class="eyebrow">How Your AI Team Works Now</div>
+    <span class="hero-emoji">⚡</span>
+    <h2>From Your Question<br>to a Real Answer</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-bubble">👤</div>
+        <div class="flow-label">Ken asks a question</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-bubble">🤖</div>
+        <div class="flow-label">Nikki / Max routes it</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-bubble">🔍</div>
+        <div class="flow-label">Specialist searches the web</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-bubble">📋</div>
+        <div class="flow-label">Real answer delivered</div>
+      </div>
+    </div>
+    <ul class="check-list">
+      <li><span class="ck">🛡️</span> Managers can't fake specialist work — guard blocks it automatically</li>
+      <li><span class="ck">📡</span> Specialists search the live web — no stale or made-up data</li>
+      <li><span class="ck">🚀</span> Updates deploy themselves — no terminal, no tech work for Ken</li>
+    </ul>
+  </div>
+
+  <!-- ── SLIDE 7: Proof It Works ── -->
+  <div class="slide slide-7" data-index="6">
+    <div class="eyebrow">Live Proof — Tested Today</div>
+    <span class="hero-emoji">🧪</span>
+    <h2>We Tested It<br>Right After Fixing It</h2>
+    <ul class="feature-list">
+      <li>
+        <span class="icon">🏠</span>
+        <div><strong>Craig (HIH team)</strong> searched the web and returned a real news headline from <em>Bangor Daily News, May 26, 2026</em> — live, sourced, and verified.</div>
+      </li>
+      <li>
+        <span class="icon">🎓</span>
+        <div><strong>Pax (HIGA team)</strong> searched the web and delivered a full industry trends report — citing HousingWire, Blitzz, and SWF Home Inspections — all current sources.</div>
+      </li>
+      <li>
+        <span class="icon">🔒</span>
+        <div><strong>Neither Nikki nor Max</strong> is wearing hats. The backend code was inspected — the retract guard is structurally airtight. Only specialist output reaches Ken.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ── SLIDE 8: Summary ── -->
+  <div class="slide slide-8" data-index="7">
+    <div class="eyebrow">Session Summary — May 29, 2026</div>
+    <span class="hero-emoji">🏆</span>
+    <h2>3 Problems Fixed,<br>2 Teams Fully Upgraded</h2>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="num" style="color:#34d399;">3</div>
+        <div class="label">Problems Fixed</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" style="color:#60a5fa;">2</div>
+        <div class="label">Teams Upgraded</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" style="color:#a78bfa;">13</div>
+        <div class="label">Specialists Online</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" style="color:#fb923c;">0</div>
+        <div class="label">Manual Steps<br>for Ken</div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:24px;">Everything deploys automatically. Ken just talks to Nikki or Max — and the real specialists do the real work.</p>
+    <div class="live-badge" style="margin-top:16px;"><div class="live-dot"></div> All systems live and verified</div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── Navigation ── -->
+<nav class="nav">
+  <button id="prev" title="Previous">◀</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" title="Next">▶</button>
+  <span class="slide-counter" id="counter">1 / 8</span>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current].classList.remove('exit'), 700);
+
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+
+    document.querySelectorAll('.dot').forEach((d, i) =>
+      d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${slides.length}`;
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  // Touch / swipe
+  let touchX = null;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend',   e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+    touchX = null;
+  });
+
+  // Auto-advance every 8s (pauses on interaction)
+  let timer = setInterval(() => goTo(current + 1), 8000);
+  ['click','keydown','touchend'].forEach(ev =>
+    document.addEventListener(ev, () => {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 8000);
+    })
+  );
+</script>
+</body>
+</html>

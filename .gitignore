@@ -1,0 +1,9 @@
+node_modules/
+.env
+dashboard/index.html.bak
+dashboard/index.html.bak2
+dashboard/index.html.bak3
+dashboard/index.html.before-upgrade
+dashboard/logo.png.local
+api/ghl/location-tokens.json
+**/*.bak-*

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Player — Just Finished Home Inspector School</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #e84118;
+    --orange-dark: #c93610;
+    --dark: #1c1d1f;
+    --medium: #6a6f73;
+    --light-bg: #f7f9fa;
+    --border: #d1d7dc;
+    --highlight: #fff3e0;
+    --green: #1e6055;
+    --player-bg: #2d2f31;
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: system-ui, "Segoe UI", -apple-system, sans-serif;
+    color: var(--dark);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    height: 52px;
+    background: var(--dark);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .tn-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1; }
+  .tn-back {
+    display: flex; align-items: center; color: #fff; text-decoration: none; flex-shrink: 0;
+  }
+  .tn-back svg { width: 20px; height: 20px; }
+  .tn-back:hover { color: var(--orange); }
+  .tn-title {
+    font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .tn-center {
+    flex: 1; display: flex; align-items: center; gap: 10px; max-width: 360px; margin: 0 auto;
+  }
+  .tn-progress-track {
+    flex: 1; height: 6px; background: #4a4c4f; border-radius: 3px; overflow: hidden;
+  }
+  .tn-progress-fill {
+    height: 100%; width: 0%; background: var(--orange); border-radius: 3px;
+    transition: width 0.35s ease;
+  }
+  .tn-progress-pct { font-size: 12px; color: #cdd2d6; white-space: nowrap; }
+  .tn-right { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
+  .tn-count { font-size: 13px; color: #cdd2d6; white-space: nowrap; }
+  .tn-avatar {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--orange);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .player-layout { display: flex; flex: 1; min-height: 0; align-items: stretch; }
+  .lesson-main {
+    width: 70%; overflow-y: auto; background: #fff;
+  }
+  .sidebar {
+    width: 30%; min-width: 300px; max-width: 380px;
+    border-left: 1px solid var(--border);
+    background: #fff; overflow-y: auto;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── PLAYER ── */
+  .player {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: var(--player-bg);
+  }
+  .player-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .play-btn {
+    width: 76px; height: 76px; border-radius: 50%;
+    background: var(--orange); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: transform 0.15s, background 0.15s;
+  }
+  .play-btn:hover { transform: scale(1.06); background: var(--orange-dark); }
+  .play-btn svg { width: 34px; height: 34px; color: #fff; }
+  .player-caption {
+    position: absolute; left: 16px; bottom: 14px; right: 16px;
+    color: #fff; font-size: 14px; font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+    pointer-events: none;
+  }
+  .player-caption .pc-dur { font-weight: 500; color: #e3e6e8; font-size: 13px; white-space: nowrap; }
+  /* fake playback bar */
+  .play-track {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
+    background: rgba(255,255,255,0.2);
+  }
+  .play-track-fill {
+    height: 100%; width: 0%; background: var(--orange);
+  }
+  .audio-tag {
+    position: absolute; top: 14px; left: 16px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── LESSON BODY ── */
+  .lesson-body { padding: 28px 36px 48px; max-width: 820px; }
+  .lesson-module-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--medium); margin-bottom: 6px;
+  }
+  .lesson-h { font-size: 22px; font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
+  .lesson-text p { font-size: 15px; line-height: 1.7; margin-bottom: 16px; color: #2b2c2e; }
+
+  .lesson-actions {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    margin: 28px 0 8px;
+  }
+  .btn-complete {
+    background: var(--green); color: #fff; border: none; border-radius: 4px;
+    padding: 12px 20px; font-size: 15px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; transition: background 0.15s;
+  }
+  .btn-complete:hover { background: #174c43; }
+  .btn-complete.done { background: #174c43; }
+  .btn-complete svg { width: 18px; height: 18px; }
+
+  .nav-buttons { display: flex; gap: 10px; margin-left: auto; }
+  .btn-nav {
+    background: #fff; border: 1.5px solid var(--dark); color: var(--dark);
+    border-radius: 4px; padding: 11px 16px; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.15s;
+  }
+  .btn-nav:hover:not(:disabled) { background: var(--light-bg); }
+  .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-nav svg { width: 16px; height: 16px; }
+
+  /* ── SIDEBAR ── */
+  .sb-header {
+    padding: 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    position: sticky; top: 0; background: #fff; z-index: 2;
+  }
+  .sb-header h3 { font-size: 16px; font-weight: 800; }
+  .sb-toggle-all {
+    background: none; border: none; color: var(--orange); font-size: 13px; font-weight: 700;
+    cursor: pointer;
+  }
+  .sb-toggle-all:hover { text-decoration: underline; }
+
+  .sb-module { border-bottom: 1px solid var(--border); }
+  .sb-mod-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 14px; cursor: pointer; background: var(--light-bg); user-select: none;
+  }
+  .sb-mod-header:hover { background: #eef1f3; }
+  .sb-tri { width: 10px; font-size: 10px; transition: transform 0.2s; flex-shrink: 0; color: var(--dark); }
+  .sb-module.open .sb-tri { transform: rotate(90deg); }
+  .sb-mod-title { font-size: 13px; font-weight: 700; flex: 1; line-height: 1.35; }
+  .sb-body { display: none; }
+  .sb-module.open .sb-body { display: block; }
+
+  .sb-lesson {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 11px 14px 11px 16px; cursor: pointer; border-top: 1px solid var(--border);
+    text-decoration: none; color: var(--dark);
+  }
+  .sb-lesson:hover { background: var(--light-bg); }
+  .sb-lesson.active { background: var(--highlight); }
+  .sb-lesson.active .sb-l-title { font-weight: 700; }
+  .sb-check {
+    width: 18px; height: 18px; border: 1.5px solid var(--medium); border-radius: 3px;
+    flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+    background: #fff;
+  }
+  .sb-lesson.completed .sb-check { background: var(--green); border-color: var(--green); }
+  .sb-check svg { width: 12px; height: 12px; color: #fff; display: none; }
+  .sb-lesson.completed .sb-check svg { display: block; }
+  .sb-l-info { flex: 1; min-width: 0; }
+  .sb-l-title {
+    font-size: 13px; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .sb-l-dur {
+    font-size: 12px; color: var(--medium); margin-top: 3px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .sb-l-dur svg { width: 12px; height: 12px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .player-layout { flex-direction: column; }
+    .lesson-main { width: 100%; }
+    .sidebar { width: 100%; max-width: none; min-width: 0; border-left: none; border-top: 1px solid var(--border); }
+    .lesson-body { padding: 20px 18px 40px; }
+    .tn-center { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="top-nav">
+  <div class="tn-left">
+    <a href="course-just-graduated.html" class="tn-back" title="Back to course">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </a>
+    <span class="tn-title">Just Finished Home Inspector School</span>
+  </div>
+  <div class="tn-center">
+    <div class="tn-progress-track"><div class="tn-progress-fill" id="progressFill"></div></div>
+    <span class="tn-progress-pct" id="progressPct">0%</span>
+  </div>
+  <div class="tn-right">
+    <span class="tn-count" id="progressCount">Your Progress: 0 / 26 lessons</span>
+    <div class="tn-avatar">KC</div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="player-layout">
+
+  <!-- MAIN -->
+  <div class="lesson-main">
+    <div class="player">
+      <div class="audio-tag">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zm5 9a5 5 0 01-10 0H5a7 7 0 006 6.92V21h2v-2.08A7 7 0 0019 12h-2z"/></svg>
+        Audio Lesson
+      </div>
+      <div class="player-inner">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="Play">
+          <svg id="playIcon" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <div class="player-caption">
+        <span id="playerTitle">Lesson title</span>
+        <span class="pc-dur" id="playerDur">00:00</span>
+      </div>
+      <div class="play-track"><div class="play-track-fill" id="playTrackFill"></div></div>
+    </div>
+
+    <div class="lesson-body">
+      <div class="lesson-module-label" id="moduleLabel">MODULE</div>
+      <h2 class="lesson-h" id="lessonTitle">Lesson title</h2>
+      <div class="lesson-text" id="lessonText"></div>
+
+      <div class="lesson-actions">
+        <button class="btn-complete" id="completeBtn" onclick="markComplete()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span id="completeLabel">Mark as Complete</span>
+        </button>
+        <div class="nav-buttons">
+          <button class="btn-nav" id="prevBtn" onclick="goPrev()">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            Previous
+          </button>
+          <button class="btn-nav" id="nextBtn" onclick="goNext()">
+            Next
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <h3>Course content</h3>
+      <button class="sb-toggle-all" id="toggleAllBtn" onclick="toggleAll()">Collapse all</button>
+    </div>
+    <div id="sidebarBody"></div>
+  </aside>
+
+</div>
+
+<script>
+  var STORAGE_KEY = 'tip_completed_lessons';
+
+  // ── LESSON DATA — 26 lessons, real home inspection content ──
+  var LESSONS = [
+    {
+      id: 0, module: "Module 0", moduleTitle: "30-Day Quick Win Action Plan",
+      title: "Week 1: Lay the Foundation (Days 1–7)", duration: "10 min",
+      content: [
+        "Your first week out of inspection school is the most important week of your career — not because of how many inspections you'll book, but because of the foundation you'll lay. Most new inspectors waste their first month chasing things that don't matter yet: a fancy website, business cards, a logo they'll redesign three times. This week is about the non-negotiables that everything else stands on.",
+        "Over Days 1 through 7 you'll do five things: register your business and confirm your licensing and E&O insurance are active, set up a dedicated business phone number and email, choose your inspection software and report template, define your service area and base pricing, and write down the single sentence that describes who you serve and why. That sentence becomes your positioning for the entire course.",
+        "Don't aim for perfect — aim for done. A foundation you can build on this week beats a perfect plan you start next month. By Friday you should be legally able to take a paid inspection and have the tools to deliver it professionally. That's the win for Week 1."
+      ]
+    },
+    {
+      id: 1, module: "Module 0", moduleTitle: "30-Day Quick Win Action Plan",
+      title: "Week 2: Build Visibility (Days 8–14)", duration: "12 min",
+      content: [
+        "With your foundation set, Week 2 is about making sure the right people can find you and immediately understand what you do. Visibility doesn't mean shouting into the void on every social platform. It means showing up clearly in the two or three places your future clients and referral partners actually look.",
+        "This week you'll claim and fully complete your Google Business Profile — for a local service business this single asset out-earns almost everything else. You'll build a simple one-page website that loads fast and tells visitors exactly what you inspect, where, and how to book. You'll set up one professional social presence and post your introduction. And you'll create a short, friendly bio you can paste anywhere an agent or homeowner asks 'who are you?'",
+        "The goal isn't a huge audience. It's that when someone hears your name and looks you up, they find a real, credible, easy-to-contact professional. That alone puts you ahead of most new inspectors who stay invisible for their first six months."
+      ]
+    },
+    {
+      id: 2, module: "Module 0", moduleTitle: "30-Day Quick Win Action Plan",
+      title: "Week 3: Start Generating Leads (Days 15–21)", duration: "12 min",
+      content: [
+        "Now that you exist online and look credible, Week 3 turns attention into actual conversations. Leads for a new inspector rarely come from advertising — they come from relationships and from showing up consistently in front of the people who refer business.",
+        "This week you'll build your first contact list: every agent you know, every person in your personal network who touches real estate, and any local pros (lenders, title reps, contractors) who serve home buyers. You'll reach out to ten of them personally — not with a sales pitch, but with a genuine introduction and an offer to help. You'll also schedule your first piece of recurring value: a short weekly post or email that keeps you top of mind.",
+        "Track everything. The point of Week 3 isn't to close deals — it's to start the flywheel of conversations that turns into your first bookings. A handful of warm conversations now becomes your referral engine by month three."
+      ]
+    },
+    {
+      id: 3, module: "Module 0", moduleTitle: "30-Day Quick Win Action Plan",
+      title: "Week 4: Solidify and Grow (Days 22–30)", duration: "11 min",
+      content: [
+        "The final week of your first month is about turning early momentum into repeatable systems. The difference between an inspector who's still scrambling in year two and one who's steadily growing usually comes down to what they systematize in these early days.",
+        "This week you'll document your booking-to-report workflow so every client gets the same professional experience. You'll create a simple post-inspection follow-up — a thank-you, a request for a review, and a gentle ask for referrals. You'll review what worked in your first three weeks and double down on it. And you'll set three concrete 90-day goals so you leave this course with a clear direction.",
+        "By the end of Day 30 you won't have a finished business — you'll have a working one, with a foundation, visibility, a lead flywheel, and the systems to keep it all running. That's the quick win this plan is built to deliver."
+      ]
+    },
+    {
+      id: 4, module: "Module 1", moduleTitle: "Brand & Identity",
+      title: "Stand Out Strong — Building a Memorable Home Inspection Brand", duration: "18 min",
+      content: [
+        "Your brand is the first impression every potential client gets before they ever meet you. As a new home inspector, you're entering a market where many inspectors look and sound alike — same website templates, same stock photos, same generic taglines. The inspectors who win consistently are the ones who stand out clearly and memorably from day one. In this lesson, we'll build the foundation of your brand identity: your name, your logo concept, your color story, and the single sentence that tells a homeowner exactly who you are and why you're different.",
+        "A strong brand is not a logo — it's a promise. It's the feeling a client gets when they think of you, and the reputation that precedes you into every appointment. We'll work through how to choose a business name that's easy to remember and say, how to pick colors and visuals that signal trust and professionalism, and how to write a positioning statement that makes you the obvious choice for the clients you most want to serve.",
+        "By the end of this lesson you'll have the building blocks of a brand that feels intentional and credible, not thrown together. You don't need a big budget — you need clarity and consistency. The inspector who shows up the same way, everywhere, every time, builds recognition fast. That recognition is what turns a stranger's quick search into a booked inspection."
+      ]
+    },
+    {
+      id: 5, module: "Module 2", moduleTitle: "Work-Life Balance",
+      title: "Balance & Success — How Home Inspectors Can Avoid Burnout", duration: "22 min",
+      content: [
+        "Burnout is the silent killer of new inspection businesses. In your eagerness to grow, it's tempting to say yes to every inspection, answer the phone at all hours, and drive across three counties for a single job. It feels like hustle — but it's a fast track to exhaustion, sloppy reports, and the resentment that makes people quit a business they once loved.",
+        "This lesson reframes balance as a business strategy, not a luxury. A rested inspector writes better reports, communicates more clearly, and makes fewer costly mistakes. We'll cover how to set realistic daily inspection limits, how to define your service area so you're not living in your truck, and how to build buffer time so a complex inspection doesn't blow up your whole day.",
+        "We'll also talk about the mindset shift: you are building a business that serves your life, not a life that serves your business. Setting boundaries early — on hours, on travel, on the kinds of jobs you take — protects both your health and your reputation. The inspectors who last for decades aren't the ones who worked the hardest in year one. They're the ones who built a pace they could sustain."
+      ]
+    },
+    {
+      id: 6, module: "Module 3", moduleTitle: "Time Management",
+      title: "Master Your Schedule — Time Blocking for Busy Home Inspectors", duration: "19 min",
+      content: [
+        "A home inspector's day is deceptively complex: inspections, drive time, report writing, client calls, agent follow-ups, marketing, and the endless small administrative tasks that eat your evenings. Without a system, the urgent always crowds out the important, and your business stalls. Time blocking is the simplest, most powerful fix.",
+        "In this lesson you'll learn to divide your week into dedicated blocks: inspection blocks, report-writing blocks, communication blocks, and growth blocks for marketing and follow-up. We'll cover why batching similar tasks dramatically reduces the mental cost of switching, and how protecting a daily report-writing window keeps you from falling days behind — the number-one complaint clients and agents have about inspectors.",
+        "We'll build a realistic weekly template you can actually stick to, including buffer time for the inevitable surprises. The goal isn't to schedule every minute — it's to make sure the activities that grow your business get time before the day fills up with everything else. Master your schedule and you stop reacting to your business and start running it."
+      ]
+    },
+    {
+      id: 7, module: "Module 4", moduleTitle: "Revenue Diversification",
+      title: "Diversifying Your Home Inspection Business — Should You Add Ancillary Services?", duration: "24 min",
+      content: [
+        "Relying on a single service at a single price is the most fragile way to run an inspection business. Ancillary services — radon testing, mold sampling, sewer scopes, thermal imaging, water testing, wind mitigation — let you increase your average ticket without finding new clients. The same appointment becomes worth significantly more, and the client gets a more complete picture of the home.",
+        "But not every add-on makes sense for every market or every inspector. This lesson gives you a framework for deciding which ancillary services to offer: local demand, certification and equipment costs, your time per add-on, liability exposure, and the margin each service actually delivers. We'll look at which services tend to have the fastest payback and how to bundle them so clients see value rather than a list of upsells.",
+        "We'll also cover how to introduce ancillary services without feeling pushy — positioning them as a more thorough inspection rather than a sales pitch. Done right, diversification raises your revenue per job, smooths out seasonal slumps, and makes your business far more resilient when any single revenue stream slows down."
+      ]
+    },
+    {
+      id: 8, module: "Module 5", moduleTitle: "Referral Networks",
+      title: "Beyond Buyer Agents — How to Build a Strong Referral Network", duration: "21 min",
+      content: [
+        "For decades, home inspectors built their entire businesses on buyer-agent referrals. It was simple and it worked — until the ground shifted. Depending on a single source of referrals means that when that source dries up, so does your income. The inspectors who thrive build a diversified referral network with many doors leading to their business.",
+        "This lesson maps out the full universe of referral partners beyond buyer agents: listing agents, real estate attorneys, lenders and mortgage brokers, insurance agents, contractors and trades, property managers, and past clients themselves. Each of these touches home buyers and sellers and can send you a steady stream of work — if you build a real relationship rather than just dropping off business cards.",
+        "We'll cover how to identify the right partners, how to offer genuine value before you ask for anything, and how to stay top of mind without being a pest. A network of twenty diverse partners each sending you a few referrals a year is far more stable than two agents sending you everything. Build that network now, while you have the time, and you'll never be at the mercy of a single source again."
+      ]
+    },
+    {
+      id: 9, module: "Module 6", moduleTitle: "Market Resilience",
+      title: "Thriving in a Down Market — Growth Strategies for Home Inspectors", duration: "26 min",
+      content: [
+        "Real estate moves in cycles. Interest rates rise, transaction volume falls, and suddenly there are fewer homes changing hands and more inspectors competing for them. New inspectors who only know a hot market panic when it cools. The ones who thrive treat a down market as the moment to gain ground while competitors retreat.",
+        "This lesson lays out concrete strategies for a slow market: leaning into pre-listing and seller inspections that don't depend on a sale closing, expanding ancillary services to grow revenue per job, deepening relationships with the referral partners who still have business, and sharpening your marketing while competitors go quiet. A downturn is when market share is most available — because so many inspectors stop trying.",
+        "We'll also address mindset and cash management, because a resilient business is built before the downturn, not during it. Keeping a financial buffer, controlling fixed costs, and staying visible all let you ride out slow stretches and emerge stronger. Markets always recover — and the inspectors who kept showing up are the ones positioned to win when they do."
+      ]
+    },
+    {
+      id: 10, module: "Module 7", moduleTitle: "Industry Disruption — Adapt or Die",
+      title: "Adapt or Die — Why the Old Home Inspection Model Is Fading Fast", duration: "11 min",
+      content: [
+        "The home inspection industry has operated on the same basic model for 30 years: buyer agents refer you, you show up, you inspect, you get paid. It worked — until it didn't. The Sitzer-Burnett verdict, the rise of direct consumer marketing, and the shift toward seller-side inspections have quietly been dismantling that model. Inspectors who don't adapt aren't just leaving money on the table — they're building businesses on a foundation that is actively eroding. This lesson is a wake-up call, but it's also a roadmap.",
+        "We'll look honestly at what's changing and why. Buyer agents — long the gatekeepers of inspection referrals — face new commission pressures that change how, and whether, they steer clients to inspectors. Consumers increasingly find and choose their own service providers online. And sellers are commissioning inspections before listing, creating entirely new opportunities for inspectors paying attention.",
+        "The point isn't fear — it's awareness. Every disruption that threatens the old model creates openings for inspectors willing to evolve. The rest of this series shows you exactly how to position yourself on the right side of these shifts, so that when the old model finishes fading, you're already operating in the new one."
+      ]
+    },
+    {
+      id: 11, module: "Module 7", moduleTitle: "Industry Disruption — Adapt or Die",
+      title: "The Real Estate Industry Is Shifting — Are You Ready or at Risk?", duration: "12 min",
+      content: [
+        "The forces reshaping real estate don't stay contained to agents and brokerages — they ripple straight into your inspection business. When commission structures change, when buyers shop differently, and when technology rewrites how deals get done, every service provider downstream feels it. This lesson helps you honestly assess whether you're positioned to ride these changes or be swept under by them.",
+        "We'll walk through a simple self-assessment: How concentrated are your referral sources? How visible are you to consumers directly? How dependent is your income on buyer-side transactions specifically? Each answer reveals where you're exposed. The more of your business that hinges on one shrinking channel, the more risk you carry — even if things feel fine today.",
+        "Readiness isn't about predicting the future perfectly. It's about building enough flexibility that you can absorb change without crisis. By the end of this lesson you'll know your specific risk points and the first moves to start reducing them, so the shifts ahead become something you navigate rather than something that happens to you."
+      ]
+    },
+    {
+      id: 12, module: "Module 7", moduleTitle: "Industry Disruption — Adapt or Die",
+      title: "What Got You Here Won't Get You There — The End of Business as Usual", duration: "10 min",
+      content: [
+        "The strategies that built successful inspection businesses a decade ago are quietly becoming liabilities. 'Just be good at inspections and the referrals will come' was solid advice in a stable market. In a shifting one, technical skill alone is table stakes — necessary but no longer sufficient to grow.",
+        "This lesson confronts the comfortable habits that quietly hold inspectors back: waiting passively for the phone to ring, treating marketing as optional, and assuming yesterday's referral sources will always deliver. None of these are character flaws — they're simply outdated for the market we're entering. Recognizing them is the first step to replacing them.",
+        "We'll reframe what a modern inspection business actually requires: proactive relationship-building, direct consumer visibility, diversified revenue, and a willingness to test new approaches. The inspectors who accept that business as usual is over — and who get curious instead of defensive — are the ones who'll define the next era of this industry rather than mourn the last one."
+      ]
+    },
+    {
+      id: 13, module: "Module 7", moduleTitle: "Industry Disruption — Adapt or Die",
+      title: "Disruption Is Opportunity in Disguise — If You're Willing to See It", duration: "11 min",
+      content: [
+        "Every disruption that threatens an established business simultaneously opens a door for someone willing to walk through it. The same forces unsettling traditional inspectors — direct consumer choice, seller-side inspections, changing agent relationships — are creating genuine opportunities for those who position themselves correctly. This lesson trains you to see the openings hidden inside the upheaval.",
+        "We'll explore specific opportunities emerging right now: pre-listing inspections as a growing market sellers actively want, direct-to-consumer marketing that lets you build a brand instead of renting referrals, and ancillary services that meet evolving buyer expectations. Where others see threats, you'll learn to spot underserved demand and act on it early.",
+        "The mindset matters as much as the tactics. Inspectors who frame change as loss freeze up; inspectors who frame it as opportunity move first and capture the ground that's opening up. The disruption is happening regardless of how you feel about it — this lesson is about choosing to use it rather than be used by it."
+      ]
+    },
+    {
+      id: 14, module: "Module 7", moduleTitle: "Industry Disruption — Adapt or Die",
+      title: "From Panic to Power — Thriving Through Market Upheaval", duration: "11 min",
+      content: [
+        "When markets lurch, the instinctive reaction is panic — cutting prices in fear, abandoning marketing to save money, and making short-term decisions that quietly sabotage long-term health. This closing lesson of the Adapt or Die series shows you how to convert that anxious energy into deliberate, confident action.",
+        "We'll lay out a calm playbook for turbulent times: protect your cash, double down on the relationships and services that hold up best, keep your visibility high while nervous competitors go silent, and make decisions from strategy rather than fear. Panic shrinks your business; power expands it precisely when others are retreating.",
+        "Most importantly, you'll see that upheaval rewards the prepared and the steady. The inspectors who come out of every disruption stronger aren't the luckiest — they're the ones who kept their heads, stuck to fundamentals, and seized the openings panic blinded everyone else to. That's the posture this entire series is built to give you."
+      ]
+    },
+    {
+      id: 15, module: "Module 8", moduleTitle: "Sphere of Influence (SOI)",
+      title: "Why Home Inspectors Can No Longer Rely on Home Buyers' Agents for Leads", duration: "12 min",
+      content: [
+        "For a generation, the buyer's agent was the single most reliable source of inspection business. Agents picked the inspector, the buyer went along, and inspectors who kept a handful of agents happy stayed busy. That arrangement is breaking down — and any inspector whose pipeline depends on it is exposed in a way they may not yet realize.",
+        "This lesson explains the forces undoing that dependence: legal and commission changes reshaping the buyer-agent role, consumers increasingly choosing their own inspectors, and the simple fragility of relying on a few gatekeepers who can drop you at any time. When your livelihood sits in someone else's hands, you don't own your business — you rent it.",
+        "The answer isn't to abandon agent relationships — it's to stop being dependent on them. That's what building a Sphere of Influence is all about, and it's the focus of this entire series. By the end you'll understand why owning your own source of leads is no longer optional, and you'll be ready to start building one that no single gatekeeper can take away."
+      ]
+    },
+    {
+      id: 16, module: "Module 8", moduleTitle: "Sphere of Influence (SOI)",
+      title: "What Is a Sphere of Influence — and Why Every Home Inspector Needs One", duration: "13 min",
+      content: [
+        "Your Sphere of Influence, or SOI, is the network of people who know you, trust you, and will think of you — or recommend you — when home inspection comes up. It's your past clients, your personal connections, your community contacts, and the professionals around real estate who've come to respect your work. Unlike rented referrals, your SOI is an asset you own.",
+        "This lesson defines the SOI concept clearly and shows why it's the most durable lead source an inspector can build. Borrowed straight from how successful real estate agents grow, an SOI generates business through relationships and consistent presence rather than advertising spend. It compounds: every satisfied client and every nurtured contact widens the circle of people sending work your way.",
+        "We'll map who belongs in your SOI and how to begin organizing it intentionally. Most new inspectors already have the beginnings of one — they just never thought of it as a business asset. By the end of this lesson you'll see your network as the foundation of a self-sustaining lead engine, and you'll know exactly who to start with."
+      ]
+    },
+    {
+      id: 17, module: "Module 8", moduleTitle: "Sphere of Influence (SOI)",
+      title: "The Painful Truth — Home Inspectors Who Avoid SOI Building Are at Risk", duration: "11 min",
+      content: [
+        "Building a Sphere of Influence takes consistent, unglamorous effort — staying in touch, providing value, nurturing relationships that may not pay off for months. Because it's slow and quiet, many inspectors skip it, telling themselves they'll get to it once they're less busy. This lesson confronts the painful truth: the inspectors who keep avoiding SOI building are the most exposed when the market turns.",
+        "We'll look at what actually happens to inspectors with no owned lead source when their referral channel slows: scrambling, discounting, and watching more deliberate competitors take their place. The work they put off in good times becomes impossible to catch up on in bad times, because relationships can't be built overnight when you suddenly need them.",
+        "This isn't meant to scare you — it's meant to motivate the small, consistent actions that build resilience. A little SOI work every week, starting now while you have capacity, is insurance against the day your other leads dry up. The inspectors who treat that work as essential rather than optional are the ones who never end up desperate."
+      ]
+    },
+    {
+      id: 18, module: "Module 8", moduleTitle: "Sphere of Influence (SOI)",
+      title: "From Invisible to Irresistible — How to Become Top of Mind in Your Market", duration: "12 min",
+      content: [
+        "It's not enough to be known — you have to be remembered at the exact moment someone needs an inspector. Being top of mind is what turns your Sphere of Influence from a list of contacts into an active lead engine. This lesson shows you how to move from invisible to irresistible in your local market.",
+        "We'll cover the mechanics of staying present without being annoying: consistent, genuinely valuable touches — a helpful tip, a market update, a quick check-in — delivered on a steady rhythm. We'll talk about choosing the right channels for your audience, the cadence that keeps you visible without wearing out your welcome, and the kind of content that makes people glad to hear from you.",
+        "Becoming top of mind is the payoff of all the SOI groundwork. When you show up reliably and helpfully, you become the obvious answer to 'do you know a good inspector?' — and that question gets asked far more often than most new inspectors imagine. This lesson turns your network into the place those answers consistently come from."
+      ]
+    },
+    {
+      id: 19, module: "Module 8", moduleTitle: "Sphere of Influence (SOI)",
+      title: "How to Think Like a Successful Real Estate Agent Without Becoming One", duration: "12 min",
+      content: [
+        "Top real estate agents are masters of relationship-driven business — they build enormous, loyal networks that feed them deals year after year. You don't need to become an agent to borrow the mindset and methods that make them so durable. This lesson translates the best of how agents grow into a playbook for inspectors.",
+        "We'll unpack the habits that drive agent success: treating their database as their most valuable asset, providing value long before asking for anything, staying relentlessly consistent in their follow-up, and thinking in terms of lifetime relationships rather than one-off transactions. Each of these maps directly onto building an inspection business that grows through reputation and referrals.",
+        "The key distinction is purpose: you're applying these methods to become the trusted inspector in your community, not to sell houses. Adopt the agent's relationship discipline while staying firmly in your own lane, and you build the same kind of self-sustaining, network-powered business that the best agents enjoy — without ever leaving the work you actually love."
+      ]
+    },
+    {
+      id: 20, module: "Module 9", moduleTitle: "Listing Agent Strategy — Post-Sitzer",
+      title: "Post-Sitzer Burnett — What the Shift Away from Buyer Agents Means", duration: "12 min",
+      content: [
+        "The Sitzer-Burnett verdict and the settlements that followed fundamentally changed how real estate commissions work — and with them, the role and influence of buyer agents. For inspectors who built everything on buyer-agent referrals, this is one of the most consequential shifts in a generation. This lesson explains what actually happened and what it means for where your future business comes from.",
+        "We'll cut through the noise to the practical implications: as buyer-agent relationships with clients change, the steady stream of buyer-agent referrals many inspectors relied on becomes less certain. At the same time, listing agents — who represent sellers and whose role remains strong — are emerging as an increasingly important channel for inspection work, especially as pre-listing inspections grow.",
+        "Understanding this shift isn't academic. It tells you precisely where to redirect your relationship-building energy. The rest of this series is devoted to the listing-agent opportunity: why it matters, how to approach it, and how to build the referral relationships that will define successful inspection businesses in the post-Sitzer market."
+      ]
+    },
+    {
+      id: 21, module: "Module 9", moduleTitle: "Listing Agent Strategy — Post-Sitzer",
+      title: "Why Listing Agents Are the New Key to Home Inspection Referrals", duration: "11 min",
+      content: [
+        "As the buyer-agent channel becomes less reliable, listing agents are stepping into the spotlight as a powerful and underused source of inspection referrals. Listing agents represent sellers, manage more of the transaction, and increasingly recommend pre-listing inspections to help homes sell faster and with fewer surprises. For inspectors, that's a growing, durable opportunity.",
+        "This lesson makes the case for why listing agents deserve a central place in your referral strategy. They have ongoing relationships with sellers, they benefit directly from a smooth transaction, and a pre-listing inspection makes their job easier — which means a good inspector becomes a genuine asset to them rather than a deal-threatening obstacle. That changes the entire dynamic of the relationship in your favor.",
+        "We'll also look at how the listing-agent referral differs from the old buyer-agent model and why it can be more stable. When you help a listing agent sell homes more smoothly, you're not a cost they tolerate — you're a partner who makes them look good. That's a foundation worth building your business on."
+      ]
+    },
+    {
+      id: 22, module: "Module 9", moduleTitle: "Listing Agent Strategy — Post-Sitzer",
+      title: "The Rise of the Listing Agent — Adapting Your Marketing Strategy", duration: "12 min",
+      content: [
+        "Pivoting toward listing agents means rethinking who your marketing speaks to and what it promises. The messaging that won over buyer agents — fast scheduling, buyer-friendly reports — isn't what makes a listing agent want to work with you. This lesson helps you adapt your marketing strategy for this new primary audience.",
+        "We'll cover what listing agents actually care about: helping sellers price and prepare homes correctly, reducing surprises that blow up deals, and looking like trusted advisors to their clients. Your marketing should speak directly to those priorities — positioning pre-listing inspections as a tool that helps their listings sell faster, smoother, and with fewer renegotiations.",
+        "From your website language to your outreach materials to the way you describe your services, every touchpoint should signal that you understand the seller side of the transaction. Adapt your message to the listing agent's world and you'll stand out from the crowd of inspectors still pitching the old buyer-agent script — and you'll earn a place in a referral network that's only growing."
+      ]
+    },
+    {
+      id: 23, module: "Module 9", moduleTitle: "Listing Agent Strategy — Post-Sitzer",
+      title: "How to Start a Conversation with a Listing Agent", duration: "11 min",
+      content: [
+        "Knowing listing agents matter is one thing; actually starting a relationship with one is another. Many inspectors freeze at this step, unsure how to approach an agent without sounding like every other vendor begging for business. This lesson gives you a practical, low-pressure approach to opening that first conversation.",
+        "We'll work through how to lead with value rather than a pitch: offering a genuinely useful insight, a helpful resource, or a no-strings pre-listing inspection that demonstrates your work. We'll cover where and how to make contact — open houses, professional events, mutual connections, and thoughtful direct outreach — and how to frame yourself as someone who makes their listings easier, not someone asking for a favor.",
+        "You'll get language you can actually use, including how to introduce yourself, what to ask, and how to follow up without being pushy. The goal of the first conversation isn't to win a referral — it's to start a relationship. Get comfortable opening these doors and you'll build the listing-agent network that powers your business for years."
+      ]
+    },
+    {
+      id: 24, module: "Module 9", moduleTitle: "Listing Agent Strategy — Post-Sitzer",
+      title: "What Marketing Strategies to Encourage Listing Agent Referrals?", duration: "12 min",
+      content: [
+        "Once you've opened relationships with listing agents, the goal is to turn them into a consistent source of referrals. That takes more than a single good impression — it takes ongoing marketing and relationship strategies that keep you top of mind and make referring you easy. This lesson lays out the specific tactics that encourage listing agents to send you work again and again.",
+        "We'll cover the high-leverage moves: providing co-marketing materials that help agents promote pre-listing inspections to their sellers, delivering reports that make agents look good to their clients, staying in regular helpful contact, and making the referral process effortless on their end. We'll also discuss how to thank and acknowledge agents in ways that strengthen the relationship without crossing ethical lines.",
+        "The throughline is reciprocity and reliability: be the inspector who consistently makes a listing agent's job easier, and referrals become a natural byproduct. Combine these strategies with the relationship skills from the rest of this series, and you'll build a listing-agent referral engine that keeps producing as the market continues to evolve."
+      ]
+    },
+    {
+      id: 25, module: "Module 10", moduleTitle: "SWOT Analysis",
+      title: "SWOT Analysis for New Inspectors", duration: "20 min",
+      content: [
+        "Before you pour energy into growing your inspection business, it's worth taking an honest look at where you stand. A SWOT analysis — Strengths, Weaknesses, Opportunities, and Threats — is a simple but powerful framework for doing exactly that. This capstone lesson walks you through running one specifically for a new home inspection business.",
+        "We'll examine each quadrant in your context. Strengths might be a strong work ethic, a technical background, or local connections. Weaknesses could be inexperience, a thin referral network, or limited marketing. Opportunities include the trends covered throughout this course — pre-listing inspections, listing-agent referrals, ancillary services, and direct-to-consumer marketing. Threats include market downturns, increased competition, and the industry shifts we've explored. Naming each one turns vague worry into a clear map.",
+        "The real value comes from what you do with it: using strengths to seize opportunities, shoring up weaknesses before they cost you, and preparing for threats before they arrive. By the end of this lesson you'll have a completed SWOT for your own business and a prioritized list of moves — the perfect launchpad for everything you've learned in this course."
+      ]
+    }
+  ];
+
+  var TOTAL = LESSONS.length; // 26
+
+  // ── State ──
+  function getCompleted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function saveCompleted(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+  function isCompleted(id) { return getCompleted().indexOf(id) !== -1; }
+
+  function getCurrentLessonIndex() {
+    var raw = new URLSearchParams(window.location.search).get('lesson');
+    var n = parseInt(raw, 10);
+    if (isNaN(n) || n < 0 || n >= TOTAL) return 0;
+    return n;
+  }
+
+  var current = getCurrentLessonIndex();
+
+  // ── Render lesson content ──
+  function renderLesson() {
+    var L = LESSONS[current];
+    document.getElementById('moduleLabel').textContent = L.module + ' · ' + L.moduleTitle;
+    document.getElementById('lessonTitle').textContent = L.title;
+    document.getElementById('playerTitle').textContent = L.title;
+    document.getElementById('playerDur').textContent = L.duration;
+    var textEl = document.getElementById('lessonText');
+    textEl.innerHTML = L.content.map(function(p){ return '<p>' + p + '</p>'; }).join('');
+
+    // reset player
+    stopPlayback();
+
+    // complete button state
+    updateCompleteBtn();
+
+    // nav button states
+    document.getElementById('prevBtn').disabled = (current === 0);
+    document.getElementById('nextBtn').disabled = (current === TOTAL - 1);
+
+    // sidebar active + scroll
+    updateSidebarActive();
+    document.querySelector('.lesson-main').scrollTop = 0;
+  }
+
+  function updateCompleteBtn() {
+    var btn = document.getElementById('completeBtn');
+    var label = document.getElementById('completeLabel');
+    if (isCompleted(LESSONS[current].id)) {
+      btn.classList.add('done');
+      label.textContent = 'Completed';
+    } else {
+      btn.classList.remove('done');
+      label.textContent = 'Mark as Complete';
+    }
+  }
+
+  // ── Progress bar ──
+  function updateProgress() {
+    var done = getCompleted().length;
+    var pct = Math.round((done / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressCount').textContent = 'Your Progress: ' + done + ' / ' + TOTAL + ' lessons';
+  }
+
+  // ── Mark complete ──
+  function markComplete() {
+    var id = LESSONS[current].id;
+    var arr = getCompleted();
+    if (arr.indexOf(id) === -1) {
+      arr.push(id);
+      saveCompleted(arr);
+    }
+    updateCompleteBtn();
+    updateProgress();
+    // update sidebar checkbox for this lesson
+    var row = document.querySelector('.sb-lesson[data-id="' + id + '"]');
+    if (row) row.classList.add('completed');
+  }
+
+  // ── Navigation ──
+  function goTo(index) {
+    if (index < 0 || index >= TOTAL) return;
+    current = index;
+    var url = window.location.pathname + '?lesson=' + index;
+    history.pushState({ lesson: index }, '', url);
+    renderLesson();
+  }
+  function goPrev() { goTo(current - 1); }
+  function goNext() { goTo(current + 1); }
+
+  window.addEventListener('popstate', function() {
+    current = getCurrentLessonIndex();
+    renderLesson();
+  });
+
+  // ── Fake audio playback ──
+  var playing = false;
+  var playTimer = null;
+  var playPos = 0;
+  function togglePlay() {
+    if (playing) { stopPlayback(); }
+    else { startPlayback(); }
+  }
+  function startPlayback() {
+    playing = true;
+    document.getElementById('playIcon').innerHTML = '<rect x="6" y="5" width="4" height="14"></rect><rect x="14" y="5" width="4" height="14"></rect>';
+    document.getElementById('playBtn').setAttribute('aria-label', 'Stop');
+    playTimer = setInterval(function() {
+      playPos += 0.8;
+      if (playPos >= 100) {
+        playPos = 100;
+        document.getElementById('playTrackFill').style.width = '100%';
+        stopPlayback();
+        return;
+      }
+      document.getElementById('playTrackFill').style.width = playPos + '%';
+    }, 120);
+  }
+  function stopPlayback() {
+    playing = false;
+    if (playTimer) { clearInterval(playTimer); playTimer = null; }
+    playPos = 0;
+    document.getElementById('playTrackFill').style.width = '0%';
+    document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z"></path>';
+    document.getElementById('playBtn').setAttribute('aria-label', 'Play');
+  }
+
+  // ── Build sidebar (grouped by module) ──
+  var SB_MODULES = [];
+  (function buildModuleGroups() {
+    var lastKey = null, group = null;
+    LESSONS.forEach(function(L) {
+      var key = L.module;
+      if (key !== lastKey) {
+        group = { module: L.module, moduleTitle: L.moduleTitle, lessons: [] };
+        SB_MODULES.push(group);
+        lastKey = key;
+      }
+      group.lessons.push(L);
+    });
+  })();
+
+  var CHECK_SVG = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+  var CLOCK_SVG = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>';
+
+  function renderSidebar() {
+    var body = document.getElementById('sidebarBody');
+    var completed = getCompleted();
+    var activeModuleIdx = -1;
+    var html = '';
+    SB_MODULES.forEach(function(mod, mi) {
+      var hasActive = mod.lessons.some(function(L){ return L.id === LESSONS[current].id; });
+      if (hasActive) activeModuleIdx = mi;
+      var openClass = hasActive ? ' open' : '';
+      html += '<div class="sb-module' + openClass + '" data-mi="' + mi + '">';
+      html += '<div class="sb-mod-header" onclick="toggleSbModule(this)">';
+      html += '<span class="sb-tri">&#9654;</span>';
+      html += '<span class="sb-mod-title">' + mod.module + ': ' + mod.moduleTitle + '</span>';
+      html += '</div><div class="sb-body">';
+      mod.lessons.forEach(function(L) {
+        var compClass = completed.indexOf(L.id) !== -1 ? ' completed' : '';
+        var actClass = L.id === LESSONS[current].id ? ' active' : '';
+        html += '<a class="sb-lesson' + compClass + actClass + '" data-id="' + L.id + '" href="?lesson=' + L.id + '" onclick="return sbClick(event,' + L.id + ')">';
+        html += '<span class="sb-check">' + CHECK_SVG + '</span>';
+        html += '<span class="sb-l-info">';
+        html += '<span class="sb-l-title">' + L.title + '</span>';
+        html += '<span class="sb-l-dur">' + CLOCK_SVG + ' ' + L.duration + '</span>';
+        html += '</span></a>';
+      });
+      html += '</div></div>';
+    });
+    body.innerHTML = html;
+  }
+
+  function toggleSbModule(headerEl) {
+    headerEl.parentElement.classList.toggle('open');
+  }
+
+  function sbClick(e, id) {
+    e.preventDefault();
+    goTo(id);
+    return false;
+  }
+
+  function updateSidebarActive() {
+    document.querySelectorAll('.sb-lesson').forEach(function(row) {
+      row.classList.toggle('active', parseInt(row.getAttribute('data-id'),10) === LESSONS[current].id);
+    });
+    // ensure active module is open + scroll into view
+    var activeRow = document.querySelector('.sb-lesson.active');
+    if (activeRow) {
+      var modEl = activeRow.closest('.sb-module');
+      if (modEl) modEl.classList.add('open');
+      activeRow.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  // ── Expand / collapse all ──
+  var allExpanded = false; // sidebar starts with only active module open
+  function toggleAll() {
+    allExpanded = !allExpanded;
+    document.querySelectorAll('.sb-module').forEach(function(m) {
+      m.classList.toggle('open', allExpanded);
+    });
+    document.getElementById('toggleAllBtn').textContent = allExpanded ? 'Collapse all' : 'Expand all';
+    if (!allExpanded) updateSidebarActive(); // keep active module open
+  }
+
+  // ── Init ──
+  renderSidebar();
+  renderLesson();
+  updateProgress();
+</script>
+
+</body>
+</html>

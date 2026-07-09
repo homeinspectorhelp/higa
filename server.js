@@ -17,7 +17,6 @@ import bulkUpdateHandler from "./api/bulk-update-clients.js";
 import journalHandler from "./api/journal.js";
 import ghlAuthHandler, { callbackHandler as ghlCallback, statusHandler as ghlStatus, getValidToken } from "./api/ghl/auth.js";
 import { googleAuthHandler, googleCallbackHandler, googleStatusHandler } from "./api/lib/google-oauth.js";
-import healthHandler from "./api/health.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -134,6 +133,32 @@ app.all("/api/max-prime/chat", async (req, res) => {
 // from anywhere (Philippines or USA). GET, POST, PUT (edit), PATCH (comment), DELETE.
 app.all("/api/journal", journalHandler);
 
+// ── Task Calendar (self-hosted task tracker, stored in the higa repo) ─────────
+// Lazy-loaded so a partial/old deploy that hasn't copied api/tasks.js yet
+// degrades to a 503 on these routes instead of crashing the whole server.
+let _tasksMod = null;
+async function tasksMod(res) {
+  try { if (!_tasksMod) _tasksMod = await import("./api/tasks.js"); return _tasksMod; }
+  catch (e) { res.status(503).json({ error: "Tasks module not deployed yet: " + (e && e.message || e) }); return null; }
+}
+function injectDeanSecret(req) { req.headers["x-dean-secret"] = process.env.DEAN_CALENDAR_SECRET || ""; }
+
+// External routes (caller supplies x-dean-secret)
+app.post("/api/tasks/create",      async (req, res) => { const m = await tasksMod(res); if (m) m.createTaskHandler(req, res); });
+app.get("/api/tasks/upcoming",     async (req, res) => { const m = await tasksMod(res); if (m) m.upcomingTasksHandler(req, res); });
+app.get("/api/tasks/all",          async (req, res) => { const m = await tasksMod(res); if (m) m.allTasksHandler(req, res); });
+app.post("/api/tasks/complete",    async (req, res) => { const m = await tasksMod(res); if (m) m.completeTaskHandler(req, res); });
+app.get("/api/tasks/attachment",   async (req, res) => { const m = await tasksMod(res); if (m) m.taskAttachmentHandler(req, res); });
+app.delete("/api/tasks/:id",       async (req, res) => { const m = await tasksMod(res); if (m) m.deleteTaskHandler(req, res); });
+
+// Dashboard UI routes — secret injected server-side so the browser never holds it
+app.post("/api/tasks-ui/create",     async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.createTaskHandler(req, res); } });
+app.get("/api/tasks-ui/upcoming",    async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.upcomingTasksHandler(req, res); } });
+app.get("/api/tasks-ui/all",         async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.allTasksHandler(req, res); } });
+app.get("/api/tasks-ui/attachment",  async (req, res) => { const m = await tasksMod(res); if (m) m.taskAttachmentHandler(req, res); });
+app.post("/api/tasks-ui/complete",   async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.completeTaskHandler(req, res); } });
+app.delete("/api/tasks-ui/:id",      async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.deleteTaskHandler(req, res); } });
+
 // ── Resources (Shared Library) ────────────────────────────────────────────────
 // Filesystem-based shared library under resources/shared/. The The Inspector Playbook deploy
 // uses `git pull` (not reset --hard), so untracked uploads survive reloads.
@@ -149,6 +174,12 @@ app.all("/api/resources", async (req, res) => {
   return _resourcesHandler(req, res);
 });
 
+// ── Owner's Inbox ─────────────────────────────────────────────────────────────
+// Read-only view of owners-inbox/ — lists files and serves them for
+// preview or download. No GitHub token required (local filesystem).
+import inboxHandler from "./api/inbox/index.js";
+app.all("/api/inbox", inboxHandler);
+
 // ── Utilities ─────────────────────────────────────────────────────────────────
 app.post("/api/xlsx-to-md", xlsxToMdHandler);
 app.post("/api/bulk-update-clients", bulkUpdateHandler);
@@ -162,7 +193,6 @@ app.get("/api/ghl/status", ghlStatus);
 app.get("/api/google/auth", googleAuthHandler);
 app.get("/api/google/callback", googleCallbackHandler);
 app.get("/api/google/status", googleStatusHandler);
-app.get("/api/health", healthHandler);
 
 // ── Deploy endpoint ───────────────────────────────────────────────────────────
 // Max Pro calls this via the deploy tool after committing dashboard changes.

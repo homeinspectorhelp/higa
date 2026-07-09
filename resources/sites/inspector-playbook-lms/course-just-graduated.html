@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Just Finished Home Inspector School — The Inspector Playbook</title>
+<meta name="description" content="Build a profitable home inspection business from day one — branding, systems, referral networks, and market resilience.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #e84118;
+    --orange-dark: #c93610;
+    --dark: #1c1d1f;
+    --medium: #6a6f73;
+    --light-bg: #f7f9fa;
+    --border: #d1d7dc;
+    --highlight: #fff3e0;
+    --green: #1e6055;
+  }
+
+  body {
+    font-family: system-ui, "Segoe UI", -apple-system, sans-serif;
+    background: #fff;
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* ── STICKY NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    height: 64px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--dark);
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .nav-back:hover { color: var(--orange); }
+  .nav-back svg { width: 18px; height: 18px; }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo-badge {
+    width: 34px; height: 34px;
+    background: var(--orange);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 11px; color: #fff; letter-spacing: 0.5px;
+  }
+  .nav-logo-text { font-weight: 700; font-size: 15px; color: var(--dark); white-space: nowrap; }
+  .nav-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
+  .btn-login {
+    font-size: 14px; font-weight: 600; color: var(--dark);
+    border: 1.5px solid var(--dark); border-radius: 4px;
+    padding: 7px 14px; background: transparent; cursor: pointer; text-decoration: none; white-space: nowrap;
+  }
+  .btn-login:hover { background: var(--light-bg); }
+  .btn-signup {
+    font-size: 14px; font-weight: 700; color: #fff; background: var(--orange);
+    border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; text-decoration: none; white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .btn-signup:hover { background: var(--orange-dark); }
+
+  /* ── HEADER (dark) ── */
+  .course-header {
+    background: var(--dark);
+    color: #fff;
+    width: 100%;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    position: relative;
+  }
+  .header-content { max-width: 640px; }
+  .breadcrumb {
+    font-size: 13px;
+    color: #cdd2d6;
+    margin-bottom: 16px;
+  }
+  .breadcrumb a { color: #d6c4f0; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { margin: 0 6px; color: #6a6f73; }
+  .course-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .header-subtitle {
+    font-size: 17px;
+    color: #e3e6e8;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .header-rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .header-rating .score { color: #f3ca8c; font-weight: 700; }
+  .header-rating .stars { color: #e59819; letter-spacing: 1px; }
+  .header-rating .muted { color: #cdd2d6; }
+  .header-instructor { font-size: 14px; margin-bottom: 8px; }
+  .header-instructor strong { font-weight: 700; }
+  .header-meta { font-size: 13px; color: #cdd2d6; }
+  .header-meta .dot { margin: 0 6px; }
+
+  /* ── STICKY COURSE CARD ── */
+  .buy-card {
+    position: absolute;
+    top: 32px;
+    right: 24px;
+    width: 340px;
+    background: #fff;
+    color: var(--dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    z-index: 10;
+  }
+  .buy-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: linear-gradient(135deg, #e84118 0%, #f5760f 100%);
+    overflow: hidden;
+  }
+  .buy-thumb-inner {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .buy-thumb-logo {
+    font-size: 38px; font-weight: 900; color: #fff; letter-spacing: 3px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .buy-thumb-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.9); margin-top: 6px;
+  }
+  .buy-body { padding: 20px; }
+  .buy-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .buy-price { font-size: 30px; font-weight: 800; }
+  .buy-price-old { font-size: 16px; color: var(--medium); text-decoration: line-through; }
+  .buy-discount { font-size: 13px; color: var(--green); font-weight: 700; margin-bottom: 16px; }
+  .btn-start {
+    display: block; width: 100%; text-align: center;
+    background: var(--orange); color: #fff; font-size: 16px; font-weight: 700;
+    padding: 13px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+    transition: background 0.15s; margin-bottom: 12px;
+  }
+  .btn-start:hover { background: var(--orange-dark); }
+  .guarantee {
+    text-align: center; font-size: 13px; color: var(--medium);
+    margin-bottom: 18px; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .guarantee svg { width: 16px; height: 16px; color: var(--green); }
+  .includes-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .includes-list { list-style: none; }
+  .includes-list li {
+    font-size: 14px; color: var(--dark); padding: 5px 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .includes-list li .ic { width: 18px; text-align: center; flex-shrink: 0; color: var(--medium); }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  .content-col { max-width: 720px; }
+
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .section-h {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  /* What you'll learn */
+  .learn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .learn-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .learn-item .check { color: var(--dark); flex-shrink: 0; font-weight: 700; }
+
+  /* For you if */
+  .foryou-list { list-style: none; }
+  .foryou-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 15px; padding: 6px 0;
+  }
+  .foryou-list li .bullet { color: var(--orange); font-weight: 700; flex-shrink: 0; }
+
+  /* ── ACCORDION ── */
+  .curriculum-meta { font-size: 14px; color: var(--medium); margin-bottom: 16px; }
+  .accordion { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .acc-module { border-bottom: 1px solid var(--border); }
+  .acc-module:last-child { border-bottom: none; }
+  .acc-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; cursor: pointer; background: var(--light-bg);
+    user-select: none;
+  }
+  .acc-header:hover { background: #eef1f3; }
+  .acc-tri {
+    width: 12px; transition: transform 0.2s; flex-shrink: 0; color: var(--dark);
+    font-size: 11px;
+  }
+  .acc-module.open .acc-tri { transform: rotate(90deg); }
+  .acc-title { font-weight: 700; font-size: 15px; flex: 1; }
+  .acc-meta { font-size: 13px; color: var(--medium); white-space: nowrap; }
+  .acc-body { display: none; }
+  .acc-module.open .acc-body { display: block; }
+  .lesson-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 16px 11px 40px;
+    text-decoration: none; color: var(--dark);
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .lesson-row:hover { background: var(--highlight); }
+  .lesson-row .play {
+    width: 16px; height: 16px; flex-shrink: 0; color: var(--medium);
+  }
+  .lesson-row .l-title { flex: 1; text-decoration: underline; text-decoration-color: var(--border); }
+  .lesson-row:hover .l-title { color: var(--orange); }
+  .lesson-row .l-dur { font-size: 13px; color: var(--medium); white-space: nowrap; }
+
+  /* ── INSTRUCTOR ── */
+  .instructor {
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .instructor-photo {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: #d1d7dc; color: #6a6f73;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 800; flex-shrink: 0;
+  }
+  .instructor-name { font-size: 18px; font-weight: 700; }
+  .instructor-role { font-size: 14px; color: var(--medium); margin-bottom: 10px; }
+  .instructor-stats { font-size: 13px; color: var(--medium); margin-bottom: 10px; }
+  .instructor-stats .star { color: #e59819; }
+  .instructor-bio { font-size: 15px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 980px) {
+    .buy-card {
+      position: static;
+      width: 100%;
+      max-width: 420px;
+      margin-top: 24px;
+    }
+    .header-content { max-width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .learn-grid { grid-template-columns: 1fr; }
+    .course-header h1 { font-size: 24px; }
+    .acc-meta { display: none; }
+  }
+
+  footer {
+    background: var(--light-bg);
+    border-top: 1px solid var(--border);
+    padding: 20px 24px;
+    text-align: center;
+  }
+  footer p { font-size: 13px; color: var(--medium); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-back">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back
+    </a>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-badge">TIP</div>
+      <span class="nav-logo-text">The Inspector Playbook</span>
+    </a>
+    <div class="nav-actions">
+      <a href="#" class="btn-login">Log In</a>
+      <a href="#" class="btn-signup">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="course-header">
+  <div class="header-inner">
+    <div class="header-content">
+      <div class="breadcrumb">
+        <a href="index.html">The Inspector Playbook</a>
+        <span class="sep">&gt;</span>
+        <a href="index.html">Just Starting Out</a>
+        <span class="sep">&gt;</span>
+        Just Graduated Home Inspection School
+      </div>
+      <h1>Just Finished Home Inspector School</h1>
+      <p class="header-subtitle">Build a profitable home inspection business from day one — branding, systems, referral networks, and market resilience.</p>
+      <div class="header-rating">
+        <span class="score">4.8</span>
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="muted">(127 ratings)</span>
+        <span class="muted">&middot; 419 students enrolled</span>
+      </div>
+      <div class="header-instructor">Created by <strong>Ken Compton</strong></div>
+      <div class="header-meta">
+        Last updated 6/2026 <span class="dot">&middot;</span> English <span class="dot">&middot;</span> Certificate of completion
+      </div>
+    </div>
+
+    <!-- STICKY BUY CARD -->
+    <aside class="buy-card">
+      <div class="buy-thumb">
+        <div class="buy-thumb-inner">
+          <div class="buy-thumb-logo">TIP</div>
+          <div class="buy-thumb-tag">The Inspector Playbook</div>
+        </div>
+      </div>
+      <div class="buy-body">
+        <div class="buy-price-row">
+          <span class="buy-price">$197</span>
+          <span class="buy-price-old">$297</span>
+        </div>
+        <div class="buy-discount">34% off — limited time</div>
+        <a href="lesson-player.html?lesson=0" class="btn-start">Start Learning Now</a>
+        <div class="guarantee">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.6 1A9 9 0 1112 3a9 9 0 018.6 8z"/>
+          </svg>
+          30-Day Money-Back Guarantee
+        </div>
+        <div class="includes-title">This course includes:</div>
+        <ul class="includes-list">
+          <li><span class="ic">&#127897;</span> 26 audio lessons</li>
+          <li><span class="ic">&#128218;</span> 10 structured modules</li>
+          <li><span class="ic">&#128190;</span> Downloadable resources</li>
+          <li><span class="ic">&#127894;</span> Certificate of completion</li>
+          <li><span class="ic">&#8734;</span> Full lifetime access</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="content-col">
+
+    <!-- WHAT YOU'LL LEARN -->
+    <section class="panel">
+      <h2 class="section-h">What you'll learn</h2>
+      <div class="learn-grid">
+        <div class="learn-item"><span class="check">&#10003;</span> Build a memorable home inspection brand from scratch</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Avoid burnout and manage your time like a pro</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Diversify revenue with ancillary services</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Build a referral network beyond buyer agents</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Thrive when the real estate market shifts</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Understand the industry disruption and turn it into opportunity</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Build a Sphere of Influence (SOI) that generates consistent leads</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Win listing agent referrals in the post-Sitzer market</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Complete a SWOT analysis for your new business</div>
+        <div class="learn-item"><span class="check">&#10003;</span> Execute a proven 30-day quick-win action plan</div>
+      </div>
+    </section>
+
+    <!-- FOR YOU IF -->
+    <section class="panel">
+      <h2 class="section-h">This course is for you if...</h2>
+      <ul class="foryou-list">
+        <li><span class="bullet">&#8250;</span> You just finished home inspection school and don't know where to start</li>
+        <li><span class="bullet">&#8250;</span> You want to build a real business, not just a job</li>
+        <li><span class="bullet">&#8250;</span> You're tired of waiting for buyer agents to send you referrals</li>
+        <li><span class="bullet">&#8250;</span> You want a proven roadmap for your first 30 days</li>
+      </ul>
+    </section>
+
+    <!-- COURSE CONTENT -->
+    <section>
+      <h2 class="section-h">Course content</h2>
+      <p class="curriculum-meta">11 sections &middot; 26 lessons &middot; 6h 8m total length</p>
+      <div class="accordion" id="accordion"></div>
+    </section>
+
+    <!-- INSTRUCTOR -->
+    <section class="panel" style="margin-top:32px;">
+      <h2 class="section-h">Instructor</h2>
+      <div class="instructor">
+        <div class="instructor-photo">KC</div>
+        <div>
+          <div class="instructor-name">Ken Compton</div>
+          <div class="instructor-role">Founder, The Inspector Playbook</div>
+          <div class="instructor-stats">
+            <span class="star">&#9733;</span> 4.8 Instructor Rating
+            <span class="dot">&middot;</span> 419 Students
+            <span class="dot">&middot;</span> 6 Courses
+          </div>
+          <p class="instructor-bio">Ken Compton has spent years helping home inspectors build profitable, systems-driven businesses. His courses blend real-world experience with actionable frameworks that work from day one.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2026 The Inspector Playbook. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── Module / lesson data (lesson IDs 0-indexed across all lessons) ──
+  var MODULES = [
+    { title: "Module 0: 30-Day Quick Win Action Plan (Onboarding)", meta: "4 items · 45 min", lessons: [
+      { t: "Week 1: Lay the Foundation (Days 1–7)", d: "10 min" },
+      { t: "Week 2: Build Visibility (Days 8–14)", d: "12 min" },
+      { t: "Week 3: Start Generating Leads (Days 15–21)", d: "12 min" },
+      { t: "Week 4: Solidify and Grow (Days 22–30)", d: "11 min" }
+    ]},
+    { title: "Module 1: Brand & Identity", meta: "1 lesson · 18 min", lessons: [
+      { t: "Stand Out Strong — Building a Memorable Home Inspection Brand", d: "18 min" }
+    ]},
+    { title: "Module 2: Work-Life Balance", meta: "1 lesson · 22 min", lessons: [
+      { t: "Balance & Success — How Home Inspectors Can Avoid Burnout", d: "22 min" }
+    ]},
+    { title: "Module 3: Time Management", meta: "1 lesson · 19 min", lessons: [
+      { t: "Master Your Schedule — Time Blocking for Busy Home Inspectors", d: "19 min" }
+    ]},
+    { title: "Module 4: Revenue Diversification", meta: "1 lesson · 24 min", lessons: [
+      { t: "Diversifying Your Home Inspection Business — Should You Add Ancillary Services?", d: "24 min" }
+    ]},
+    { title: "Module 5: Referral Networks", meta: "1 lesson · 21 min", lessons: [
+      { t: "Beyond Buyer Agents — How to Build a Strong Referral Network", d: "21 min" }
+    ]},
+    { title: "Module 6: Market Resilience", meta: "1 lesson · 26 min", lessons: [
+      { t: "Thriving in a Down Market — Growth Strategies for Home Inspectors", d: "26 min" }
+    ]},
+    { title: "Module 7: Industry Disruption — Adapt or Die Series", meta: "5 lessons · 55 min", lessons: [
+      { t: "Adapt or Die — Why the Old Home Inspection Model Is Fading Fast", d: "11 min" },
+      { t: "The Real Estate Industry Is Shifting — Are You Ready or at Risk?", d: "12 min" },
+      { t: "What Got You Here Won't Get You There — The End of Business as Usual", d: "10 min" },
+      { t: "Disruption Is Opportunity in Disguise — If You're Willing to See It", d: "11 min" },
+      { t: "From Panic to Power — Thriving Through Market Upheaval", d: "11 min" }
+    ]},
+    { title: "Module 8: Sphere of Influence (SOI) Series", meta: "5 lessons · 60 min", lessons: [
+      { t: "Why Home Inspectors Can No Longer Rely on Home Buyers' Agents for Leads", d: "12 min" },
+      { t: "What Is a Sphere of Influence — and Why Every Home Inspector Needs One", d: "13 min" },
+      { t: "The Painful Truth — Home Inspectors Who Avoid SOI Building Are at Risk", d: "11 min" },
+      { t: "From Invisible to Irresistible — How to Become Top of Mind in Your Market", d: "12 min" },
+      { t: "How to Think Like a Successful Real Estate Agent Without Becoming One", d: "12 min" }
+    ]},
+    { title: "Module 9: Listing Agent Strategy — Post-Sitzer Series", meta: "5 lessons · 58 min", lessons: [
+      { t: "Post-Sitzer Burnett — What the Shift Away from Buyer Agents Means", d: "12 min" },
+      { t: "Why Listing Agents Are the New Key to Home Inspection Referrals", d: "11 min" },
+      { t: "The Rise of the Listing Agent — Adapting Your Marketing Strategy", d: "12 min" },
+      { t: "How to Start a Conversation with a Listing Agent", d: "11 min" },
+      { t: "What Marketing Strategies to Encourage Listing Agent Referrals?", d: "12 min" }
+    ]},
+    { title: "Module 10: SWOT Analysis", meta: "1 lesson · 20 min", lessons: [
+      { t: "SWOT Analysis for New Inspectors", d: "20 min" }
+    ]}
+  ];
+
+  var PLAY_SVG = '<svg class="play" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+
+  (function renderAccordion() {
+    var acc = document.getElementById('accordion');
+    var lessonIdx = 0;
+    var html = '';
+    MODULES.forEach(function(mod, mi) {
+      var openClass = (mi === 0) ? ' open' : '';
+      html += '<div class="acc-module' + openClass + '">';
+      html += '<div class="acc-header" onclick="toggleModule(this)">';
+      html += '<span class="acc-tri">&#9654;</span>';
+      html += '<span class="acc-title">' + mod.title + '</span>';
+      html += '<span class="acc-meta">' + mod.meta + '</span>';
+      html += '</div>';
+      html += '<div class="acc-body">';
+      mod.lessons.forEach(function(les) {
+        html += '<a class="lesson-row" href="lesson-player.html?lesson=' + lessonIdx + '">';
+        html += PLAY_SVG;
+        html += '<span class="l-title">' + les.t + '</span>';
+        html += '<span class="l-dur">' + les.d + '</span>';
+        html += '</a>';
+        lessonIdx++;
+      });
+      html += '</div></div>';
+    });
+    acc.innerHTML = html;
+  })();
+
+  function toggleModule(headerEl) {
+    headerEl.parentElement.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>

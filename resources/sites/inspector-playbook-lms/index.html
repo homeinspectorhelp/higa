@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Inspector Playbook — Course Catalog</title>
+<meta name="description" content="Professional development courses for home inspectors. Grow your revenue, escape realtor dependency, and run a more profitable inspection business.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #f8f9fa;
+    color: #1c1d1f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid #d1d7dc;
+    height: 64px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo-badge {
+    width: 34px;
+    height: 34px;
+    background: #e84118;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 11px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .nav-logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1c1d1f;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .nav-search {
+    flex: 1;
+    max-width: 520px;
+    position: relative;
+  }
+  .nav-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #6a6f73;
+    pointer-events: none;
+  }
+  .nav-search input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px 0 42px;
+    border: 1.5px solid #9e9e9e;
+    border-radius: 999px;
+    font-size: 14px;
+    color: #1c1d1f;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .nav-search input:focus { border-color: #1c1d1f; }
+  .nav-search input::placeholder { color: #9e9e9e; }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1c1d1f;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-link:hover { color: #e84118; }
+  .nav-divider {
+    width: 1px;
+    height: 20px;
+    background: #d1d7dc;
+  }
+  .btn-login {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1c1d1f;
+    border: 1.5px solid #1c1d1f;
+    border-radius: 4px;
+    padding: 7px 14px;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-login:hover { background: #f8f9fa; }
+  .btn-signup {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: #e84118;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .btn-signup:hover { background: #c93610; }
+
+  /* ── CATEGORY TABS ── */
+  .tabs-bar {
+    background: #fff;
+    border-bottom: 1px solid #d1d7dc;
+  }
+  .tabs-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-inner::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6a6f73;
+    border: none;
+    border-bottom: 2.5px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: 0.1px;
+  }
+  .tab-btn:hover { color: #1c1d1f; }
+  .tab-btn.active {
+    color: #1c1d1f;
+    border-bottom-color: #1c1d1f;
+    font-weight: 700;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+    width: 100%;
+  }
+  .section-header {
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1d1f;
+    line-height: 1.2;
+  }
+  .section-subtitle {
+    font-size: 14px;
+    color: #6a6f73;
+    margin-top: 4px;
+  }
+
+  /* ── COURSE GRID ── */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .course-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 580px) {
+    .course-grid { grid-template-columns: 1fr; }
+    .nav-search { display: none; }
+    .nav-divider { display: none; }
+    .nav-link { display: none; }
+  }
+
+  /* ── COURSE CARD ── */
+  .course-card {
+    background: #fff;
+    border: 1px solid #d1d7dc;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .course-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+
+  /* thumbnail */
+  .card-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    overflow: hidden;
+  }
+  .card-thumb-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+  }
+  .thumb-path-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 8px;
+  }
+  .thumb-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  }
+
+  /* card body */
+  .card-body {
+    padding: 12px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1c1d1f;
+    line-height: 1.4;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-instructor {
+    font-size: 12px;
+    color: #6a6f73;
+    margin-bottom: 6px;
+  }
+  .card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .rating-score {
+    font-size: 13px;
+    font-weight: 700;
+    color: #b4690e;
+  }
+  .stars {
+    display: flex;
+    gap: 1px;
+  }
+  .star {
+    font-size: 12px;
+    color: #e59819;
+    line-height: 1;
+  }
+  .rating-count {
+    font-size: 12px;
+    color: #6a6f73;
+  }
+  .card-meta {
+    font-size: 12px;
+    color: #6a6f73;
+    margin-bottom: 8px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1c1d1f;
+  }
+  .badge-bestseller {
+    font-size: 11px;
+    font-weight: 700;
+    background: #eceb98;
+    color: #3d3c0a;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.2px;
+  }
+  .card-enroll {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: #e84118;
+    padding: 5px 12px;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+    transition: background 0.15s;
+  }
+  .course-card:hover .card-enroll { background: #c93610; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #fff;
+    border-top: 1px solid #d1d7dc;
+    padding: 20px 24px;
+    text-align: center;
+  }
+  footer p {
+    font-size: 13px;
+    color: #6a6f73;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-badge">TIP</div>
+      <span class="nav-logo-text">The Inspector Playbook</span>
+    </a>
+    <div class="nav-search">
+      <svg class="nav-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
+      </svg>
+      <input type="text" placeholder="Search for anything">
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="nav-link">My Learning</a>
+      <div class="nav-divider"></div>
+      <a href="#" class="btn-login">Log In</a>
+      <a href="#" class="btn-signup">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CATEGORY TABS -->
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="filterCourses('all', this)">All Courses</button>
+    <button class="tab-btn" onclick="filterCourses('starting', this)">Just Starting Out</button>
+    <button class="tab-btn" onclick="filterCourses('growing', this)">Growing My Business</button>
+    <button class="tab-btn" onclick="filterCourses('multi', this)">Multi-Inspector Firm</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+  <div class="section-header">
+    <h2 class="section-title" id="section-title">All Courses</h2>
+    <p class="section-subtitle" id="section-subtitle">6 courses available</p>
+  </div>
+
+  <div class="course-grid" id="course-grid">
+
+    <!-- PATH 1 -->
+    <a href="course-just-graduated.html" class="course-card" data-tags="starting">
+      <div class="card-thumb" style="background-color:#1a4a8a;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 1</div>
+          <div class="thumb-title">Just Graduated Home Inspection School</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Just Graduated Home Inspection School</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(127 ratings)</span>
+        </div>
+        <div class="card-meta">26 lessons &middot; 10 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$197</span>
+          <span class="card-enroll">Enroll Now</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PATH 2 -->
+    <a href="#" class="course-card" data-tags="growing">
+      <div class="card-thumb" style="background-color:#2d7a4f;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 2</div>
+          <div class="thumb-title">In Business 24 Months or Less</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">In Business 24 Months or Less</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(48 ratings)</span>
+        </div>
+        <div class="card-meta">382 lessons &middot; 12 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$197</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PATH 3 -->
+    <a href="#" class="course-card" data-tags="growing">
+      <div class="card-thumb" style="background-color:#7a2d2d;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 3</div>
+          <div class="thumb-title">One-Man Shop: Systems &amp; Procedures</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">One-Man Shop: Systems &amp; Procedures</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(48 ratings)</span>
+        </div>
+        <div class="card-meta">5 lessons &middot; 2 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$97</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PATH 4 -->
+    <a href="#" class="course-card" data-tags="growing multi">
+      <div class="card-thumb" style="background-color:#7a6a1a;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 4</div>
+          <div class="thumb-title">One-Man Shop: Scale to Multi-Inspector</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">One-Man Shop: Scale to Multi-Inspector</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(48 ratings)</span>
+        </div>
+        <div class="card-meta">30 lessons &middot; 3 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$147</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PATH 5 — BESTSELLER -->
+    <a href="#" class="course-card" data-tags="multi">
+      <div class="card-thumb" style="background-color:#2d4a7a;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 5</div>
+          <div class="thumb-title">New or Small Multi-Inspector Firm</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">New or Small Multi-Inspector Firm</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(48 ratings)</span>
+        </div>
+        <div class="card-meta">378 lessons &middot; 11 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$247</span>
+          <span class="badge-bestseller">Bestseller</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PATH 6 -->
+    <a href="#" class="course-card" data-tags="multi">
+      <div class="card-thumb" style="background-color:#4a2d7a;">
+        <div class="card-thumb-inner">
+          <div class="thumb-path-label">Path 6</div>
+          <div class="thumb-title">Established Multi-Inspector Firm</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Established Multi-Inspector Firm</div>
+        <div class="card-instructor">Ken Compton</div>
+        <div class="card-rating">
+          <span class="rating-score">4.8</span>
+          <div class="stars">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+          </div>
+          <span class="rating-count">(48 ratings)</span>
+        </div>
+        <div class="card-meta">31 lessons &middot; 4 modules</div>
+        <div class="card-footer">
+          <span class="card-price">$147</span>
+        </div>
+      </div>
+    </a>
+
+  </div><!-- /course-grid -->
+</main>
+
+<footer>
+  <p>&copy; 2026 The Inspector Playbook. All rights reserved.</p>
+</footer>
+
+<script>
+  var FILTER_LABELS = {
+    all:      { title: 'All Courses',            count: 6 },
+    starting: { title: 'Just Starting Out',       count: 1 },
+    growing:  { title: 'Growing My Business',     count: 3 },
+    multi:    { title: 'Multi-Inspector Firm',    count: 3 }
+  };
+
+  function filterCourses(tag, btn) {
+    // Update active tab
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    // Show/hide cards
+    var cards = document.querySelectorAll('.course-card');
+    var visible = 0;
+    cards.forEach(function(card) {
+      var tags = card.getAttribute('data-tags') || '';
+      if (tag === 'all' || tags.indexOf(tag) !== -1) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Update header
+    var info = FILTER_LABELS[tag] || { title: 'Courses', count: visible };
+    document.getElementById('section-title').textContent = info.title;
+    document.getElementById('section-subtitle').textContent =
+      visible + ' course' + (visible === 1 ? '' : 's') + ' available';
+  }
+
+  // Search: simple client-side title filter
+  document.querySelector('.nav-search input').addEventListener('input', function() {
+    var q = this.value.toLowerCase().trim();
+    var cards = document.querySelectorAll('.course-card');
+    var visible = 0;
+    cards.forEach(function(card) {
+      var title = (card.querySelector('.card-title') || {}).textContent || '';
+      if (!q || title.toLowerCase().indexOf(q) !== -1) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    document.getElementById('section-subtitle').textContent =
+      visible + ' course' + (visible === 1 ? '' : 's') + ' available';
+  });
+</script>
+
+</body>
+</html>

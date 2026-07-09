@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Report — Home Inspector Help — May 22, 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy:       #0E2547;
+    --navy-mid:   #14305C;
+    --navy-deep:  #081A35;
+    --gold:       #C9A84C;
+    --gold-light: #E8C870;
+    --gold-dark:  #9A7A2A;
+    --teal:       #14B8A6;
+    --teal-deep:  #0F766E;
+    --green:      #16A34A;
+    --green-bg:   #DCFCE7;
+    --green-line: #BBF7D0;
+    --red:        #DC2626;
+    --red-bg:     #FEE2E2;
+    --purple:     #7C3AED;
+    --purple-bg:  #F3E8FF;
+    --text:       #0F172A;
+    --text-mid:   #475569;
+    --text-light: #94A3B8;
+    --line:       #E2E8F0;
+    --card-bg:    #FFFFFF;
+    --soft-bg:    #F8FAFC;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: radial-gradient(ellipse at top right, #1B4A6E 0%, var(--navy-deep) 55%, #050E20 100%);
+    color: var(--text);
+    overflow: hidden;
+  }
+  body { display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+  /* ── Stage ── */
+  .stage {
+    position: relative;
+    width: min(1180px, 96vw);
+    height: min(700px, 88vh);
+  }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; pointer-events: none;
+    transform: translateY(28px) scale(.985);
+    transition: opacity .55s cubic-bezier(.4,0,.2,1),
+                transform .65s cubic-bezier(.4,0,.2,1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .slide.active {
+    opacity: 1; pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .slide.active .stagger > * {
+    animation: rise .65s cubic-bezier(.4,0,.2,1) both;
+  }
+  .slide.active .stagger > *:nth-child(1) { animation-delay: .08s; }
+  .slide.active .stagger > *:nth-child(2) { animation-delay: .18s; }
+  .slide.active .stagger > *:nth-child(3) { animation-delay: .28s; }
+  .slide.active .stagger > *:nth-child(4) { animation-delay: .38s; }
+  .slide.active .stagger > *:nth-child(5) { animation-delay: .46s; }
+  .slide.active .stagger > *:nth-child(6) { animation-delay: .54s; }
+  .slide.active .stagger > *:nth-child(7) { animation-delay: .62s; }
+  .slide.active .stagger > *:nth-child(8) { animation-delay: .70s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Card ── */
+  .card {
+    width: 100%; height: 100%;
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 64px 72px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 8px 24px rgba(0,0,0,.25);
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.gradient {
+    background: linear-gradient(125deg, #C9A84C 0%, #E8C870 45%, #0E2547 110%);
+    color: #fff;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .card.gradient::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 25%, rgba(255,255,255,.18) 0%, transparent 40%),
+      radial-gradient(circle at 80% 75%, rgba(255,255,255,.10) 0%, transparent 45%);
+    pointer-events: none;
+  }
+
+  /* ── Title slide ── */
+  .logo-circle {
+    width: 82px; height: 82px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    border: 2px solid rgba(255,255,255,.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; font-weight: 800; color: #fff;
+    margin-bottom: 28px; letter-spacing: -1px;
+    backdrop-filter: blur(4px);
+  }
+  .title-big {
+    font-size: 64px; font-weight: 800; line-height: 1.05;
+    color: #fff; letter-spacing: -1.5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.18);
+  }
+  .title-sub {
+    font-size: 19px; color: rgba(255,255,255,.92);
+    margin-top: 16px; font-weight: 500;
+  }
+  .pill-row {
+    display: flex; gap: 12px; margin-top: 28px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .pill-soft {
+    padding: 9px 18px; border-radius: 999px;
+    background: rgba(255,255,255,.18); color: #fff;
+    border: 1px solid rgba(255,255,255,.30);
+    font-size: 13px; font-weight: 600;
+    backdrop-filter: blur(6px);
+  }
+  .date-stamp {
+    font-size: 12px; letter-spacing: 3px;
+    color: rgba(255,255,255,.75); margin-top: 36px;
+    text-transform: uppercase; font-weight: 600;
+  }
+
+  /* ── Content slide pieces ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 16px; border-radius: 999px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    align-self: flex-start;
+  }
+  .badge.teal   { background: var(--teal);   color: #fff; }
+  .badge.gold   { background: var(--gold);   color: #1A2B4A; }
+  .badge.green  { background: var(--green);  color: #fff; }
+  .badge.purple { background: var(--purple); color: #fff; }
+  .badge.navy   { background: var(--navy);   color: #fff; }
+  .badge.red    { background: var(--red);    color: #fff; }
+
+  .slide-num {
+    position: absolute; top: 32px; right: 36px;
+    font-size: 14px; font-weight: 700;
+    color: var(--text-light); letter-spacing: 1px;
+  }
+  .heading {
+    font-size: 48px; font-weight: 800; line-height: 1.1;
+    color: var(--text); margin-top: 24px;
+    letter-spacing: -1.2px;
+  }
+  .lede {
+    font-size: 18px; color: var(--text-mid);
+    margin-top: 14px; line-height: 1.55;
+    max-width: 900px;
+  }
+
+  /* ── Two-column ── */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 22px; margin-top: 38px;
+  }
+  .stream {
+    background: var(--soft-bg); border-radius: 14px;
+    padding: 26px 28px; border: 1px solid var(--line);
+    border-top: 4px solid var(--teal);
+  }
+  .stream.purple { border-top-color: var(--purple); }
+  .stream.gold   { border-top-color: var(--gold); }
+  .stream-label {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.3px;
+    color: var(--teal); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .stream.purple .stream-label { color: var(--purple); }
+  .stream.gold   .stream-label { color: var(--gold-dark); }
+  .stream-title {
+    font-size: 22px; font-weight: 800; color: var(--text);
+    margin-bottom: 10px; letter-spacing: -.4px;
+  }
+  .stream-body {
+    font-size: 14px; color: var(--text-mid); line-height: 1.55;
+  }
+
+  /* ── Checklist ── */
+  .checklist {
+    margin-top: 32px; display: flex; flex-direction: column; gap: 10px;
+    max-height: 380px; overflow: hidden;
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--soft-bg);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14.5px; color: var(--text);
+    line-height: 1.4;
+  }
+  .check-icon {
+    flex-shrink: 0;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+  }
+  .check-item strong { font-weight: 700; }
+  .check-item code {
+    background: var(--navy); color: var(--gold-light);
+    padding: 2px 8px; border-radius: 5px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12.5px;
+  }
+
+  .verified-pill {
+    align-self: flex-start; margin-top: 26px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 10px;
+    background: var(--green-bg); border: 1px solid var(--green-line);
+    color: var(--green); font-weight: 700; font-size: 13px;
+  }
+  .verified-pill::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(22,163,74,.55);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.55); }
+    50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+  }
+
+  /* ── Before / After ── */
+  .ba-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 22px; margin-top: 38px;
+  }
+  .ba-card {
+    border-radius: 14px; padding: 22px 26px;
+    border: 1px solid;
+  }
+  .ba-before { background: var(--red-bg); border-color: #FCA5A5; }
+  .ba-after  { background: var(--green-bg); border-color: var(--green-line); }
+  .ba-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 800; letter-spacing: 1.3px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .ba-before .ba-tag { color: var(--red); }
+  .ba-after  .ba-tag { color: var(--green); }
+  .ba-tag .dot { width: 16px; height: 16px; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size: 10px; font-weight: 900; }
+  .ba-before .dot { background: var(--red); }
+  .ba-after  .dot { background: var(--green); }
+  .ba-title { font-size: 19px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .ba-body  { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+
+  .footnote {
+    margin-top: auto; padding-top: 22px;
+    font-size: 13px; color: var(--text-light); font-weight: 500;
+  }
+
+  /* ── Stats grid (final slide) ── */
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 18px; margin-top: 38px;
+  }
+  .stat {
+    background: var(--soft-bg); border-radius: 14px;
+    padding: 22px 24px; border: 1px solid var(--line);
+    border-top: 4px solid var(--gold);
+  }
+  .stat-num {
+    font-size: 38px; font-weight: 800; color: var(--navy);
+    letter-spacing: -1px; line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.1px;
+    color: var(--text-mid); text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .stat-sub {
+    font-size: 12.5px; color: var(--text-mid);
+    margin-top: 6px; line-height: 1.45;
+  }
+
+  /* ── Nav controls ── */
+  .nav-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff; font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s; z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  .nav-arrow:hover {
+    background: rgba(255,255,255,.18);
+    border-color: rgba(255,255,255,.35);
+    transform: translateY(-50%) scale(1.08);
+  }
+  .nav-arrow.prev { left: 24px; }
+  .nav-arrow.next { right: 24px; }
+  .nav-arrow:disabled { opacity: .25; cursor: not-allowed; }
+
+  .dots {
+    position: fixed; bottom: 26px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 9px; z-index: 10;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    cursor: pointer; transition: all .25s;
+    border: none;
+  }
+  .dot:hover { background: rgba(255,255,255,.55); }
+  .dot.active {
+    background: var(--gold);
+    width: 28px; border-radius: 4px;
+  }
+
+  .keyhint {
+    position: fixed; bottom: 28px; right: 28px;
+    font-size: 11px; color: rgba(255,255,255,.42);
+    letter-spacing: .8px;
+  }
+
+  @media (max-width: 900px) {
+    .card { padding: 36px 30px; border-radius: 16px; }
+    .heading { font-size: 32px; }
+    .title-big { font-size: 42px; }
+    .two-col, .ba-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .nav-arrow { width: 38px; height: 38px; font-size: 18px; }
+    .nav-arrow.prev { left: 8px; } .nav-arrow.next { right: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="nav-arrow prev" id="prev" aria-label="Previous">‹</button>
+<button class="nav-arrow next" id="next" aria-label="Next">›</button>
+
+<div class="stage" id="stage">
+
+  <!-- ── 01 · TITLE ── -->
+  <section class="slide active">
+    <div class="card gradient">
+      <div class="stagger">
+        <div class="logo-circle">HIH</div>
+        <h1 class="title-big">Daily Report</h1>
+        <p class="title-sub">Home Inspector Help — Nikki Pro handoff complete</p>
+        <div class="pill-row">
+          <span class="pill-soft">Nikki Pro launched live</span>
+          <span class="pill-soft">Auto-deploy automated</span>
+          <span class="pill-soft">Knowledge search wired</span>
+        </div>
+        <div class="date-stamp">Friday · May 22, 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 · OVERVIEW ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">02</div>
+      <div class="stagger">
+        <span class="badge teal">Overview</span>
+        <h2 class="heading">From handoff to live in one session</h2>
+        <p class="lede">A second-Claude handoff turned into a full deployment — backend, server, automation, and a polished UI all shipped today.</p>
+        <div class="two-col">
+          <div class="stream">
+            <div class="stream-label">Stream 1 · Foundation</div>
+            <div class="stream-title">Nikki Pro went live</div>
+            <div class="stream-body">Streaming Claude chat with GitHub tools, semantic knowledge search, full HIH memory — running 24/7 on Rose Hosting at dashboard.homeinspectorhelp.com.</div>
+          </div>
+          <div class="stream gold">
+            <div class="stream-label">Stream 2 · Polish &amp; Automation</div>
+            <div class="stream-title">Hands-off deploy + UI polish</div>
+            <div class="stream-body">Auto-merge workflow, sidebar quick actions, mic + read-aloud, markdown rendering, team-tab cleanup, brand colors aligned to the public site.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 · NIKKI PRO LIVE ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">03</div>
+      <div class="stagger">
+        <span class="badge green">Shipped ✓</span>
+        <h2 class="heading">Nikki Pro is live</h2>
+        <p class="lede">A streaming AI orchestrator for HIH — reads, writes, and remembers everything in the repo.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-icon">✓</span><div>Backend built from Larry Pro's code and pointed at <code>homeinspectorhelp/hih</code></div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Deployed to Rose Hosting (Ubuntu, PM2, Nginx) and reachable at <code>dashboard.homeinspectorhelp.com</code></div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>SSL certificate issued and the custom domain wired in by Rose Hosting support</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Survives reboots via PM2 — runs alongside Larry on the same box</div></div>
+        </div>
+        <div class="verified-pill">Verified live on the server today</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04 · ZVEC KNOWLEDGE ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">04</div>
+      <div class="stagger">
+        <span class="badge gold">Built Into Nikki Pro</span>
+        <h2 class="heading">Nikki Pro has Zvec inside</h2>
+        <p class="lede">Zvec semantic search is baked directly into Nikki Pro — the reason we chose Rose Hosting in the first place. Nikki finds answers in seconds instead of guessing.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-icon">✓</span><div>Zvec runs <strong>on the Rose Hosting server</strong> alongside Nikki Pro — this is why server hosting was required</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div><strong>76 files · 101 semantic chunks</strong> indexed across <code>/clients</code>, <code>/Team</code>, <code>/resources</code>, <code>/owners-inbox</code></div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Nikki calls <code>search_knowledge</code> automatically before answering — verified live in chat</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Re-indexes via <code>npm run index-knowledge</code> whenever the repo is updated</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 05 · POLISH PASS ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">05</div>
+      <div class="stagger">
+        <span class="badge purple">Polish</span>
+        <h2 class="heading">The chat experience got real</h2>
+        <p class="lede">Five Larry Pro features ported to Nikki Pro — chat now feels like a desktop app.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-icon">✓</span><div>Markdown rendering — headings, bullets, code blocks, tables</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>🎤 Push-to-talk microphone with live transcription</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>🔇 Read-aloud toggle — Nikki speaks replies on demand</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Full-width chat panel, drag-drop file attachments</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Quick Actions sidebar with 6 HIH-tailored one-click prompts</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 06 · BUGS SQUASHED ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">06</div>
+      <div class="stagger">
+        <span class="badge red">Fixed</span>
+        <h2 class="heading">Two 502s caught and killed</h2>
+        <p class="lede">A pair of unescaped backticks inside the system prompt template literal were taking the server down on startup.</p>
+        <div class="ba-grid">
+          <div class="ba-card ba-before">
+            <div class="ba-tag"><span class="dot">!</span>Before</div>
+            <div class="ba-title">Site returning 502 Bad Gateway</div>
+            <div class="ba-body"><code>ReferenceError: Team is not defined</code> at <code>chat.js:74</code> — PM2 was crashing the process before Nginx could connect.</div>
+          </div>
+          <div class="ba-card ba-after">
+            <div class="ba-tag"><span class="dot">✓</span>After</div>
+            <div class="ba-title">Escaped and live</div>
+            <div class="ba-body">PRs <strong>#21</strong>, <strong>#22</strong> shipped the fix. Dashboard loaded cleanly on the next deploy.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 07 · AUTO DEPLOY ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">07</div>
+      <div class="stagger">
+        <span class="badge navy">Automated</span>
+        <h2 class="heading">Updates now deploy themselves</h2>
+        <p class="lede">Setting up the new server meant every change had to be pushed to it by hand. We automated that away.</p>
+        <div class="ba-grid">
+          <div class="ba-card ba-before">
+            <div class="ba-tag"><span class="dot">!</span>Before</div>
+            <div class="ba-title">Merge by hand, every time</div>
+            <div class="ba-body">For each update, Ken had to open GitHub, click the PR, click Merge, wait for the SSH deploy — a manual loop on every fix.</div>
+          </div>
+          <div class="ba-card ba-after">
+            <div class="ba-tag"><span class="dot">✓</span>After</div>
+            <div class="ba-title">It deploys itself</div>
+            <div class="ba-body">A <code>claude/*</code> PR now squash-merges and SSH-deploys in the same workflow — the server pulls and restarts in seconds, with no one touching it.</div>
+          </div>
+        </div>
+        <div class="footnote">Built with GitHub Actions — one less manual step on every single update.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 08 · BRAND POLISH ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">08</div>
+      <div class="stagger">
+        <span class="badge teal">Brand</span>
+        <h2 class="heading">Dashboard looks like HIH now</h2>
+        <p class="lede">Small visual fixes so the internal dashboard reads as part of the same brand as homeinspectorhelp.com.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-icon">✓</span><div>Header blue lifted from <code>#152238</code> to <code>#114088</code> — same family as the public site</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Nav bar darkened to match — gold accent line preserved</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>The Team tab cleaned up — Nikki, Craig, Erin, Rex (Dil retired, Nolan and Pax removed)</div></div>
+          <div class="check-item"><span class="check-icon">✓</span><div>Rex re-titled <strong>Web Developer &amp; SEO Specialist</strong></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 09 · WHAT'S LIVE ── -->
+  <section class="slide">
+    <div class="card">
+      <div class="slide-num">09</div>
+      <div class="stagger">
+        <span class="badge gold">Where we landed</span>
+        <h2 class="heading">What's live right now</h2>
+        <p class="lede">End-of-session snapshot — the dashboard is open for Ken, Beth, and the team.</p>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-num">9</div>
+            <div class="stat-label">PRs merged</div>
+            <div class="stat-sub">PRs #18 through #27 — every one auto-deployed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">76</div>
+            <div class="stat-label">Files searchable</div>
+            <div class="stat-sub">Indexed for semantic recall via Zvec</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">0</div>
+            <div class="stat-label">Manual merges left</div>
+            <div class="stat-sub">Beth can ship without ever opening GitHub</div>
+          </div>
+        </div>
+        <div class="verified-pill">dashboard.homeinspectorhelp.com — live now</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="keyhint">← → to navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsRow = document.getElementById('dots');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', () => go(i));
+    dotsRow.appendChild(d);
+  });
+  const dots = dotsRow.querySelectorAll('.dot');
+
+  function go(i) {
+    if (i < 0 || i >= slides.length || i === current) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+  }
+
+  prevBtn.addEventListener('click', () => go(current - 1));
+  nextBtn.addEventListener('click', () => go(current + 1));
+  prevBtn.disabled = true;
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+  });
+</script>
+
+</body>
+</html>
