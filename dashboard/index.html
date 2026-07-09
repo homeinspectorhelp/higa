@@ -1859,6 +1859,7 @@
       <div class="h2-action" style="margin-top:1.5rem;">
         <div class="page-header-title" style="font-size:1.05rem;font-weight:800;color:var(--text);">Active Items</div>
         <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button class="pb-csv-label" id="pb-add-btn" style="border-color:var(--gold);color:var(--gold);font-weight:700;">＋ New Item</button>
           <label class="pb-csv-label" for="pb-csv-input" title="Upload exported Google Sheet CSV to upsert by ID">⬆ Import CSV</label>
           <input type="file" id="pb-csv-input" accept=".csv" style="display:none">
           <button class="res-upload-label" id="pb-refresh-btn" style="cursor:pointer;">↻ Refresh</button>
@@ -1896,6 +1897,67 @@
               <tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- New Item modal (manual single-task create → /api/tasks-ui/create) -->
+      <div class="jrnl-modal-overlay" id="pb-modal" style="display:none">
+        <div class="jrnl-modal">
+          <div class="jrnl-modal-header">
+            <div class="jrnl-modal-title">New Item</div>
+            <button class="jrnl-modal-close" id="pb-modal-close">✕</button>
+          </div>
+          <div class="jrnl-modal-body">
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Item *</label>
+              <input class="jrnl-input" id="pb-f-item" type="text" placeholder="What needs to get done">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Priority</label>
+              <select class="jrnl-input" id="pb-f-priority">
+                <option value="med">Med</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Status</label>
+              <select class="jrnl-input" id="pb-f-status">
+                <option value="TODO">To Do</option>
+                <option value="IN PROGRESS">In Progress</option>
+                <option value="BLOCKED">Blocked</option>
+                <option value="WAITING">Waiting</option>
+                <option value="NEEDS KEN">Needs Ken</option>
+                <option value="ON CALENDAR">On Calendar</option>
+                <option value="DONE">Done</option>
+              </select>
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Owner</label>
+              <input class="jrnl-input" id="pb-f-owner" type="text" placeholder="Who owns it">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Due Date *</label>
+              <input class="jrnl-input" id="pb-f-date" type="date">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Blocked By</label>
+              <input class="jrnl-input" id="pb-f-blocked" type="text" placeholder="Ref or reason it's blocked">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Link To Output</label>
+              <input class="jrnl-input" id="pb-f-link" type="text" placeholder="https://…">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Details</label>
+              <textarea class="jrnl-input" id="pb-f-details" rows="3" placeholder="Notes / description"></textarea>
+            </div>
+            <div id="pb-f-error" style="display:none;color:#DC2626;font-size:0.8rem;font-weight:600;"></div>
+          </div>
+          <div class="jrnl-modal-footer">
+            <button class="btn" id="pb-modal-cancel">Cancel</button>
+            <button class="btn btn-approve" id="pb-modal-save">Create Item</button>
+          </div>
         </div>
       </div>
     </div>
@@ -4403,6 +4465,49 @@
         } finally { loading = false; }
       }
 
+      // ── New Item (manual single-task create → same /api/tasks-ui/create the CSV importer uses) ──
+      const $modal = document.getElementById('pb-modal');
+      const $err   = document.getElementById('pb-f-error');
+      const F = id => document.getElementById(id);
+      function openItemModal() {
+        $err.style.display = 'none';
+        ['pb-f-item','pb-f-owner','pb-f-blocked','pb-f-link','pb-f-details'].forEach(id => { F(id).value = ''; });
+        F('pb-f-priority').value = 'med';
+        F('pb-f-status').value = 'TODO';
+        F('pb-f-date').value = new Date().toISOString().slice(0,10);
+        $modal.style.display = 'flex';
+        F('pb-f-item').focus();
+      }
+      function closeItemModal() { $modal.style.display = 'none'; }
+      async function saveItem() {
+        const title = F('pb-f-item').value.trim();
+        const date  = F('pb-f-date').value;
+        if (!title) { $err.textContent = 'Item is required.';     $err.style.display = 'block'; F('pb-f-item').focus(); return; }
+        if (!date)  { $err.textContent = 'Due Date is required.'; $err.style.display = 'block'; F('pb-f-date').focus(); return; }
+        const $save = F('pb-modal-save');
+        $save.disabled = true; $save.textContent = 'Creating…';
+        try {
+          const res = await fetch('/api/tasks-ui/create', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              title,
+              priority:    F('pb-f-priority').value,
+              status:      F('pb-f-status').value,
+              owner:       F('pb-f-owner').value.trim(),
+              date,
+              blockedBy:   F('pb-f-blocked').value.trim(),
+              link:        F('pb-f-link').value.trim(),
+              description: F('pb-f-details').value.trim(),
+            }),
+          });
+          if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
+          closeItemModal();
+          loaded = false; loadBoard();
+        } catch (err) {
+          $err.textContent = 'Could not create: ' + err.message; $err.style.display = 'block';
+        } finally { $save.disabled = false; $save.textContent = 'Create Item'; }
+      }
+
       // ── CSV import / upsert ────────────────────────────────────────────────
       function parseCsv(text) {
         const lines = text.split(/\r?\n/).filter(Boolean);
@@ -4484,6 +4589,12 @@
       });
 
       document.getElementById('pb-refresh-btn')?.addEventListener('click', () => { loaded = false; loadBoard(); });
+
+      document.getElementById('pb-add-btn')?.addEventListener('click', openItemModal);
+      document.getElementById('pb-modal-close')?.addEventListener('click', closeItemModal);
+      document.getElementById('pb-modal-cancel')?.addEventListener('click', closeItemModal);
+      document.getElementById('pb-modal-save')?.addEventListener('click', saveItem);
+      $modal?.addEventListener('click', e => { if (e.target === $modal) closeItemModal(); });
 
       $input?.addEventListener('change', e => {
         const file = e.target.files && e.target.files[0];
