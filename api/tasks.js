@@ -94,13 +94,18 @@ async function writeTasks(tasks, sha) {
 function slim(t) {
   return {
     id:          t.id,
+    ref:         t.ref        || "",
     title:       t.title,
     date:        t.date,
     description: t.description || "",
     owner:       t.owner    || "",
-    priority: t.priority || "normal",
-    done:     !!t.done,
-    doneAt:   t.doneAt   || null,
+    priority:    t.priority || "normal",
+    status:      t.status   || "TODO",
+    blockedBy:   t.blockedBy || "",
+    link:        t.link      || "",
+    lastUpdate:  t.lastUpdate || t.createdAt || null,
+    done:        !!t.done,
+    doneAt:      t.doneAt   || null,
     attachments: Array.isArray(t.attachments) ? t.attachments : [],
   };
 }
@@ -186,7 +191,10 @@ export async function taskAttachmentHandler(req, res) {
 // POST /api/tasks/create
 export async function createTaskHandler(req, res) {
   if (!authed(req)) return res.status(401).json({ error: "bad secret" });
-  const { title, date, description = "", owner = "", priority = "normal", attachments } = req.body || {};
+  const {
+    title, date, description = "", owner = "", priority = "normal",
+    ref = "", status = "TODO", blockedBy = "", link = "", attachments,
+  } = req.body || {};
   if (!title || !date) return res.status(400).json({ error: "title and date (YYYY-MM-DD) required" });
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return res.status(400).json({ error: "date must be YYYY-MM-DD" });
   try {
@@ -196,11 +204,41 @@ export async function createTaskHandler(req, res) {
       try { saved = await commitTaskAttachments(getOctokit(), id, attachments); }
       catch (err) { console.error("tasks: attachment commit failed:", err.message); }
     }
+    const now = new Date().toISOString();
     const { tasks, sha } = await readTasks();
-    const task = { id, title, date, description, owner, priority, done: false, doneAt: null, attachments: saved, createdAt: new Date().toISOString() };
+    const isDone = status.toUpperCase() === "DONE";
+    const task = {
+      id, ref, title, date, description, owner, priority,
+      status: status.toUpperCase(), blockedBy, link,
+      done: isDone, doneAt: isDone ? now : null,
+      attachments: saved, createdAt: now, lastUpdate: now,
+    };
     tasks.push(task);
     await writeTasks(tasks, sha);
     res.status(200).json({ created: true, task: slim(task) });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+}
+
+// POST /api/tasks-ui/update  { id, title?, date?, description?, owner?, priority?, ref?, status?, blockedBy?, link? }
+export async function updateTaskHandler(req, res) {
+  if (!authed(req)) return res.status(401).json({ error: "bad secret" });
+  const { id, ...fields } = req.body || {};
+  if (!id) return res.status(400).json({ error: "id required" });
+  if (fields.date && !/^\d{4}-\d{2}-\d{2}$/.test(fields.date))
+    return res.status(400).json({ error: "date must be YYYY-MM-DD" });
+  try {
+    const { tasks, sha } = await readTasks();
+    const task = tasks.find(t => t.id === id);
+    if (!task) return res.status(404).json({ error: "task not found" });
+    const now = new Date().toISOString();
+    const allowed = ["title","date","description","owner","priority","ref","status","blockedBy","link"];
+    for (const key of allowed) {
+      if (fields[key] !== undefined) task[key] = key === "status" ? String(fields[key]).toUpperCase() : fields[key];
+    }
+    if (task.status === "DONE" && !task.done) { task.done = true; task.doneAt = now; }
+    task.lastUpdate = now;
+    await writeTasks(tasks, sha);
+    res.status(200).json({ updated: true, task: slim(task) });
   } catch (err) { res.status(500).json({ error: err.message }); }
 }
 

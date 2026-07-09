@@ -1359,6 +1359,35 @@
       background: none; color: var(--text-muted); font-size: 12px; cursor: pointer;
     }
 
+    /* ── PROJECT BOARD ── */
+    .pb-table-wrap { overflow-x: auto; }
+    .pb-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 900px; }
+    .pb-table th { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); padding: 0.6rem 0.75rem; background: #f8fafc; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .pb-table td { padding: 0.65rem 0.75rem; color: var(--text); border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    .pb-table tr:last-child td { border-bottom: none; }
+    .pb-table tr:hover td { background: #f8fafc; }
+    .pb-table td.pb-ref { font-family: monospace; font-size: 0.75rem; color: var(--text3); white-space: nowrap; }
+    .pb-table td.pb-item { font-weight: 500; max-width: 240px; }
+    .pb-table td.pb-details { max-width: 200px; font-size: 0.76rem; color: var(--text-muted); }
+    .pb-done td { opacity: 0.45; }
+    .pb-status { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+    .pb-s-todo      { background: #f1f5f9; color: var(--text3); }
+    .pb-s-inprogress{ background: rgba(14,165,233,0.12); color: #0369a1; }
+    .pb-s-blocked   { background: rgba(239,68,68,0.12); color: #dc2626; }
+    .pb-s-waiting   { background: rgba(245,158,11,0.12); color: #d97706; }
+    .pb-s-needsken  { background: rgba(139,92,246,0.12); color: #7c3aed; }
+    .pb-s-oncalendar{ background: rgba(59,130,246,0.12); color: #1d4ed8; }
+    .pb-s-done      { background: rgba(34,197,94,0.12); color: #16a34a; }
+    .pb-pri-high   { color: #dc2626; font-weight: 700; }
+    .pb-pri-med    { color: #d97706; font-weight: 600; }
+    .pb-pri-low    { color: var(--text3); }
+    .pb-filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .pb-filter-btn { padding: 4px 12px; border: 1px solid var(--border); border-radius: 100px; font-size: 0.72rem; font-weight: 600; background: none; color: var(--text-muted); cursor: pointer; }
+    .pb-filter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .pb-csv-label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: var(--text-muted); cursor: pointer; background: var(--surface); }
+    .pb-csv-label:hover { border-color: var(--gold); color: var(--gold); }
+    .pb-upload-log { margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-muted); min-height: 1.2em; }
+
   </style>
 </head>
 <body>
@@ -1384,6 +1413,7 @@
       <div class="nav-item" data-page="ghl" onclick="showPage('ghl',this)"><span class="nav-icon">🚀</span> GHL</div>
       <div class="nav-item" data-page="support" onclick="showPage('support',this)"><span class="nav-icon">🎧</span> Support Service</div>
       <div class="nav-item" data-page="ownersinbox" onclick="showPage('ownersinbox',this)"><span class="nav-icon">📥</span> Owner's Inbox</div>
+      <div class="nav-item" data-page="projectboard" onclick="showPage('projectboard',this)"><span class="nav-icon">📋</span> Project Board</div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-section">
@@ -1814,6 +1844,58 @@
             <a class="btn btn-view" id="inbox-modal-download" href="#" download>Download</a>
             <button class="btn btn-approve" id="inbox-modal-ok">Close</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Project Board ── -->
+  <div class="page" id="page-projectboard">
+    <div class="page-strip">
+      <h1>Project Board</h1>
+      <p>All active tasks, projects, and initiatives — CSV-importable from Ken's Google Sheet</p>
+    </div>
+    <div id="content">
+      <div class="h2-action" style="margin-top:1.5rem;">
+        <div class="page-header-title" style="font-size:1.05rem;font-weight:800;color:var(--text);">Active Items</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <label class="pb-csv-label" for="pb-csv-input" title="Upload exported Google Sheet CSV to upsert by ID">⬆ Import CSV</label>
+          <input type="file" id="pb-csv-input" accept=".csv" style="display:none">
+          <button class="res-upload-label" id="pb-refresh-btn" style="cursor:pointer;">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="pb-upload-log" id="pb-upload-log"></div>
+      <div class="pb-filter-bar" id="pb-filters">
+        <button class="pb-filter-btn active" data-status="all">All</button>
+        <button class="pb-filter-btn" data-status="TODO">To Do</button>
+        <button class="pb-filter-btn" data-status="IN PROGRESS">In Progress</button>
+        <button class="pb-filter-btn" data-status="BLOCKED">Blocked</button>
+        <button class="pb-filter-btn" data-status="WAITING">Waiting</button>
+        <button class="pb-filter-btn" data-status="NEEDS KEN">Needs Ken</button>
+        <button class="pb-filter-btn" data-status="ON CALENDAR">On Calendar</button>
+        <button class="pb-filter-btn" data-status="DONE">Done</button>
+      </div>
+      <div class="table-card">
+        <div class="pb-table-wrap">
+          <table class="pb-table">
+            <thead>
+              <tr>
+                <th>Ref</th>
+                <th>Item</th>
+                <th>Pri</th>
+                <th>Status</th>
+                <th>Owner</th>
+                <th>Due</th>
+                <th>Blocked By</th>
+                <th>Details</th>
+                <th>Last Update</th>
+                <th>Output</th>
+              </tr>
+            </thead>
+            <tbody id="pb-tbody">
+              <tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -2378,7 +2460,7 @@
   var pageTitles = {
     overview: 'Command Center', contacts: 'Contacts',
     calendars: 'Calendars', journal: 'Journal', ghl: 'GHL',
-    support: 'Support Service', ownersinbox: "Owner's Inbox",
+    support: 'Support Service', ownersinbox: "Owner's Inbox", projectboard: 'Project Board',
     team: 'Team', settings: 'Settings', maxpro: 'Max Pro', maxprime: 'Max Prime', deanchat: 'Dean'
   };
 
@@ -4239,6 +4321,178 @@
 
       document.querySelector('[data-page="ownersinbox"]')?.addEventListener('click', () => {
         if (!loaded && !loading) loadList();
+      });
+    })();
+
+    // ── Project Board ──────────────────────────────────────────────────────────
+    (function () {
+      let allTasks = [], activeFilter = 'all', loaded = false, loading = false;
+      const $tbody  = document.getElementById('pb-tbody');
+      const $log    = document.getElementById('pb-upload-log');
+      const $input  = document.getElementById('pb-csv-input');
+
+      const STATUS_CLS = {
+        'TODO': 'pb-s-todo', 'IN PROGRESS': 'pb-s-inprogress',
+        'BLOCKED': 'pb-s-blocked', 'WAITING': 'pb-s-waiting',
+        'NEEDS KEN': 'pb-s-needsken', 'ON CALENDAR': 'pb-s-oncalendar',
+        'DONE': 'pb-s-done',
+      };
+      const PRI_CLS = { high: 'pb-pri-high', med: 'pb-pri-med', low: 'pb-pri-low' };
+
+      function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+      function fmtDate(d) {
+        if (!d) return '';
+        try { return new Date(d + 'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+        catch { return d; }
+      }
+
+      function fmtTs(iso) {
+        if (!iso) return '';
+        try { return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+        catch { return iso.slice(0,10); }
+      }
+
+      function renderTable() {
+        const tasks = activeFilter === 'all' ? allTasks
+          : activeFilter === 'DONE' ? allTasks.filter(t => t.done || (t.status||'').toUpperCase() === 'DONE')
+          : allTasks.filter(t => (t.status||'').toUpperCase() === activeFilter && !t.done);
+        if (!tasks.length) {
+          $tbody.innerHTML = `<tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">No items${activeFilter!=='all'?' for this filter':''}.</td></tr>`;
+          return;
+        }
+        $tbody.innerHTML = tasks.map(t => {
+          const status = t.done ? 'DONE' : (t.status||'TODO').toUpperCase();
+          const sCls = STATUS_CLS[status] || 'pb-s-todo';
+          const pri = (t.priority||'').toLowerCase();
+          const pCls = PRI_CLS[pri] || '';
+          const isDone = t.done || status === 'DONE';
+          return `<tr class="${isDone?'pb-done':''}">
+            <td class="pb-ref">${esc(t.ref||'')}</td>
+            <td class="pb-item">${esc(t.title)}</td>
+            <td class="${pCls}">${esc(t.priority||'')}</td>
+            <td><span class="pb-status ${sCls}">${esc(status)}</span></td>
+            <td>${esc(t.owner||'')}</td>
+            <td style="white-space:nowrap">${fmtDate(t.date)}</td>
+            <td style="font-size:0.75rem;color:var(--text-muted)">${esc(t.blockedBy||'')}</td>
+            <td class="pb-details">${esc(t.description||'')}</td>
+            <td style="white-space:nowrap;font-size:0.75rem;color:var(--text-muted)">${fmtTs(t.lastUpdate||t.createdAt)}</td>
+            <td>${t.link?`<a href="${esc(t.link)}" target="_blank" rel="noopener" style="color:var(--teal);font-size:0.75rem;">Link</a>`:''}</td>
+          </tr>`;
+        }).join('');
+      }
+
+      async function loadBoard() {
+        if (loading) return;
+        loading = true;
+        $tbody.innerHTML = '<tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>';
+        try {
+          const res = await fetch('/api/tasks-ui/all');
+          if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
+          const data = await res.json();
+          allTasks = (data.tasks||[]).sort((a,b)=>(a.ref||'').localeCompare(b.ref||'')).sort((a,b)=>{
+            const order = ['IN PROGRESS','NEEDS KEN','BLOCKED','WAITING','ON CALENDAR','TODO','DONE'];
+            const sa = (a.done?'DONE':(a.status||'TODO')).toUpperCase();
+            const sb = (b.done?'DONE':(b.status||'TODO')).toUpperCase();
+            return (order.indexOf(sa)-(order.indexOf(sb)));
+          });
+          loaded = true;
+          renderTable();
+        } catch (err) {
+          $tbody.innerHTML = `<tr><td colspan="10" style="padding:40px;text-align:center;color:#DC2626">Failed to load: ${esc(err.message)}</td></tr>`;
+        } finally { loading = false; }
+      }
+
+      // ── CSV import / upsert ────────────────────────────────────────────────
+      function parseCsv(text) {
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        if (!lines.length) return [];
+        const hdr = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,'').toLowerCase());
+        return lines.slice(1).map(line => {
+          const cols = line.match(/(".*?"|[^,]+|(?<=,)(?=,)|(?<=,)$|^(?=,))/g) || line.split(',');
+          const obj = {};
+          hdr.forEach((h,i) => { obj[h] = (cols[i]||'').replace(/^"|"$/g,'').trim(); });
+          return obj;
+        }).filter(r => r['id'] || r['ref'] || r['item']);
+      }
+
+      function csvRowToTask(row) {
+        const status = (row['status']||'').toUpperCase();
+        const pri = (row['priority']||'').toLowerCase();
+        const normalPri = pri === 'high' ? 'high' : pri === 'low' ? 'low' : 'med';
+        const rawDate = row['due date'] || row['date'] || '';
+        let date = rawDate;
+        if (rawDate && !/^\d{4}-/.test(rawDate)) {
+          try { date = new Date(rawDate).toISOString().slice(0,10); } catch {}
+        }
+        if (!date || date === 'NaN-NaN-NaN') date = new Date().toISOString().slice(0,10);
+        return {
+          ref: row['id'] || row['ref'] || '',
+          title: row['item'] || row['title'] || '',
+          priority: normalPri,
+          description: row['details'] || row['description'] || '',
+          owner: row['owner'] || '',
+          status: status || 'TODO',
+          blockedBy: row['blocked by'] || row['blockedby'] || '',
+          date,
+          link: row['link to output'] || row['link'] || '',
+        };
+      }
+
+      async function importCsv(file) {
+        $log.textContent = 'Parsing CSV…';
+        const text = await file.text();
+        const rows = parseCsv(text);
+        if (!rows.length) { $log.textContent = 'No rows found in CSV.'; return; }
+
+        const { tasks: existing } = await fetch('/api/tasks-ui/all').then(r=>r.json()).catch(()=>({tasks:[]}));
+        const byRef = {};
+        (existing||[]).forEach(t => { if (t.ref) byRef[t.ref] = t; });
+
+        let created = 0, updated = 0, skipped = 0;
+        for (const row of rows) {
+          const task = csvRowToTask(row);
+          if (!task.title) { skipped++; continue; }
+          if (task.ref && byRef[task.ref]) {
+            const id = byRef[task.ref].id;
+            const res = await fetch('/api/tasks-ui/update', {
+              method: 'POST', headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({ id, ...task }),
+            });
+            if (res.ok) updated++; else skipped++;
+          } else {
+            const res = await fetch('/api/tasks-ui/create', {
+              method: 'POST', headers: {'Content-Type':'application/json'},
+              body: JSON.stringify(task),
+            });
+            if (res.ok) created++; else skipped++;
+          }
+        }
+        $log.textContent = `Done — ${created} created, ${updated} updated, ${skipped} skipped.`;
+        loaded = false;
+        loadBoard();
+      }
+
+      // ── Wire up events ─────────────────────────────────────────────────────
+      document.getElementById('pb-filters')?.addEventListener('click', e => {
+        const btn = e.target.closest('.pb-filter-btn');
+        if (!btn) return;
+        document.querySelectorAll('.pb-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.status;
+        renderTable();
+      });
+
+      document.getElementById('pb-refresh-btn')?.addEventListener('click', () => { loaded = false; loadBoard(); });
+
+      $input?.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (file) importCsv(file);
+        $input.value = '';
+      });
+
+      document.querySelector('[data-page="projectboard"]')?.addEventListener('click', () => {
+        if (!loaded && !loading) loadBoard();
       });
     })();
 

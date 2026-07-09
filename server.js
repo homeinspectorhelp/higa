@@ -157,6 +157,7 @@ app.get("/api/tasks-ui/upcoming",    async (req, res) => { const m = await tasks
 app.get("/api/tasks-ui/all",         async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.allTasksHandler(req, res); } });
 app.get("/api/tasks-ui/attachment",  async (req, res) => { const m = await tasksMod(res); if (m) m.taskAttachmentHandler(req, res); });
 app.post("/api/tasks-ui/complete",   async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.completeTaskHandler(req, res); } });
+app.post("/api/tasks-ui/update",     async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.updateTaskHandler(req, res); } });
 app.delete("/api/tasks-ui/:id",      async (req, res) => { const m = await tasksMod(res); if (m) { injectDeanSecret(req); m.deleteTaskHandler(req, res); } });
 
 // ── Resources (Shared Library) ────────────────────────────────────────────────
@@ -173,12 +174,6 @@ app.all("/api/resources", async (req, res) => {
   }
   return _resourcesHandler(req, res);
 });
-
-// ── Owner's Inbox ─────────────────────────────────────────────────────────────
-// Read-only view of owners-inbox/ — lists files and serves them for
-// preview or download. No GitHub token required (local filesystem).
-import inboxHandler from "./api/inbox/index.js";
-app.all("/api/inbox", inboxHandler);
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
 app.post("/api/xlsx-to-md", xlsxToMdHandler);
