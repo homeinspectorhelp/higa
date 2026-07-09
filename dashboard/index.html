@@ -160,13 +160,6 @@
     }
     .nav-maxpro:hover { color: #fff; background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(14,165,233,0.3)); }
     .nav-maxpro.active { background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; border-color: transparent; }
-    .nav-dean {
-      background: linear-gradient(135deg, rgba(30,64,175,0.15), rgba(15,118,110,0.15));
-      color: #93c5fd;
-      border: 1px solid rgba(59,130,246,0.25);
-    }
-    .nav-dean:hover { color: #fff; background: linear-gradient(135deg, rgba(30,64,175,0.3), rgba(15,118,110,0.25)); }
-    .nav-dean.active { background: linear-gradient(135deg, #1e40af, #0f766e); color: #fff; border-color: transparent; }
     .nav-icon { font-size: 0.9rem; }
     .nav-badge {
       background: var(--red);
@@ -332,14 +325,14 @@
        Scoped to .active so the chat only renders on the Max Pro tab — an
        unscoped id rule (.page#page-maxpro) outranks .page.active and would
        leak the chat onto every tab. */
-    .page#page-maxpro.active, .page#page-maxprime.active, .page#page-deanchat.active {
+    .page#page-maxpro.active, .page#page-maxprime.active {
       height: calc(100vh - var(--nav-h));
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-    .page#page-maxpro .page-strip, .page#page-maxprime .page-strip, .page#page-deanchat .page-strip { display: none; }
-    .page#page-maxpro > #content, .page#page-maxprime > .mp-content, .page#page-deanchat > .mp-content {
+    .page#page-maxpro .page-strip, .page#page-maxprime .page-strip { display: none; }
+    .page#page-maxpro > #content, .page#page-maxprime > .mp-content {
       flex: 1;
       overflow: hidden;
       display: flex;
@@ -1419,7 +1412,6 @@
     <div class="nav-section">
       <div class="nav-item" data-page="team" onclick="showPage('team',this)"><span class="nav-icon">👥</span> Team</div>
       <div class="nav-item nav-maxpro" data-page="maxprime" onclick="showPage('maxprime',this)"><span class="nav-icon">⚡</span> Max Prime</div>
-      <div class="nav-item nav-dean" data-page="deanchat" onclick="showPage('deanchat',this)"><span class="nav-icon">🤖</span> Dean</div>
       <div class="nav-item" data-page="settings" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
     </div>
   </div>
@@ -1859,6 +1851,7 @@
       <div class="h2-action" style="margin-top:1.5rem;">
         <div class="page-header-title" style="font-size:1.05rem;font-weight:800;color:var(--text);">Active Items</div>
         <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button class="pb-csv-label" id="pb-add-btn" style="border-color:var(--gold);color:var(--gold);font-weight:700;">＋ New Item</button>
           <label class="pb-csv-label" for="pb-csv-input" title="Upload exported Google Sheet CSV to upsert by ID">⬆ Import CSV</label>
           <input type="file" id="pb-csv-input" accept=".csv" style="display:none">
           <button class="res-upload-label" id="pb-refresh-btn" style="cursor:pointer;">↻ Refresh</button>
@@ -1896,6 +1889,67 @@
               <tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- New Item modal (manual single-task create → /api/tasks-ui/create) -->
+      <div class="jrnl-modal-overlay" id="pb-modal" style="display:none">
+        <div class="jrnl-modal">
+          <div class="jrnl-modal-header">
+            <div class="jrnl-modal-title">New Item</div>
+            <button class="jrnl-modal-close" id="pb-modal-close">✕</button>
+          </div>
+          <div class="jrnl-modal-body">
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Item *</label>
+              <input class="jrnl-input" id="pb-f-item" type="text" placeholder="What needs to get done">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Priority</label>
+              <select class="jrnl-input" id="pb-f-priority">
+                <option value="med">Med</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Status</label>
+              <select class="jrnl-input" id="pb-f-status">
+                <option value="TODO">To Do</option>
+                <option value="IN PROGRESS">In Progress</option>
+                <option value="BLOCKED">Blocked</option>
+                <option value="WAITING">Waiting</option>
+                <option value="NEEDS KEN">Needs Ken</option>
+                <option value="ON CALENDAR">On Calendar</option>
+                <option value="DONE">Done</option>
+              </select>
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Owner</label>
+              <input class="jrnl-input" id="pb-f-owner" type="text" placeholder="Who owns it">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Due Date *</label>
+              <input class="jrnl-input" id="pb-f-date" type="date">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Blocked By</label>
+              <input class="jrnl-input" id="pb-f-blocked" type="text" placeholder="Ref or reason it's blocked">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Link To Output</label>
+              <input class="jrnl-input" id="pb-f-link" type="text" placeholder="https://…">
+            </div>
+            <div class="jrnl-form-row">
+              <label class="jrnl-label">Details</label>
+              <textarea class="jrnl-input" id="pb-f-details" rows="3" placeholder="Notes / description"></textarea>
+            </div>
+            <div id="pb-f-error" style="display:none;color:#DC2626;font-size:0.8rem;font-weight:600;"></div>
+          </div>
+          <div class="jrnl-modal-footer">
+            <button class="btn" id="pb-modal-cancel">Cancel</button>
+            <button class="btn btn-approve" id="pb-modal-save">Create Item</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2295,57 +2349,6 @@
     </div>
   </div>
 
-  <!-- ── DEAN CHAT ── -->
-  <div class="page" id="page-deanchat">
-    <div class="page-strip"><h1>🤖 Dean</h1></div>
-    <div class="mp-content">
-      <div class="maxpro-layout">
-      <div class="maxpro-wrap">
-        <div class="maxpro-header">
-          <div class="maxpro-avatar" style="background:linear-gradient(135deg,#1e40af,#0f766e)">🤖</div>
-          <div class="maxpro-id">
-            <div class="nm">Dean</div>
-            <div class="st">● Online · Dil's GM assistant</div>
-          </div>
-          <div class="maxpro-status" id="dean-status">Idle</div>
-        </div>
-        <div id="dean-messages" class="maxpro-messages">
-          <div class="maxpro-empty" id="dean-empty">
-            <div class="icn">🤖</div>
-            <div style="font-weight:700;color:var(--text);margin-bottom:0.35rem;">Dean — GM assistant for HIH</div>
-            <div style="font-size:0.825rem;">Ask me anything about the team, tasks, strategy, or request a triage. I route to Nikki, Max, and Arlo and keep Dil's operation moving.</div>
-          </div>
-        </div>
-        <div id="dean-drop" class="max-drop-zone">Drop files here to attach</div>
-        <div class="chat-resize-handle" id="dean-resize-handle" title="Drag to resize"></div>
-        <div class="maxpro-input-row">
-          <div id="dean-files" class="max-chips-row"></div>
-          <textarea id="dean-input" class="maxpro-input" rows="2" placeholder="Message Dean…"></textarea>
-          <div class="maxpro-toolbar">
-            <div class="maxpro-toolbar-icons">
-              <input type="file" id="dean-attach-input" multiple style="display:none;">
-              <button class="maxpro-icon-btn" id="dean-attach" title="Attach file">📎</button>
-              <button class="maxpro-icon-btn" id="dean-mic-btn" title="Voice input (push-to-talk)">🎤</button>
-              <button class="maxpro-icon-btn" id="dean-speak" title="Read replies out loud (off)">🔇</button>
-              <button class="maxpro-icon-btn" id="dean-clear" title="Clear conversation">🗑️</button>
-            </div>
-            <button id="dean-send" class="maxpro-send" style="background:linear-gradient(135deg,#1e40af,#0f766e);">Send</button>
-          </div>
-        </div>
-      </div>
-      <aside class="maxpro-sidebar">
-        <div class="maxpro-sidebar-title">Quick Actions</div>
-        <button class="dean-quick-btn" data-prompt="Run the health check — node scripts/dean-healthcheck.js — and report which dashboards are UP, which are DOWN, and any latency issues.">🔍 System health check</button>
-        <button class="dean-quick-btn" data-prompt="List my upcoming tasks for the next 30 days using the task tracker. Show title, date, owner, and priority. If the list is empty, say so.">📋 Upcoming tasks (30 days)</button>
-        <button class="dean-quick-btn" data-prompt="Check owners-inbox/ for the 5 most recent files and give me a one-line summary of each, sorted newest first. Flag anything that looks stuck or overdue.">📥 What's in the inbox?</button>
-        <button class="dean-quick-btn" data-prompt="Give me a morning brief: (1) list any tasks due today or overdue from the task tracker, (2) summarize the most recent entry in journals/team-learnings.md, (3) flag anything that looks urgent in owners-inbox/.">☀️ Morning brief</button>
-        <button class="dean-quick-btn" data-prompt="Route this to Nikki: read journals/team-learnings.md and give me a one-paragraph status on where the HIH agent system stands today — what's live, what's in progress, what needs Dil's attention.">📡 Route to Nikki — status report</button>
-        <button class="dean-quick-btn" data-prompt="Read resources/hih-ecosystem-strategy-2026.md and give me a 3-bullet summary of the most important near-term priorities for HIH's Google Ads product launch.">🎯 HIH strategy — near-term priorities</button>
-      </aside>
-      </div>
-    </div>
-  </div>
-
   <!-- ── SETTINGS ── -->
   <div class="page" id="page-settings">
     <div class="page-strip">
@@ -2461,7 +2464,7 @@
     overview: 'Command Center', contacts: 'Contacts',
     calendars: 'Calendars', journal: 'Journal', ghl: 'GHL',
     support: 'Support Service', ownersinbox: "Owner's Inbox", projectboard: 'Project Board',
-    team: 'Team', settings: 'Settings', maxpro: 'Max Pro', maxprime: 'Max Prime', deanchat: 'Dean'
+    team: 'Team', settings: 'Settings', maxpro: 'Max Pro', maxprime: 'Max Prime'
   };
 
   function showPage(id, navEl) {
@@ -2470,8 +2473,8 @@
     document.getElementById('page-' + id).classList.add('active');
     if (navEl) navEl.classList.add('active');
     // Lock page scroll when a full-height chat tab is active
-    document.body.classList.toggle('chat-active', id === 'maxpro' || id === 'maxprime' || id === 'deanchat');
-    if (id !== 'maxpro' && id !== 'maxprime' && id !== 'deanchat') window.scrollTo(0,0);
+    document.body.classList.toggle('chat-active', id === 'maxpro' || id === 'maxprime');
+    if (id !== 'maxpro' && id !== 'maxprime') window.scrollTo(0,0);
   }
 
   // ── MAX PRIME — Claude Code (Agent SDK) chat over SSE (/api/max-prime/chat) ──
@@ -2805,141 +2808,6 @@
     }
 
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initCalendar); else initCalendar();
-  })();
-
-  // ── DEAN CHAT — GM assistant direct conversation (/api/dean/chat) ──
-  (function(){
-    const KEY='deanChat.history', TTS_KEY='deanChat.tts';
-    let history=[]; try{history=JSON.parse(localStorage.getItem(KEY))||[];}catch{}
-    let pendingFiles=[],busy=false,els=null;
-    const $d=(id)=>document.getElementById(id);
-    const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(history.slice(-40)));}catch{}};
-    const setStatus=(t)=>{if(els&&els.status)els.status.textContent=t;};
-    const scrollBottom=()=>{if(els)els.messages.scrollTop=els.messages.scrollHeight;};
-    function renderMd(t){try{if(typeof marked!=='undefined')return marked.parse(t||'',{breaks:true,gfm:true});}catch{}return null;}
-    function bubble(role,text,asMd){
-      const e=$d('dean-empty');if(e)e.remove();
-      const d=document.createElement('div');
-      d.className=role==='user'?'maxpro-msg-user':'maxpro-msg-assistant';
-      if(asMd&&role==='assistant'){const h=renderMd(text);if(h)d.innerHTML=h;else d.textContent=text;}else d.textContent=text;
-      els.messages.appendChild(d);scrollBottom();return d;
-    }
-    function toolNote(text){const e=$d('dean-empty');if(e)e.remove();const d=document.createElement('div');d.className='mp-tool-note';d.style.cssText='font-size:12px;color:#64748b;background:#f1f5f9;border-radius:8px;padding:5px 10px;margin:4px 0;max-width:560px;';d.textContent=text;els.messages.appendChild(d);scrollBottom();}
-    function renderTally(c){
-      const g=(...n)=>n.reduce((s,k)=>s+(c[k]||0),0);
-      const reads=g('Read','Glob','Grep'),writes=g('Write','Edit'),bash=g('Bash');
-      const parts=[];
-      if(reads)parts.push('📖 '+reads+' read'+(reads===1?'':'s'));
-      if(writes)parts.push('✏️ '+writes+' write'+(writes===1?'':'s'));
-      if(bash)parts.push('⚙️ '+bash+' command'+(bash===1?'':'s'));
-      toolNote('✅ Dean done'+(parts.length?' · '+parts.join(' · '):''));
-    }
-    function renderCopyAnswer(text){
-      if(!text)return;const row=document.createElement('div');row.className='mp-copy-row';row.style.cssText='margin:4px 0 8px;';
-      const b=document.createElement('button');b.style.cssText='background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;border-radius:6px;padding:4px 10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;';b.textContent='📋 Copy answer';
-      b.onclick=()=>{navigator.clipboard.writeText(text).then(()=>{const o=b.textContent;b.textContent='✓ Copied';setTimeout(()=>b.textContent=o,1500);});};
-      row.appendChild(b);els.messages.appendChild(row);scrollBottom();
-    }
-    function fileChip(d){
-      if(!d||!d.name)return;const e=$d('dean-empty');if(e)e.remove();const content=d.content||'';
-      const wrap=document.createElement('div');wrap.className='mp-file-chip';wrap.style.cssText='border:1px solid #93c5fd;border-radius:10px;margin:6px 0;max-width:560px;background:#eff6ff;overflow:hidden;font-family:inherit;';
-      const header=document.createElement('div');header.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;cursor:pointer;';
-      const left=document.createElement('div');left.style.cssText='display:flex;align-items:center;gap:8px;font-weight:600;color:#1e40af;font-size:13px;min-width:0;';
-      const chev=document.createElement('span');chev.textContent='▶';chev.style.cssText='font-size:10px;transition:transform .15s;color:#1d4ed8;';
-      const title=document.createElement('span');title.textContent='📄 '+d.name;title.title=d.path||d.name;title.style.cssText='white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
-      left.appendChild(chev);left.appendChild(title);
-      const right=document.createElement('div');right.style.cssText='font-size:11px;color:#64748b;white-space:nowrap;';right.textContent=(content.length>=300000?'~300KB':content.length+' chars');
-      header.appendChild(left);header.appendChild(right);
-      const body=document.createElement('div');body.style.cssText='display:none;padding:0 12px;';
-      const pre=document.createElement('pre');pre.style.cssText='margin:10px 0;max-height:300px;overflow:auto;background:#0f172a;color:#e2e8f0;padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;';pre.textContent=content;body.appendChild(pre);
-      const actions=document.createElement('div');actions.style.cssText='display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;background:#dbeafe;border-top:1px solid #93c5fd;border-radius:0 0 10px 10px;';
-      const mk=(t,fn,col)=>{const b=document.createElement('button');b.style.cssText='background:'+col+';color:#fff;border:none;border-radius:6px;padding:6px 12px;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;';b.textContent=t;b.onclick=ev=>{ev.stopPropagation();fn(b);};return b;};
-      actions.appendChild(mk('📋 Copy',b=>{navigator.clipboard.writeText(content).then(()=>{const o=b.textContent;b.textContent='✓ Copied';setTimeout(()=>b.textContent=o,1500);});},'#1d4ed8'));
-      const doDownload=()=>{const blob=new Blob([content],{type:'text/markdown'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=d.name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);};
-      actions.appendChild(mk('⬇ Download',()=>doDownload(),'#2563eb'));
-      chev.style.cursor='pointer';
-      chev.onclick=(ev)=>{ev.stopPropagation();const open=body.style.display!=='none';body.style.display=open?'none':'block';chev.style.transform=open?'rotate(0)':'rotate(90deg)';if(!open)scrollBottom();};
-      header.title='Click to download '+d.name;header.onclick=doDownload;
-      wrap.appendChild(header);wrap.appendChild(body);wrap.appendChild(actions);els.messages.appendChild(wrap);scrollBottom();
-    }
-    // chips
-    function renderChips(){if(!els.files)return;els.files.innerHTML='';pendingFiles.forEach((f,i)=>{const c=document.createElement('div');c.className='max-chip';c.style.cssText='display:inline-flex;align-items:center;gap:4px;background:#dbeafe;border-radius:6px;padding:2px 8px;margin:2px;font-size:12px;';c.innerHTML='<span>'+((f.type||'').startsWith('image/')?'🖼️':'📎')+' '+f.name+'</span>';const x=document.createElement('button');x.textContent='×';x.style.cssText='border:none;background:none;cursor:pointer;';x.onclick=()=>{pendingFiles.splice(i,1);renderChips();};c.appendChild(x);els.files.appendChild(c);});}
-    function fileToObj(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res({name:file.name,type:file.type||'application/octet-stream',base64:String(r.result).split(',')[1]});r.onerror=rej;r.readAsDataURL(file);});}
-    async function addFiles(list){for(const f of list){if(f.size>10000000){alert(f.name+' is over 10MB.');continue;}try{pendingFiles.push(await fileToObj(f));}catch{}}renderChips();}
-    // voice
-    let ttsOn=false;try{ttsOn=localStorage.getItem(TTS_KEY)==='1';}catch{}let pv=null;
-    function pickVoice(){if(!window.speechSynthesis)return;const v=window.speechSynthesis.getVoices();if(!v.length)return;const F=/\b(Samantha|Victoria|Karen|Susan|Zoe|Allison|Ava|Fiona|Joanna|Salli|Nicole|Kendra)\b/i;pv=v.find(x=>/^en[-_]US/i.test(x.lang)&&F.test(x.name))||v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||v[0];}
-    function speakReply(t){if(!ttsOn||!window.speechSynthesis||!t)return;window.speechSynthesis.cancel();const c=t.replace(/```[\s\S]*?```/g,' ').replace(/[\p{Extended_Pictographic}\u{FE0F}]/gu,' ').replace(/[#*_`>|~]/g,' ').replace(/\s+/g,' ').trim();if(!c)return;(c.match(/[^.!?]+[.!?]+|\S[^.!?]*$/g)||[c]).forEach(s=>{const u=new SpeechSynthesisUtterance(s.trim());u.rate=1.1;u.lang='en-US';if(pv)u.voice=pv;window.speechSynthesis.speak(u);});}
-    function initVoice(){
-      const mic=$d('dean-mic-btn'),sp=$d('dean-speak');if(!mic||!sp)return;
-      if(window.speechSynthesis){pickVoice();window.speechSynthesis.onvoiceschanged=pickVoice;}
-      const upd=()=>{sp.textContent=ttsOn?'🔊':'🔇';sp.title=ttsOn?'Reading replies out loud':'Replies silent';};
-      upd();sp.addEventListener('click',()=>{ttsOn=!ttsOn;try{localStorage.setItem(TTS_KEY,ttsOn?'1':'0');}catch{}upd();if(!ttsOn&&window.speechSynthesis)window.speechSynthesis.cancel();});
-      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-      if(!SR){mic.title='Voice input needs Chrome or Edge';mic.style.opacity='0.4';mic.addEventListener('click',()=>alert('Voice input needs Chrome or Edge.'));return;}
-      let recog=null,recording=false,stopped=false;
-      mic.addEventListener('click',()=>{
-        if(recording){stopped=true;recog&&recog.stop();return;}
-        if(window.speechSynthesis)window.speechSynthesis.cancel();stopped=false;recog=new SR();recog.lang='en-US';recog.interimResults=true;recog.continuous=true;
-        let ft=els.textarea.value?els.textarea.value+' ':'';
-        recog.onstart=()=>{recording=true;mic.textContent='⏹';mic.title='Listening… click to stop.';};
-        recog.onresult=(e)=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const tr=e.results[i][0].transcript;if(e.results[i].isFinal)ft+=tr+' ';else it+=tr;}els.textarea.value=(ft+it).replace(/\s+/g,' ');};
-        recog.onerror=(e)=>{if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error))stopped=true;};
-        recog.onend=()=>{if(!stopped){try{recog.start();return;}catch{}}recording=false;mic.textContent='🎤';mic.title='Voice input (push-to-talk)';};
-        try{recog.start();}catch(err){console.warn(err);}
-      });
-    }
-    function renderHistory(){els.messages.querySelectorAll('.maxpro-msg-user,.maxpro-msg-assistant,.mp-tool-note,.mp-file-chip,.mp-copy-row').forEach(e=>e.remove());history.forEach(m=>{if((m.role==='user'||m.role==='assistant')&&typeof m.content==='string'&&m.content)bubble(m.role,m.content,m.role==='assistant');});}
-
-    async function send(text){
-      text=(text||'').trim();if(busy||(!text&&pendingFiles.length===0))return;
-      busy=true;setStatus('Thinking…');const attachments=pendingFiles.slice();
-      bubble('user',text+(attachments.length?(text?'\n\n':'')+attachments.map(a=>'📎 '+a.name).join('\n'):''));
-      history.push({role:'user',content:text||'(see attached files)'});save();
-      pendingFiles=[];renderChips();els.textarea.value='';
-      const aB=bubble('assistant','⏳ Connecting…');
-      let acc='',firstText=false,streamErr=null;const tally={};
-      let lastLabel='Connecting';const t0=Date.now();const SPIN=['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];let spin=0;
-      const fmt=ms=>{const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
-      const wait=()=>{const fr=SPIN[spin++%SPIN.length];setStatus('⏳ '+fmt(Date.now()-t0));if(!firstText)aB.textContent=fr+'  '+lastLabel+'…';};
-      const prog=setInterval(wait,140);
-      try{
-        const r=await fetch('/api/dean/chat',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream'},body:JSON.stringify({messages:history,attachments})});
-        if(!r.ok){let e={};try{e=await r.json();}catch{}throw new Error(e.error||('Backend returned '+r.status));}
-        const reader=r.body.getReader(),dec=new TextDecoder();let buf='';
-        const handle=(ev,ds)=>{let d;try{d=JSON.parse(ds);}catch{return;}
-          if(ev==='text'){if(!firstText){aB.textContent='';firstText=true;lastLabel='Writing reply';}acc+=d.delta||'';aB.textContent=acc;scrollBottom();}
-          else if(ev==='tool'){if(d.tool)tally[d.tool]=(tally[d.tool]||0)+1;const lbl=d.label||('🔧 '+(d.tool||'tool'));lastLabel=lbl;if(!firstText)wait();else toolNote(lbl);}
-          else if(ev==='file'){fileChip(d);}
-          else if(ev==='error'){streamErr=d.error||'Stream error';}
-        };
-        const drain=()=>{while(true){const s=buf.indexOf('\n\n');if(s===-1)break;const raw=buf.slice(0,s);buf=buf.slice(s+2);if(raw.startsWith(':'))continue;let ev='message';const dl=[];for(const ln of raw.split('\n')){if(ln.startsWith('event:'))ev=ln.slice(6).trim();else if(ln.startsWith('data:'))dl.push(ln.slice(5).trim());}if(dl.length)handle(ev,dl.join('\n'));}};
-        while(true){const{value,done}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});drain();}
-        drain();clearInterval(prog);
-        if(streamErr)throw new Error(streamErr);
-        if(!firstText){aB.textContent='(no reply)';}else{const h=renderMd(acc);if(h)aB.innerHTML=h;}
-        history.push({role:'assistant',content:acc});save();
-        if(firstText&&acc)renderCopyAnswer(acc);renderTally(tally);speakReply(acc);
-        requestAnimationFrame(()=>{try{const c=els.messages.getBoundingClientRect().top,b=aB.getBoundingClientRect().top;els.messages.scrollTop+=(b-c)-8;}catch{scrollBottom();}});
-      }catch(e){clearInterval(prog);aB.textContent='⚠️ '+(e&&e.message||e);}
-      finally{clearInterval(prog);busy=false;setStatus('Idle');}
-    }
-
-    function initDean(){
-      els={messages:$d('dean-messages'),textarea:$d('dean-input'),send:$d('dean-send'),clear:$d('dean-clear'),status:$d('dean-status'),attach:$d('dean-attach'),fileinput:$d('dean-attach-input'),files:$d('dean-files'),wrap:document.querySelector('#page-deanchat .maxpro-wrap'),drop:$d('dean-drop')};
-      if(!els.messages)return;
-      els.send.addEventListener('click',()=>send(els.textarea.value));
-      els.textarea.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(els.textarea.value);}});
-      els.clear.addEventListener('click',()=>{if(!confirm('Clear Dean conversation history? This cannot be undone.'))return;history=[];save();pendingFiles=[];renderChips();els.messages.querySelectorAll('.maxpro-msg-user,.maxpro-msg-assistant,.mp-tool-note,.mp-file-chip,.mp-copy-row').forEach(x=>x.remove());const e=$d('dean-empty');if(e){e.style.display='';els.messages.appendChild(e);}});
-      document.querySelectorAll('#page-deanchat .dean-quick-btn').forEach(b=>b.addEventListener('click',()=>{const p=b.getAttribute('data-prompt');if(p)send(p);}));
-      if(els.attach&&els.fileinput){els.attach.addEventListener('click',()=>els.fileinput.click());els.fileinput.addEventListener('change',e=>{addFiles(e.target.files);els.fileinput.value='';});}
-      if(els.wrap&&els.drop){const show=on=>els.drop.classList.toggle('drag-over',on);['dragenter','dragover'].forEach(ev=>els.wrap.addEventListener(ev,e=>{e.preventDefault();show(true);}));['dragleave','dragend'].forEach(ev=>els.wrap.addEventListener(ev,e=>{if(e.target===els.wrap||e.target===els.drop)show(false);}));els.wrap.addEventListener('drop',e=>{e.preventDefault();show(false);if(e.dataTransfer&&e.dataTransfer.files.length)addFiles(e.dataTransfer.files);});}
-      els.textarea.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];const imgs=[];let i=0;for(const it of items){if(it.kind==='file'&&it.type&&it.type.indexOf('image/')===0){const bl=it.getAsFile();if(bl){const ext=(bl.type.split('/')[1]||'png').replace('jpeg','jpg');imgs.push(new File([bl],'pasted-'+Date.now()+'-'+(i++)+'.'+ext,{type:bl.type}));}}}if(imgs.length){e.preventDefault();addFiles(imgs);}});
-      const handle=$d('dean-resize-handle');
-      if(handle){handle.addEventListener('mousedown',function(e){e.preventDefault();const sy=e.clientY,sh=els.messages.offsetHeight;handle.classList.add('dragging');function mv(e){els.messages.style.flex='none';els.messages.style.height=Math.max(60,sh+(e.clientY-sy))+'px';}function up(){handle.classList.remove('dragging');document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);}document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);});}
-      initVoice();renderHistory();
-    }
-    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initDean);else initDean();
   })();
 
   /* ── MAX PRO CHAT (upgraded — full Nikki Pro feature set) ── */
@@ -4403,6 +4271,49 @@
         } finally { loading = false; }
       }
 
+      // ── New Item (manual single-task create → same /api/tasks-ui/create the CSV importer uses) ──
+      const $modal = document.getElementById('pb-modal');
+      const $err   = document.getElementById('pb-f-error');
+      const F = id => document.getElementById(id);
+      function openItemModal() {
+        $err.style.display = 'none';
+        ['pb-f-item','pb-f-owner','pb-f-blocked','pb-f-link','pb-f-details'].forEach(id => { F(id).value = ''; });
+        F('pb-f-priority').value = 'med';
+        F('pb-f-status').value = 'TODO';
+        F('pb-f-date').value = new Date().toISOString().slice(0,10);
+        $modal.style.display = 'flex';
+        F('pb-f-item').focus();
+      }
+      function closeItemModal() { $modal.style.display = 'none'; }
+      async function saveItem() {
+        const title = F('pb-f-item').value.trim();
+        const date  = F('pb-f-date').value;
+        if (!title) { $err.textContent = 'Item is required.';     $err.style.display = 'block'; F('pb-f-item').focus(); return; }
+        if (!date)  { $err.textContent = 'Due Date is required.'; $err.style.display = 'block'; F('pb-f-date').focus(); return; }
+        const $save = F('pb-modal-save');
+        $save.disabled = true; $save.textContent = 'Creating…';
+        try {
+          const res = await fetch('/api/tasks-ui/create', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              title,
+              priority:    F('pb-f-priority').value,
+              status:      F('pb-f-status').value,
+              owner:       F('pb-f-owner').value.trim(),
+              date,
+              blockedBy:   F('pb-f-blocked').value.trim(),
+              link:        F('pb-f-link').value.trim(),
+              description: F('pb-f-details').value.trim(),
+            }),
+          });
+          if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
+          closeItemModal();
+          loaded = false; loadBoard();
+        } catch (err) {
+          $err.textContent = 'Could not create: ' + err.message; $err.style.display = 'block';
+        } finally { $save.disabled = false; $save.textContent = 'Create Item'; }
+      }
+
       // ── CSV import / upsert ────────────────────────────────────────────────
       function parseCsv(text) {
         const lines = text.split(/\r?\n/).filter(Boolean);
@@ -4484,6 +4395,12 @@
       });
 
       document.getElementById('pb-refresh-btn')?.addEventListener('click', () => { loaded = false; loadBoard(); });
+
+      document.getElementById('pb-add-btn')?.addEventListener('click', openItemModal);
+      document.getElementById('pb-modal-close')?.addEventListener('click', closeItemModal);
+      document.getElementById('pb-modal-cancel')?.addEventListener('click', closeItemModal);
+      document.getElementById('pb-modal-save')?.addEventListener('click', saveItem);
+      $modal?.addEventListener('click', e => { if (e.target === $modal) closeItemModal(); });
 
       $input?.addEventListener('change', e => {
         const file = e.target.files && e.target.files[0];
