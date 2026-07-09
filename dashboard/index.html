@@ -1381,7 +1381,6 @@
     <div class="nav-section">
       <div class="nav-item" data-page="journal" onclick="showPage('journal',this)"><span class="nav-icon">📓</span> Journal</div>
       <div class="nav-item" data-page="resources" onclick="showPage('resources',this)"><span class="nav-icon">📚</span> Resources</div>
-      <div class="nav-item" data-page="ownersinbox" onclick="showPage('ownersinbox',this)"><span class="nav-icon">📥</span> Owner's Inbox</div>
       <div class="nav-item" data-page="ghl" onclick="showPage('ghl',this)"><span class="nav-icon">🚀</span> GHL</div>
       <div class="nav-item" data-page="support" onclick="showPage('support',this)"><span class="nav-icon">🎧</span> Support Service</div>
     </div>
@@ -1411,17 +1410,17 @@
   <div class="page active" id="page-overview">
     <div id="content">
 
-      <!-- KPI strip — Course-first view (revenue moved below per Ken 2026-07-08) -->
+      <!-- KPI strip — courses first, per Ken 2026-07-08 -->
       <div class="stat-row" style="margin-top:2rem;">
         <div class="stat-card c-teal">
-          <div class="stat-label">Courses Available</div>
-          <div class="stat-value c-teal">0</div>
-          <div class="stat-delta">Connect GHL to populate</div>
+          <div class="stat-label">Courses Live</div>
+          <div class="stat-value c-teal">8</div>
+          <div class="stat-delta">Available now</div>
         </div>
         <div class="stat-card c-amber">
-          <div class="stat-label">Courses in Production</div>
+          <div class="stat-label">In Production</div>
           <div class="stat-value c-amber">19</div>
-          <div class="stat-delta">Identified &amp; in pipeline</div>
+          <div class="stat-delta">Identified &amp; queued</div>
         </div>
         <div class="stat-card c-gold">
           <div class="stat-label">Enrolled Students</div>
@@ -1434,9 +1433,9 @@
           <div class="stat-delta delta-up">↑ Above target</div>
         </div>
         <div class="stat-card c-green">
-          <div class="stat-label">MRR</div>
-          <div class="stat-value c-green">$1,940</div>
-          <div class="stat-delta">Mastermind + Community</div>
+          <div class="stat-label">Community</div>
+          <div class="stat-value c-green">300+</div>
+          <div class="stat-delta">BuddyBoss members</div>
         </div>
       </div>
 
@@ -1519,6 +1518,28 @@
         </div>
       </div>
 
+      <!-- REVENUE SNAPSHOT -->
+      <div class="card" style="margin-top:1.5rem;">
+        <div class="h2-action">
+          <h2><span class="dot dot-green"></span> Revenue Snapshot</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div class="platform-stat">
+            <div class="num" style="color:var(--green);">$4,200</div>
+            <div class="lbl">Monthly Revenue</div>
+          </div>
+          <div class="platform-stat">
+            <div class="num" style="color:var(--teal);">$1,940</div>
+            <div class="lbl">MRR (Mastermind + Community)</div>
+          </div>
+          <div class="platform-stat">
+            <div class="num" style="color:var(--amber);">$0</div>
+            <div class="lbl">Refunds (MTD)</div>
+          </div>
+        </div>
+        <div class="platform-note">Revenue figures are placeholders — connect GHL API to pull live course sale data.</div>
+      </div>
+
       <!-- PLATFORM SNAPSHOT -->
       <div class="card">
         <div class="h2-action">
@@ -1545,31 +1566,6 @@
         </div>
         <div class="platform-note">
           All courses delivered through <strong>GoHighLevel (GHL)</strong>. Community on <strong>BuddyBoss</strong>. Platform healthy.
-        </div>
-      </div>
-
-      <!-- REVENUE SNAPSHOT (secondary — see top strip for course metrics) -->
-      <div class="card" style="margin-top:1.5rem;">
-        <div class="h2-action">
-          <h2><span class="dot dot-green"></span> Revenue Snapshot</h2>
-          <span class="badge badge-muted" style="font-size:0.65rem;">Connect GHL for live data</span>
-        </div>
-        <div class="stat-row" style="margin-top:1rem;">
-          <div class="stat-card c-green" style="flex:1;">
-            <div class="stat-label">Monthly Revenue</div>
-            <div class="stat-value c-green">$4,200</div>
-            <div class="stat-delta delta-up">↑ 12% vs last month</div>
-          </div>
-          <div class="stat-card c-teal" style="flex:1;">
-            <div class="stat-label">MRR</div>
-            <div class="stat-value c-teal">$1,940</div>
-            <div class="stat-delta">Mastermind + Community</div>
-          </div>
-          <div class="stat-card c-amber" style="flex:1;">
-            <div class="stat-label">Refunds (MTD)</div>
-            <div class="stat-value c-amber">$0</div>
-            <div class="stat-delta">30-day guarantee</div>
-          </div>
         </div>
       </div>
 
@@ -1779,43 +1775,6 @@
           <div class="jrnl-modal-footer">
             <a class="btn btn-view" id="res-modal-download" href="#" download>Download</a>
             <button class="btn btn-approve" id="res-modal-ok">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Owner's Inbox ── -->
-  <div class="page" id="page-ownersinbox">
-    <div class="page-strip">
-      <h1>Owner's Inbox</h1>
-      <p>Completed deliverables filed by the agent team for Ken's review</p>
-    </div>
-    <div id="content">
-      <div class="h2-action" style="margin-top:1.5rem;">
-        <div class="page-header-title" style="font-size:1.05rem;font-weight:800;color:var(--text);">Filed Deliverables</div>
-        <button class="res-upload-label" id="inbox-refresh-btn" style="cursor:pointer;">↻ Refresh</button>
-      </div>
-      <div class="res-list" id="inbox-list">
-        <div style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</div>
-      </div>
-
-      <!-- View Modal -->
-      <div class="jrnl-modal-overlay" id="inbox-modal" style="display:none">
-        <div class="jrnl-modal" style="width:min(860px,96vw);max-height:90vh;display:flex;flex-direction:column;">
-          <div class="jrnl-modal-header">
-            <div class="jrnl-modal-title" id="inbox-modal-title">File</div>
-            <button class="jrnl-modal-close" id="inbox-modal-close">✕</button>
-          </div>
-          <div class="jrnl-modal-body" style="flex:1;overflow:auto;padding:0;">
-            <pre class="res-view" id="inbox-text-view" style="display:none;margin:0;padding:1.2rem 1.4rem;white-space:pre-wrap;word-break:break-word;"></pre>
-            <iframe id="inbox-iframe-view" style="display:none;width:100%;height:70vh;border:none;" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
-            <img id="inbox-img-view" style="display:none;max-width:100%;display:block;margin:auto;" alt="">
-            <div id="inbox-binary-view" style="display:none;padding:2rem;text-align:center;color:var(--text-muted);"></div>
-          </div>
-          <div class="jrnl-modal-footer">
-            <a class="btn btn-view" id="inbox-modal-download" href="#" download>Download</a>
-            <button class="btn btn-approve" id="inbox-modal-ok">Close</button>
           </div>
         </div>
       </div>
@@ -2381,7 +2340,7 @@
   var pageTitles = {
     overview: 'Command Center', contacts: 'Contacts',
     calendars: 'Calendars', journal: 'Journal', ghl: 'GHL',
-    support: 'Support Service', ownersinbox: "Owner's Inbox",
+    support: 'Support Service',
     team: 'Team', settings: 'Settings', maxpro: 'Max Pro', maxprime: 'Max Prime', deanchat: 'Dean'
   };
 
@@ -4129,119 +4088,6 @@
 
       // Load on first Resources tab click
       document.querySelector('[data-page="resources"]')?.addEventListener('click', () => {
-        if (!loaded && !loading) loadList();
-      });
-    })();
-
-    // ── Owner's Inbox ─────────────────────────────────────────────────────────
-    (function () {
-      const EXT_ICONS = { md:'📄', txt:'📄', pdf:'📕', html:'🌐', htm:'🌐', png:'🖼', jpg:'🖼', jpeg:'🖼', gif:'🖼', webp:'🖼', csv:'📊', xlsx:'📊', docx:'📝', json:'📋' };
-      const TEXT_EXTS = new Set(['md','txt','csv','json']);
-      const INLINE_EXTS = new Set(['pdf','html','htm','png','jpg','jpeg','gif','webp']);
-
-      const $list   = document.getElementById('inbox-list');
-      const $modal  = document.getElementById('inbox-modal');
-      const $mTitle = document.getElementById('inbox-modal-title');
-      const $textV  = document.getElementById('inbox-text-view');
-      const $ifrV   = document.getElementById('inbox-iframe-view');
-      const $imgV   = document.getElementById('inbox-img-view');
-      const $binV   = document.getElementById('inbox-binary-view');
-      const $mDl    = document.getElementById('inbox-modal-download');
-      let loaded = false, loading = false;
-
-      function hideViews() {
-        [$textV, $ifrV, $imgV, $binV].forEach(el => { el.style.display = 'none'; });
-        $ifrV.src = '';
-        $imgV.src = '';
-      }
-
-      function fmtDate(ms) {
-        if (!ms) return '';
-        return new Date(ms).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      }
-
-      async function loadList() {
-        loading = true;
-        $list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</div>';
-        try {
-          const res = await fetch('/api/inbox');
-          if (!res.ok) { const er = await res.json().catch(()=>({})); throw new Error(er.error||`HTTP ${res.status}`); }
-          const { files } = await res.json();
-          loaded = true;
-          if (!files || !files.length) {
-            $list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted)">No files in the Owner\'s Inbox yet.</div>';
-            return;
-          }
-          $list.innerHTML = files.map(f => {
-            const ext = f.ext || (f.name.split('.').pop()||'').toLowerCase();
-            const icon = EXT_ICONS[ext] || '📁';
-            const dl = `/api/inbox?file=${encodeURIComponent(f.path)}&download=1`;
-            const folder = f.dir && f.dir !== '/' ? `<span style="color:var(--text-muted);font-size:11px;"> · ${esc(f.dir)}</span>` : '';
-            return `<div class="res-row" data-path="${esc(f.path)}" data-name="${esc(f.name)}" data-ext="${esc(ext)}">
-              <div class="res-row-icon">${icon}</div>
-              <div class="res-row-main">
-                <div class="res-row-name">${esc(f.name)}${folder}</div>
-                <div class="res-row-size">${esc(f.sizeStr||'')} · ${fmtDate(f.mtimeMs)}</div>
-              </div>
-              <div class="res-row-actions">
-                <button class="res-action" data-act="view">View</button>
-                <a class="res-action" href="${dl}" download="${esc(f.name)}">Download</a>
-              </div>
-            </div>`;
-          }).join('');
-        } catch (err) {
-          $list.innerHTML = `<div style="padding:40px;text-align:center;color:#DC2626">Failed to load: ${esc(err.message)}</div>`;
-        } finally { loading = false; }
-      }
-
-      async function viewFile(filePath, name, ext) {
-        $mTitle.textContent = name;
-        $mDl.href = `/api/inbox?file=${encodeURIComponent(filePath)}&download=1`;
-        $mDl.download = name;
-        hideViews();
-        $modal.style.display = 'flex';
-
-        if (TEXT_EXTS.has(ext)) {
-          $textV.style.display = '';
-          $textV.textContent = 'Loading…';
-          try {
-            const res = await fetch(`/api/inbox?file=${encodeURIComponent(filePath)}`);
-            if (!res.ok) { const er = await res.json().catch(()=>({})); throw new Error(er.error||`HTTP ${res.status}`); }
-            const data = await res.json();
-            $textV.textContent = data.content || '(empty)';
-          } catch (err) { $textV.textContent = 'Failed to load: ' + err.message; }
-
-        } else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'gif' || ext === 'webp') {
-          $imgV.style.display = 'block';
-          $imgV.src = `/api/inbox?file=${encodeURIComponent(filePath)}&inline=1`;
-
-        } else if (INLINE_EXTS.has(ext)) {
-          $ifrV.style.display = '';
-          $ifrV.src = `/api/inbox?file=${encodeURIComponent(filePath)}&inline=1`;
-
-        } else {
-          $binV.style.display = '';
-          $binV.innerHTML = `<p>No inline preview for <strong>${esc(name)}</strong>.</p><a class="btn btn-view" href="/api/inbox?file=${encodeURIComponent(filePath)}&download=1" download="${esc(name)}">Download</a>`;
-        }
-      }
-
-      const closeModal = () => { $modal.style.display = 'none'; hideViews(); };
-      document.getElementById('inbox-modal-close')?.addEventListener('click', closeModal);
-      document.getElementById('inbox-modal-ok')?.addEventListener('click', closeModal);
-      $modal?.addEventListener('click', e => { if (e.target === $modal) closeModal(); });
-
-      $list?.addEventListener('click', e => {
-        const btn = e.target.closest('[data-act="view"]');
-        if (!btn) return;
-        const row = e.target.closest('.res-row');
-        if (!row) return;
-        viewFile(row.dataset.path, row.dataset.name, row.dataset.ext||'');
-      });
-
-      document.getElementById('inbox-refresh-btn')?.addEventListener('click', () => { loaded = false; loadList(); });
-
-      // Lazy-load on first tab click
-      document.querySelector('[data-page="ownersinbox"]')?.addEventListener('click', () => {
         if (!loaded && !loading) loadList();
       });
     })();
