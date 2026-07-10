@@ -1360,6 +1360,10 @@
     .pb-table tr:last-child td { border-bottom: none; }
     .pb-table tr:hover td { background: #f8fafc; }
     .pb-table td.pb-ref { font-family: monospace; font-size: 0.75rem; color: var(--text3); white-space: nowrap; }
+    .pb-del-btn { background: none; border: none; cursor: pointer; font-size: 0.9rem; line-height: 1; padding: 3px 5px; border-radius: 5px; opacity: 0.35; transition: opacity .12s, background .12s; }
+    .pb-table tr:hover .pb-del-btn { opacity: 0.8; }
+    .pb-del-btn:hover { opacity: 1 !important; background: #fee2e2; }
+    .pb-del-btn:disabled { cursor: default; opacity: 0.5; }
     .pb-table td.pb-item { font-weight: 500; max-width: 240px; }
     .pb-table td.pb-details { max-width: 200px; font-size: 0.76rem; color: var(--text-muted); }
     .pb-done td { opacity: 0.45; }
@@ -1883,10 +1887,11 @@
                 <th>Details</th>
                 <th>Last Update</th>
                 <th>Output</th>
+                <th style="width:34px;"></th>
               </tr>
             </thead>
             <tbody id="pb-tbody">
-              <tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>
+              <tr><td colspan="11" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -4226,7 +4231,7 @@
           : activeFilter === 'DONE' ? allTasks.filter(t => t.done || (t.status||'').toUpperCase() === 'DONE')
           : allTasks.filter(t => (t.status||'').toUpperCase() === activeFilter && !t.done);
         if (!tasks.length) {
-          $tbody.innerHTML = `<tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">No items${activeFilter!=='all'?' for this filter':''}.</td></tr>`;
+          $tbody.innerHTML = `<tr><td colspan="11" style="padding:40px;text-align:center;color:var(--text-muted)">No items${activeFilter!=='all'?' for this filter':''}.</td></tr>`;
           return;
         }
         $tbody.innerHTML = tasks.map(t => {
@@ -4246,6 +4251,7 @@
             <td class="pb-details">${esc(t.description||'')}</td>
             <td style="white-space:nowrap;font-size:0.75rem;color:var(--text-muted)">${fmtTs(t.lastUpdate||t.createdAt)}</td>
             <td>${t.link?`<a href="${esc(t.link)}" target="_blank" rel="noopener" style="color:var(--teal);font-size:0.75rem;">Link</a>`:''}</td>
+            <td style="text-align:center;"><button class="pb-del-btn" data-id="${esc(t.id)}" title="Delete this item" aria-label="Delete item">🗑</button></td>
           </tr>`;
         }).join('');
       }
@@ -4253,7 +4259,7 @@
       async function loadBoard() {
         if (loading) return;
         loading = true;
-        $tbody.innerHTML = '<tr><td colspan="10" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>';
+        $tbody.innerHTML = '<tr><td colspan="11" style="padding:40px;text-align:center;color:var(--text-muted)">Loading…</td></tr>';
         try {
           const res = await fetch('/api/tasks-ui/all');
           if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
@@ -4267,7 +4273,7 @@
           loaded = true;
           renderTable();
         } catch (err) {
-          $tbody.innerHTML = `<tr><td colspan="10" style="padding:40px;text-align:center;color:#DC2626">Failed to load: ${esc(err.message)}</td></tr>`;
+          $tbody.innerHTML = `<tr><td colspan="11" style="padding:40px;text-align:center;color:#DC2626">Failed to load: ${esc(err.message)}</td></tr>`;
         } finally { loading = false; }
       }
 
@@ -4395,6 +4401,26 @@
       });
 
       document.getElementById('pb-refresh-btn')?.addEventListener('click', () => { loaded = false; loadBoard(); });
+
+      // Delete a single item → DELETE /api/tasks-ui/:id, then drop it from the table
+      $tbody?.addEventListener('click', async e => {
+        const btn = e.target.closest('.pb-del-btn');
+        if (!btn) return;
+        const id = btn.dataset.id;
+        const tr = btn.closest('tr');
+        const name = (tr && tr.querySelector('.pb-item')?.textContent) || 'this item';
+        if (!confirm(`Delete "${name}"? This can't be undone.`)) return;
+        btn.disabled = true; btn.textContent = '…';
+        try {
+          const res = await fetch('/api/tasks-ui/' + encodeURIComponent(id), { method: 'DELETE' });
+          if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error||`HTTP ${res.status}`); }
+          allTasks = allTasks.filter(t => t.id !== id);
+          renderTable();
+        } catch (err) {
+          alert('Could not delete: ' + err.message);
+          btn.disabled = false; btn.textContent = '🗑';
+        }
+      });
 
       document.getElementById('pb-add-btn')?.addEventListener('click', openItemModal);
       document.getElementById('pb-modal-close')?.addEventListener('click', closeItemModal);
