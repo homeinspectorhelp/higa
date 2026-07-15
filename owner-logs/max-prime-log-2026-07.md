@@ -152,3 +152,41 @@ PROOF:               Read /var/www/higa-dashboard/journals/team-learnings.md —
 ```
 
 ---
+## 2026-07-15 00:20 UTC
+
+**Topic:** please read this
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Reading the image now.Here's what I see in the screenshot:
+
+**Source:** This is from the **HIH (Home Inspector Help) Services Dashboard** — the sister company's dashboard, not The Inspector Playbook's.
+
+**What's shown — a Claude Code agent conversation with two open items:**
+
+1. **GHL Token is expired** — The agent was working on social content publishing via GHL but hit an expired token and needs it refreshed
+2. **Blog posts are in Draft/Planned on Monday** — Nothing has been posted yet; social content hasn't been distributed
+
+The conversation also references checking GHL social accounts connected to the location and figuring out which platforms are in use.
+
+---
+
+**My question for you, Ken:** What do you need from me on this?
+
+- Is there a specific task here you want routed to a specialist (e.g., Skye for GHL token/social publishing)?
+- Or is this context you're sharing so I understand where things stand on the HIH side?
+
+Just let me know and I'll route it appropriately.
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Read attached screenshot, identified HIH dashboard context
+HANDED OFF:          Nothing yet — awaiting Ken's direction
+STILL OPEN:          Ken's intent for this screenshot
+PROOF:               Read /tmp/max-prime-06XrSy/pasted-1784074808365-0.png
+```
+
+---
