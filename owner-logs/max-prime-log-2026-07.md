@@ -190,3 +190,50 @@ PROOF:               Read /tmp/max-prime-06XrSy/pasted-1784074808365-0.png
 ```
 
 ---
+## 2026-07-15 22:19 UTC
+
+**Topic:** Hey, Max, it's Ken. I need to explain what The Inspector Playbook is. Please provide that explanation for me here.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Here's a clear explanation of **The Inspector Playbook**:
+
+---
+
+**The Inspector Playbook** is an online education platform built exclusively for home inspectors across the United States and Canada.
+
+**What it does:** It produces and sells professional development courses that help home inspectors grow their revenue, reduce reliance on real estate agent referrals, adopt new technology, and run more profitable inspection businesses.
+
+**Tagline:** *"Rebuild Smarter. Grow Faster."*
+
+**Who it's for:** Home inspectors ages 30–60 — solo operators and multi-inspector firms — who want to scale their business, not just do more inspections.
+
+**How courses are delivered:** Through **GoHighLevel (GHL)**, which handles course delivery, membership, email marketing, CRM, and automated follow-up.
+
+**Course topics include:**
+- Revenue growth and pricing strategy
+- Marketing and lead generation (breaking free from realtor dependency)
+- Business systems and scaling
+- Technology (drones, thermal imaging, AI-powered software)
+- Client experience and specialty niches
+
+**Revenue model:** Course sales (one-time and bundled), seasonal promotions, and referral partnerships with inspection schools.
+
+**One important distinction:** The Inspector Playbook is a course/education platform. It is the sister company to **Home Inspector Help (HIH)**, which is a separate done-for-you marketing agency — they share the same customer base but are completely different businesses.
+
+---
+
+Let me know if you'd like this tailored for a specific audience or format — Ken, and I can route that to Cole for copywriting or Pax for positioning research.
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Answered Ken's question directly from business knowledge in CLAUDE.md
+HANDED OFF:         None
+STILL OPEN:         None.
+PROOF:              No tool calls needed — business description drawn from CLAUDE.md on file
+```
+
+---
