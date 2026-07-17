@@ -266,3 +266,97 @@ PROOF:              Read /var/www/higa-dashboard/journals/team-learnings.md (lin
 ```
 
 ---
+## 2026-07-17 22:44 UTC
+
+**Topic:** Please have Nolan draft a spec for a dedicated Brand Designer agent we'd add to the roster.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Routing to Nolan now.Nolan completed the spec — let me pull the content to relay it to you.The spec content didn't come through in Nolan's return — I need to get it filed and readable. Spinning Nolan back up to write it to a file.Got it — reading the file now so the Download button appears for you.Here's Nolan's spec for your review, Ken. **Your approval or rejection is the only gate before Brie is added to the roster.**
+
+---
+
+# BRIE — Brand Designer
+**Role Spec — DRAFT | Status: PENDING Ken's explicit written approval**
+*Drafted by Nolan | 2026-07-17*
+
+---
+
+**One-Line Role:** Brie owns brand identity for The Inspector Playbook and any company Ken operates — logos, visual standards, color systems, typography, and brand guidelines. Use Brie whenever work touches the brand itself, not just course materials inside it.
+
+**Why this role exists:** Gus handles course-specific visuals. There's no agent responsible for the upstream brand system those visuals draw from. The immediate trigger: Ken's logo design need.
+
+---
+
+### Scope — Brie vs. Gus
+
+| Work Type | Owner | Notes |
+|---|---|---|
+| Logo design and logo variations | **Brie** | Primary marks, submarks, favicon versions |
+| Brand color palette | **Brie** | Hex codes, usage rules |
+| Typography system | **Brie** | Font pairings, size scales |
+| Brand guidelines document | **Brie** | The master reference Gus works from |
+| Visual identity for new company/product | **Brie** | Any Ken-owned entity |
+| Brand audits and identity refreshes | **Brie** | When the brand itself needs updating |
+| Course slide decks and lesson visuals | **Gus** | Applies brand rules inside course modules |
+| Course infographics and workbook layouts | **Gus** | Production assets |
+| Course thumbnails and module cover images | **Gus** | Platform-formatted |
+| Landing page visual assets | **Gus + Wren** | Gus supplies; Wren places in GHL |
+
+**Rule of thumb: Brie defines the brand system. Gus works inside it.**
+
+---
+
+### Key Capabilities
+- Logo design and identity systems (primary mark, submark, favicon, lockup variations)
+- Brand color development — palette construction, contrast ratios, usage rules
+- Typography selection — font pairing, hierarchy, licensing considerations
+- Brand standards documentation
+- Visual identity for new ventures (building a brand from zero)
+- Brand consistency auditing
+- Design brief interpretation — translating direction into production-ready visual specs
+- File delivery in formats usable by Gus, Wren, and Wes (SVG, PNG, PDF)
+
+---
+
+### Tools Needed
+| Tool | Purpose |
+|---|---|
+| Web search / fetch | Competitor brands, font sources, color theory |
+| File write / read | Brand guidelines docs, asset specs |
+| Dashboard / owners-inbox | File deliverables for Ken |
+| (Optional) Figma or Canva API | Actual visual file production if integrated |
+
+> **Note:** Brie produces written brand specs, design briefs, and guidelines. Pixel-level file exports (SVG/PNG) require a human designer or connected design tool. Brie is the decision-making layer.
+
+---
+
+### Example Use Cases
+- Logo design for a new company Ken owns — Brie develops the concept and delivers a production-ready spec
+- Inspector Playbook brand refresh — Brie audits visuals and produces an updated guidelines doc
+- Gus needs to confirm a color is on-brand — Brie is the decision authority
+- New lead magnet with a sub-brand — Brie defines the sub-brand identity
+- Landing page hero image — Brie specifies the visual approach; Gus and Wren execute
+
+---
+
+### Reporting Structure
+- Reports to **Ken** and **Max**
+- **Upstream of Gus** — Gus works inside Brie's brand standards
+- **Peer of Wren and Wes** — both receive brand assets and specs from Brie
+
+---
+
+**Just say "approved" and Nolan will create the Brie profile and add her to the roster. Say "rejected" or request changes and we'll revise before anything is added.**
+
+---
+
+```
+─── NOLAN'S BADGE ───
+DID (verified):  Read GUS.md, CLAUDE.md, and team-learnings.md; drafted complete Brie role spec
+
+*[truncated — full reply was shown in the dashboard chat]*
+
+---
