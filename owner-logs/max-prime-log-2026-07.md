@@ -237,3 +237,32 @@ PROOF:              No tool calls needed — business description drawn from CLA
 ```
 
 ---
+## 2026-07-17 22:40 UTC
+
+**Topic:** Hey Max, it's Ken. I need a logo designed to spec for a company we own. Would Gus be the team member to do that task?
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me pull up team learnings before answering, then give you a straight answer.Honest answer: **Gus is the closest fit, but he's scoped to course graphics** — slide decks, infographics, workbook layouts, thumbnails. Logo design is brand identity work, which is a different discipline.
+
+Here's the situation:
+
+- **Gus can take a swing at it** — he's the only graphics/visual specialist on the team, and some logo work is within reach of a graphics-focused agent.
+- **True logo design** (mark + wordmark, brand standards, file formats like SVG/EPS) is brand identity work that goes beyond what Gus is formally scoped for.
+- **If Gus isn't sufficient**, Nolan (HR Director) could draft a spec for a dedicated Brand Designer agent we'd add to the roster.
+
+**My recommendation:** Tell me a bit more about what you need — what company, what the logo should convey, and how finished it needs to be. Then I can either route it to Gus with a clear brief, or flag to Nolan that we need a brand designer on the team first. Your call.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Read journals/team-learnings.md on session start; assessed team roster against Ken's request
+HANDED OFF:         Pending Ken's direction — Gus or Nolan route TBD
+STILL OPEN:         Ken to confirm scope/company details and preferred path (Gus now vs. add a brand designer)
+PROOF:              Read /var/www/higa-dashboard/journals/team-learnings.md (line 1–16)
+```
+
+---
