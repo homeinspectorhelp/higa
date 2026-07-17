@@ -402,3 +402,45 @@ PROOF:              Nolan's spec (owners-inbox/brie-brand-designer-role-spec.md)
 ```
 
 ---
+## 2026-07-17 23:22 UTC
+
+**Topic:** Got it, Max. Approved for Brie. I will have Dill hook Brie up via a Canva API when he is back in his office on Sunday. When that's done, can she produce the logo?
+
+**Specialists called:** None
+
+**Max's reply:**
+
+**Approved — routing to Nolan now to activate Brie.**Nolan's done. Let me pull up Brie's profile so you can see it.**Brie is live on the roster.** Here's the straight answer to your question about Sunday:
+
+**Yes — once Dill connects the Canva API, Brie can produce the actual logo files.**
+
+Right now Brie is the decision-making layer (she can produce exact specs, design briefs, color codes, typography rules). The Canva API integration is the missing piece that lets her push those decisions into actual exported files (SVG, PNG, etc.).
+
+**When Dill is done Sunday, here's the flow:**
+1. Tell me Dill has connected the Canva API
+2. Hand Brie your design specs (company name, any direction you have)
+3. Brie produces the logo — concept, variations, and exported files
+
+Ready to go the moment that integration lands.
+
+---
+
+```
+─── NOLAN'S BADGE ───
+DID (verified):  Read approved spec; created Team/BRIE.md; appended roster lesson to team-learnings.md
+HANDED OFF:      CLAUDE.md update → Ken (separate step, his call)
+STILL OPEN:      Canva API integration → Dill (ETA Sunday 2026-07-20)
+PROOF:           Write: /var/www/higa-dashboard/Team/BRIE.md; Edit: /var/www/higa-dashboard/journals/team-learnings.md
+```
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):   Received Ken's explicit approval; routed to Nolan (1 Agent call); confirmed BRIE.md created; read BRIE.md to surface Download chip; answered Ken's Canva API question
+HANDED OFF:       Logo production → Brie (pending Canva API from Dill, ETA 2026-07-20)
+STILL OPEN:       Ken to notify Max when Dill's Canva API integration is live; Ken to share design specs at that point
+PROOF:            Agent call (Nolan); Read /var/www/higa-dashboard/Team/BRIE.md (confirmed created, 82 lines)
+```
+
+---
