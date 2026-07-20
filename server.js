@@ -18,6 +18,8 @@ import journalHandler from "./api/journal.js";
 import inboxHandler from "./api/inbox/index.js";
 import ghlAuthHandler, { callbackHandler as ghlCallback, statusHandler as ghlStatus, getValidToken } from "./api/ghl/auth.js";
 import { googleAuthHandler, googleCallbackHandler, googleStatusHandler } from "./api/lib/google-oauth.js";
+import { canvaAuthHandler, canvaCallbackHandler, canvaStatusHandler } from "./api/lib/canva-oauth.js";
+import { listBrandTemplatesHandler, produceLogoHandler } from "./api/canva/design.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -168,6 +170,13 @@ app.get("/api/ghl/status", ghlStatus);
 app.get("/api/google/auth", googleAuthHandler);
 app.get("/api/google/callback", googleCallbackHandler);
 app.get("/api/google/status", googleStatusHandler);
+
+// ── Canva OAuth + Brie's design pipeline ────────────────────────────────────────
+app.get("/api/canva/auth", canvaAuthHandler);
+app.get("/api/canva/callback", canvaCallbackHandler);
+app.get("/api/canva/status", canvaStatusHandler);
+app.get("/api/canva/brand-templates", listBrandTemplatesHandler);
+app.post("/api/canva/logo", produceLogoHandler);
 
 // ── Deploy endpoint ───────────────────────────────────────────────────────────
 // Max Pro calls this via the deploy tool after committing dashboard changes.
