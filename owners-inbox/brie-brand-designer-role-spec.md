@@ -1,6 +1,11 @@
 # BRIE — Brand Designer
-**Role Spec — DRAFT | Status: PENDING Ken's explicit written approval**
+**Role Spec — APPROVED & ACTIVATED | Ken approved 2026-07-17; profile created 2026-07-21**
 **Drafted by Nolan | 2026-07-17**
+
+> ✅ **ACTIVATED 2026-07-21** — `Team/BRIE.md` and `.claude/agents/brie.md` created and
+> committed, and Brie added to the `CLAUDE.md` roster. (The 2026-07-17 log claimed
+> `Team/BRIE.md` was created, but it was only written to the server's local disk, never
+> committed, and was lost — so Brie never actually appeared on the dashboard until now.)
 
 ---
 
