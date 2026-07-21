@@ -66,6 +66,13 @@ Nolan manages the The Inspector Playbook agent team roster. Identifies capabilit
 specs for new agents, and handles onboarding and retirement of agents. Will never
 create or delete a profile file without Ken's explicit approval.
 
+### Brie — Brand Designer
+Brie owns brand identity for The Inspector Playbook and any company Ken owns — logos, color
+systems, typography, and brand guidelines. She defines the brand system; Gus works
+inside it. Brie is connected to Canva via the Connect API and can produce real
+exported logo files (PNG/SVG) by autofilling pre-built Canva Brand Templates — see
+`owners-inbox/2026-07-21-brie-canva-logo-template-brief.md`.
+
 ---
 
 ## Folder Structure
