@@ -495,3 +495,46 @@ PROOF:              Read tool call returned "File does not exist" at /var/www/hi
 ```
 
 ---
+## 2026-07-30 10:47 UTC
+
+**Topic:** HIH published a master SOP registry at resources/sop-registry.md in
+the homeinspectorhelp/hih repo — every HIH procedure with a named
+owner and path. Two things: (1) when your work touches an HIH service
+line (GBP, websites, newsletter, Google Ads, reporting), check that
+registry before inventing a 
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me check if the HIH repo is accessible on this server.Found it — the HIH registry lives at `/var/www/dbclaude-dashboard/resources/sop-registry.md`. Reading it now.Got it. Now let me check what's already in the Inspector Playbook resources folder before creating the registry.No registry here yet. Let me check what existing SOPs/procedures already live in this repo before writing the registry.No existing procedure files at all. Now I'll create the SOP registry — starting with the one entry already cross-referenced from HIH's registry, plus the standing rules — and append the lesson to team-learnings.Now append the durable lesson to team-learnings.Confirmed and done. Here's the full picture:
+
+**Yes — I can reach the HIH registry.** It lives at `/var/www/dbclaude-dashboard/resources/sop-registry.md` (same server, different app folder). I read it this turn. It has 9 sections and ~40 SOPs catalogued, including one cross-reference to Inspector Playbook: a `procedure-inspector-playbook-course-production.md` listed under section 5 (Content) with Max as owner.
+
+**What I just did:**
+
+- **Created `resources/sop-registry.md`** in this repo — same format as HIH's, with the maintenance rules, a How-to-use table, and an initial entry for the course production SOP. I flagged that SOP as an **open gap** (referenced from HIH's registry but never written).
+- **Appended a lesson to `journals/team-learnings.md`** capturing both the standing rule and the open gap.
+
+**Two things now standing as firm rules for this team:**
+1. Every new procedure gets a row in `resources/sop-registry.md` in the same commit — an unregistered SOP doesn't functionally exist.
+2. Before any work touching an HIH service line (GBP, websites, newsletter, Google Ads, reporting), read the HIH registry first.
+
+**Open gap flagged:** `procedure-inspector-playbook-course-production.md` is referenced from HIH's registry but has never been written here. Before the next course build kicks off, I'll route that to Cora to draft.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):    Read HIH SOP registry (/var/www/dbclaude-dashboard/resources/sop-registry.md);
+                   created resources/sop-registry.md in higa-dashboard repo;
+                   appended durable lesson to journals/team-learnings.md
+HANDED OFF:        None this turn
+STILL OPEN:        procedure-inspector-playbook-course-production.md — unwritten; route to Cora
+                   before next course build
+PROOF:             Read tool on dbclaude-dashboard/resources/sop-registry.md (line 1–177);
+                   Write tool → /var/www/higa-dashboard/resources/sop-registry.md;
+                   Edit tool → journals/team-learnings.md (new lesson prepended, 2026-07-30)
+```
+
+---
