@@ -467,3 +467,31 @@ PROOF:              Session log: owner-logs/max-prime-log-2026-07.md (in progres
 ```
 
 ---
+## 2026-07-30 10:45 UTC
+
+**Topic:** Read resources/sop-registry.md and tell me: how many SOPs are in
+the registry, what are the 9 sections, and who owns the GBP appeals
+procedure? Quote the path you read it from.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Reading the SOP registry now.That file doesn't exist yet in the repo — `resources/sop-registry.md` returns a "file not found" error.
+
+A few possibilities:
+- It may not have been created yet
+- It could be named differently or in a different subfolder
+
+Want me to search `resources/` to see what's actually there, or did you mean to create this file?
+
+---
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):     Attempted Read of resources/sop-registry.md — file does not exist
+HANDED OFF:         Nothing — awaiting Ken's direction
+STILL OPEN:         Ken to confirm whether the file needs to be created or is located elsewhere
+PROOF:              Read tool call returned "File does not exist" at /var/www/higa-dashboard/resources/sop-registry.md
+```
+
+---
