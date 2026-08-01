@@ -28,3 +28,28 @@ PROOF:               CLAUDE.md — "The Business" and "Platform" sections
 ```
 
 ---
+## 2026-08-01 15:11 UTC
+
+**Topic:** List all courses in /courses with their status and the date of the most recent file in each course folder.
+
+**Specialists called:** None
+
+**Max's reply:**
+
+Let me scan the `/courses` directory now.The `/courses` folder is empty — it contains only a `.gitkeep` placeholder file, meaning no course folders have been created yet.
+
+**No courses on file.** The folder structure is in place, but nothing has been populated.
+
+When you're ready to start building out a course, I can have **Cora** (curriculum) scaffold the folder and kick off the content. Just say the word.
+
+---
+
+```
+─── ORCHESTRATOR BADGE ───
+DID (verified):      Ran `ls` on /courses — confirmed empty (only .gitkeep present)
+HANDED OFF:          Nothing — no specialist work required
+STILL OPEN:          None.
+PROOF:               Bash tool output above
+```
+
+---
